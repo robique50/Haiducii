@@ -20,3 +20,18 @@ std::string Words::getRandomWord()
     return words[randomIndex];
 }
 
+bool Words::wordExists(const std::string& word)
+{
+    for (const std::string& w : words) {
+        if (w == word) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int Words::getWordCount()
+{
+    return words.size();
+}
+
