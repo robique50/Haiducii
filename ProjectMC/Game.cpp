@@ -18,6 +18,16 @@ uint16_t Game::getCurrentRound()
 	return this->m_currentRound;
 }
 
+uint16_t Game::getNumberOfRounds()
+{
+	return this->m_numberOfRounds;
+}
+
+void Game::addPlayer(User& player)
+{
+	players.push_back(player);
+}
+
 void Game::nextRound()
 {
 	if (m_currentRound < m_numberOfRounds)
@@ -25,4 +35,3 @@ void Game::nextRound()
 	else
 		std::cout << "Jocul s-a incheiat." << std::endl;
 }
-
