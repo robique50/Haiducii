@@ -10,6 +10,7 @@ public:
 	Game(uint16_t numberOfRounds, uint16_t numberOfPlayers,uint16_t currentRound);
 	uint16_t getNumberOfPlayers();
 	uint16_t getCurrentRound();
+	uint16_t getNumberOfRounds();
 	void addPlayer(User& player);
 	void nextRound();
 private:

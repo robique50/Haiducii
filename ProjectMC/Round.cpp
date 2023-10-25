@@ -13,6 +13,13 @@ bool Round::CorrectGuess(const std::string & guess)
             return std::tolower(a) == std::tolower(b);
         });
 }
+void Round::ShowLetters()
+{
+    if (m_time < 30)
+    {
+        word.showRandomLetter();
+    }
+}
 void Round::AddGuess(const std::string& guess, int responseTime)
 {
     m_guesses.push_back(std::make_pair(guess, responseTime));

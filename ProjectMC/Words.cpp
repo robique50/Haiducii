@@ -35,3 +35,16 @@ int Words::getWordCount()
     return words.size();
 }
 
+char SelectRandomLetter(const std::string& word) 
+{
+    if (word.empty()) {
+        throw std::invalid_argument("The word is empty.");
+    }
+
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    std::uniform_int_distribution<size_t> distribution(0, word.size() - 1);
+    size_t randomIndex = distribution(generator);
+    return word[randomIndex];
+}
+
