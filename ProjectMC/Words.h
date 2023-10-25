@@ -11,7 +11,6 @@ public:
 	Words();
 	void addWord(const std::string& word);
 	std::string getRandomWord();
-
 private:
 	std::vector<std::string> words;
 };
