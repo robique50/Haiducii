@@ -1,5 +1,9 @@
-#include "Words.h"
-
+#include <time.h>
+#include <string>
+#include <stdexcept>
+#include <random>
+import words;
+using namespace skribbl;
 Words::Words()
 {
 	std::srand(static_cast<unsigned>(std::time(nullptr)));

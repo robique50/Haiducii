@@ -1,8 +1,10 @@
+#include <string>
 import round;
 
 using skribbl::Round;
 
-Round::Round(const std::string& currentWord) : m_currentWord{ currentWord }
+Round::Round(const std::string& currentWord) 
+    : m_currentWord{ currentWord }
 {
 }
 
@@ -20,7 +22,7 @@ void Round::ShowLetters()
 {
     if (m_time < 30)
     {
-        m_word.SelectRandomLetter();//o sa facem in viitor
+        //m_word.SelectRandomLetter();o sa facem in viitor
     }
 }
 void Round::AddGuess(const std::string& guess, int responseTime)

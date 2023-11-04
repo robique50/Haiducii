@@ -1,8 +1,9 @@
 export module round;
-import "Words.h";
+import words;
 import <algorithm> ;
 import <cctype>;
-
+import <string>;
+import <vector>;
 namespace skribbl
 {
 	export class Round

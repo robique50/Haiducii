@@ -143,15 +143,14 @@
     <ClCompile Include="chatinput.cppm" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
+    <ClCompile Include="meetingroom.cppm" />
     <ClCompile Include="Round.cpp" />
+    <ClCompile Include="round.cppm" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="user.cppm" />
     <ClCompile Include="Words.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Round.h" />
-    <ClInclude Include="Words.h" />
+    <ClCompile Include="words.cppm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

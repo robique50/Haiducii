@@ -42,13 +42,14 @@
     <ClCompile Include="chatinput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Words.h">
+    <ClCompile Include="words.cppm">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Round.h">
+    </ClCompile>
+    <ClCompile Include="meetingroom.cppm">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="round.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
