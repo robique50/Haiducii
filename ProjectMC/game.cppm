@@ -4,7 +4,7 @@ export module game;
 
 import <cstdint>;
 import <vector>;
-import "User.h";
+import user;
 import "Words.h";
 
 namespace skribbl
