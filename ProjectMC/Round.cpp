@@ -1,4 +1,5 @@
 #include "Round.h"
+
 Round::Round(const std::string &currentWord): m_currentWord(currentWord)
 {
 }
@@ -20,12 +21,12 @@ void Round::ShowLetters()
         m_word.SelectRandomLetter(m_word);
     }
 }
+
 void Round::AddGuess(const std::string& guess, int responseTime)
 {
     m_guesses.push_back(std::make_pair(guess, responseTime));
-
-
 }
+
 int Round::CalculateScore() {
     if (m_guesses.empty()) {
         return -100;

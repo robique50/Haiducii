@@ -3,7 +3,7 @@
 #include <algorithm> 
 #include <cctype> 
 
-const uint8_t TIME_OF_ROUND = 60;
+static const uint8_t TIME_OF_ROUND = 60;
 
 class Round
 {

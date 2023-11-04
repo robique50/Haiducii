@@ -7,7 +7,7 @@ import <vector>;
 import "User.h";
 import "Words.h";
 
-namespace game
+namespace skribbl
 {
 
 	export class Game
@@ -20,6 +20,9 @@ namespace game
 		void setCurrentRound(const uint16_t& currentRound);
 		void setNumberOfPlayers(const uint16_t& numberOfPlayers);
 		void addPlayer(User& player);
+		bool isGameFinished(const uint16_t& currentRound,
+							const uint16_t numberOfRounds);
+		bool isFirstRound();
 		void nextRound();
 	private:
 		static const uint16_t m_numberOfRounds=4;
