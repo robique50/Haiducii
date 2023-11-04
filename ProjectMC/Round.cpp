@@ -17,7 +17,7 @@ void Round::ShowLetters()
 {
     if (m_time < 30)
     {
-        word.showRandomLetter();
+        m_word.SelectRandomLetter(m_word);
     }
 }
 void Round::AddGuess(const std::string& guess, int responseTime)

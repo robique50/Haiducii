@@ -35,7 +35,7 @@ int Words::getWordCount()
     return words.size();
 }
 
-char SelectRandomLetter(const std::string& word) 
+char Words::SelectRandomLetter(const std::string& word) 
 {
     if (word.empty()) {
         throw std::invalid_argument("The word is empty.");
