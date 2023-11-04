@@ -2,12 +2,11 @@ import game;
 
 using game::Game;
 
-Game::Game(uint16_t numberOfRounds, uint16_t numberOfPlayers, uint16_t currentRound) :
-	m_numberOfRounds{ numberOfPlayers },
-	m_numberOfPlayers{ numberOfPlayers },
-	m_currentRound{ currentRound }
-{
-}
+
+Game::Game(uint16_t numberOfPlayers, uint16_t currentRound):
+	m_numberOfPlayers{numberOfPlayers},
+	m_currentRound{currentRound}
+{}
 
 uint16_t Game::getNumberOfPlayers()
 {
@@ -22,6 +21,16 @@ uint16_t Game::getCurrentRound()
 uint16_t Game::getNumberOfRounds()
 {
 	return this->m_numberOfRounds;
+}
+
+void game::Game::setCurrentRound(const uint16_t& currentRound)
+{
+	this->m_currentRound = currentRound;
+}
+
+void game::Game::setNumberOfPlayers(const uint16_t& numberOfPlayers)
+{
+	this->m_numberOfPlayers = numberOfPlayers;
 }
 
 void Game::addPlayer(User& player)

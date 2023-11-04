@@ -13,17 +13,18 @@ namespace game
 	export class Game
 	{
 	public:
-		Game(uint16_t numberOfRounds, uint16_t numberOfPlayers, uint16_t currentRound);
+		Game(uint16_t numberOfPlayers, uint16_t currentRound);
 		uint16_t getNumberOfPlayers();
 		uint16_t getCurrentRound();
 		uint16_t getNumberOfRounds();
+		void setCurrentRound(const uint16_t& currentRound);
+		void setNumberOfPlayers(const uint16_t& numberOfPlayers);
 		void addPlayer(User& player);
 		void nextRound();
 	private:
-		uint16_t m_numberOfRounds;
+		static const uint16_t m_numberOfRounds=4;
 		uint16_t m_currentRound;
 		uint16_t m_numberOfPlayers;
-		Words m_currentWord;
 		std::vector<User>players;
 	};
 }

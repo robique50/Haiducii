@@ -10,5 +10,6 @@ private:
 	std::string m_username;
 	int16_t m_score;
 	bool m_isDrawing;
+
 };
 
