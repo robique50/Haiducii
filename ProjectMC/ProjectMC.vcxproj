@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="chatinput.cpp" />
     <ClCompile Include="chatinput.cppm" />
+    <ClCompile Include="client.cppm" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
     <ClCompile Include="meetingroom.cppm" />

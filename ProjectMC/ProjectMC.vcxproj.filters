@@ -51,5 +51,8 @@
     <ClCompile Include="round.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="client.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,8 +13,8 @@ namespace skribbl
 {
     export class MeetingRoom {
     public:
-        std::string roomCode;
         Game game;
-
+    private:
+        std::string roomCode;
     };
 }
