@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Register">
+        <file>assets/images/background.png</file>
+        <file>assets/images/logo.gif</file>
+        <file>assets/images/Skribbl.io_2022_(Icon).png</file>
+    </qresource>
+</RCC>

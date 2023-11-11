@@ -11,6 +11,9 @@ public:
     FrontEnd(QWidget *parent = nullptr);
     ~FrontEnd();
 
+private slots:
+    void on_pushButton_login_clicked();
+
 private:
     Ui::FrontEndClass ui;
 };

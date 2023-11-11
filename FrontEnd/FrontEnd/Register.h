@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include "Register.qrc"
 #include "ui_Register.h"
 
 class Register : public QMainWindow
