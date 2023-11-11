@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_FrontEnd.h"
+#include "Register.h"
 
 class FrontEnd : public QMainWindow
 {
@@ -12,8 +13,10 @@ public:
     ~FrontEnd();
 
 private slots:
-    void on_pushButton_login_clicked();
+    virtual void on_pushButton_login_clicked();
+    virtual void on_pushButton_registerNow_clicked();
 
 private:
     Ui::FrontEndClass ui;
+    Register* registerWindow = nullptr;
 };

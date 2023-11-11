@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QMainWindow>
-#include "Register.qrc"
 #include "ui_Register.h"
 
 class Register : public QMainWindow
@@ -13,8 +12,10 @@ public:
 	~Register();
 
 private slots:
-	void on_pushButton_Login_now_clicked();
-	void on_pushButton_Register_clicked();
+	virtual void on_pushButton_Login_now_clicked();
+	virtual void on_pushButton_Register_clicked();
 private:
 	Ui::RegisterClass ui;
+signals:
+	void loginWindow();
 };

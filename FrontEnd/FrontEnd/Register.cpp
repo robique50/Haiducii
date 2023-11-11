@@ -11,7 +11,8 @@ Register::~Register()
 
 void Register::on_pushButton_Login_now_clicked()
 {
-
+	this->close();
+	emit loginWindow();
 }
 
 void Register::on_pushButton_Register_clicked()

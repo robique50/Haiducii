@@ -46,14 +46,23 @@
     <ClCompile Include="Register.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Play.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Register.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Play.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Register.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Play.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

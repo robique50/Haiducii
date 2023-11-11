@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Play.cpp" />
     <ClCompile Include="Register.cpp" />
     <QtRcc Include="FrontEnd.qrc" />
     <QtRcc Include="Register.qrc" />
@@ -96,10 +97,14 @@
     <QtMoc Include="FrontEnd.h" />
     <ClCompile Include="FrontEnd.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="Play.ui" />
     <QtUic Include="Register.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Register.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Play.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
