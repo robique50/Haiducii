@@ -1,11 +1,11 @@
 module;
 
 export module game;
-
+import <iostream>;
 import <cstdint>;
 import <vector>;
 import user;
-import words;
+//import words;
 
 namespace skribbl
 {
