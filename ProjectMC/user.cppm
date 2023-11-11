@@ -27,12 +27,14 @@ namespace skribbl
 		std::string getAvatar() const;
 		int16_t getScore() const;
 		void updateStatistics(int score, double time);
+		//int getId();
 	private:
 		std::string m_username;
 		std::string m_password;
 		std::string m_avatar;
 		bool m_isDrawing;
 		Statistics m_statistics;
+		//int id;
 	};
 
 	

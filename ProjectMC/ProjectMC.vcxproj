@@ -156,6 +156,9 @@
     <ClCompile Include="user.cppm" />
     <ClCompile Include="WordsDatabase.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="listOfWords.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
