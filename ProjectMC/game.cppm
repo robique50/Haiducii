@@ -9,7 +9,6 @@ import user;
 
 namespace skribbl
 {
-
 	export class Game
 	{
 	public:

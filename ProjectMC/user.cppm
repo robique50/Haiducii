@@ -22,13 +22,18 @@ namespace skribbl
 	{
 	public:
 		User(const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing);
+		void setUsername(const std::string& username);
+		void setPassword(const std::string& password);
+		void setID(const int& id);
 		std::string getUsername() const;
 		std::string getPassword() const;
 		std::string getAvatar() const;
+		int getID() const;
 		int16_t getScore() const;
 		void updateStatistics(int score, double time);
 		//int getId();
 	private:
+		int m_id;
 		std::string m_username;
 		std::string m_password;
 		std::string m_avatar;

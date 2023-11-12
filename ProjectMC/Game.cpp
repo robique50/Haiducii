@@ -2,6 +2,8 @@ import game;
 
 using skribbl::Game;
 
+import <iostream>;
+
 Game::Game(uint16_t numberOfPlayers, uint16_t currentRound):
 	m_numberOfPlayers{ numberOfPlayers },
 	m_currentRound{ currentRound }

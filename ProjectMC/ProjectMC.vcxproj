@@ -152,7 +152,12 @@
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="round.cppm" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="user.cpp" />
+    <ClCompile Include="user.cpp">
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpplatest</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpplatest</LanguageStandard>
+    </ClCompile>
     <ClCompile Include="user.cppm" />
     <ClCompile Include="WordsDatabase.cpp" />
   </ItemGroup>
