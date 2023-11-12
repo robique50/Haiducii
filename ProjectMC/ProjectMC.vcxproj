@@ -159,10 +159,15 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpplatest</LanguageStandard>
     </ClCompile>
     <ClCompile Include="user.cppm" />
+    <ClCompile Include="words.cpp" />
     <ClCompile Include="WordsDatabase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="listOfWords.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="words.h" />
+    <ClInclude Include="WordsDatabase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

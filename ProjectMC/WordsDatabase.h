@@ -4,16 +4,11 @@
 #include <vector>
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
+import "words.h";
 import user;
 
 namespace sql = sqlite_orm;
 using namespace skribbl;
-
-struct Word
-{
-	int id;
-	std::string word;
-};
 
 inline auto createStorage(const std::string& filename)
 {
