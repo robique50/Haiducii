@@ -27,6 +27,10 @@ void Statistics::updateStatistics(int score, double time) {
 User::User(const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing)
     : m_username(username), m_password(password), m_avatar(avatar), m_isDrawing(isDrawing) {}
 
+User::User(std::string username, std::string password) 
+    : m_username(std::move(username)), m_password(std::move(password))
+{}
+
 void skribbl::User::setUsername(const std::string& username)
 {
     User::m_username = username;
@@ -66,3 +70,6 @@ int16_t User::getScore() const {
 void User::updateStatistics(int score, double time) {
     m_statistics.updateStatistics(score, time);
 }
+
+
+

@@ -20,7 +20,9 @@ int main()
 		populateStorage(db);
 	auto WordsCount = db.count<Word>();
 	std::cout << "wordsCount = " << WordsCount << '\n';
-
+	User newUser("Adrian", "password");
+	addUser(db,newUser);
+	auto UsersCount = db.count<User>();
+	std::cout << "usersCount = " << UsersCount << '\n';
     return 0;
-
 }

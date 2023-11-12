@@ -6,7 +6,6 @@
 #include <sqlite_orm/sqlite_orm.h>
 import user;
 
-
 namespace sql = sqlite_orm;
 using namespace skribbl;
 
@@ -27,14 +26,18 @@ inline auto createStorage(const std::string& filename)
         ), 
         sql::make_table(
             "User",
-            sql::make_column("id",&User::getID(), sql::primary_key().autoincrement()),
-            sql::make_column("username",&User::getUsername()),
-            sql::make_column("password",&User::getPassword())
+            sql::make_column("id",
+                &User::getID,
+                &User::setID, sql::primary_key().autoincrement()),
+            sql::make_column("username",&User::getUsername,&User::setUsername),
+            sql::make_column("password",&User::getPassword,&User::setPassword)
         )
     );
 }
 
 using Storage = decltype(createStorage(""));
+
+void addUser(Storage& storage, const User& user);
 
 void populateStorage(Storage& storage);
 
