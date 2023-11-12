@@ -15,10 +15,10 @@ int main()
 	const std::string db_file = "words.sqlite";
 	Storage db = createStorage(db_file);
 	db.sync_schema();
-	auto initWordsCount = db.count<Word>();
+	auto initWordsCount = db.count<Words>();
 	if (initWordsCount == 0)
 		populateStorage(db);
-	auto WordsCount = db.count<Word>();
+	auto WordsCount = db.count<Words>();
 	std::cout << "wordsCount = " << WordsCount << '\n';
 	User newUser("Adrian", "password");
 	//addUser(db,newUser);

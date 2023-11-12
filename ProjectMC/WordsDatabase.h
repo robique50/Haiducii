@@ -4,7 +4,7 @@
 #include <vector>
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
-import "words.h";
+#include "words.h"
 import user;
 
 namespace sql = sqlite_orm;
@@ -16,8 +16,8 @@ inline auto createStorage(const std::string& filename)
         filename,
         sql::make_table(
             "Words",
-            sql::make_column("id", &Word::id, sql::primary_key().autoincrement()),
-            sql::make_column("word", &Word::word)
+            sql::make_column("id", &Words::getId, &Words::setId,sql::primary_key().autoincrement()),
+            sql::make_column("word", &Words::getWord, &Words::setWord)
         ), 
         sql::make_table(
             "User",

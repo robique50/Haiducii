@@ -1,5 +1,11 @@
 #include "words.h"
 
+Words::Words(const int& id, const std::string& word)
+{
+    m_id = id;
+    m_word = word;
+}
+
 int Words::getId()
 {
     return m_id;

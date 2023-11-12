@@ -3,6 +3,7 @@
 
 class Words {
 public:
+	Words(const int& id,const std::string& word);
 	int getId();
 	std::string getWord();
 	void setId(int m_id);
