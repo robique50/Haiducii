@@ -31,6 +31,8 @@ User::User(std::string username, std::string password)
     : m_username(std::move(username)), m_password(std::move(password))
 {}
 
+User::User() = default;
+
 void skribbl::User::setUsername(const std::string& username)
 {
     User::m_username = username;

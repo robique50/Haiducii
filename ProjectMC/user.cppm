@@ -24,6 +24,7 @@ namespace skribbl
 	public:
 		User(const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing);
 		User(std::string username, std::string password);
+		User();
 		void setUsername(const std::string& username);
 		void setPassword(const std::string& password);
 		void setID(const int& id);

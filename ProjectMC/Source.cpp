@@ -21,8 +21,15 @@ int main()
 	auto WordsCount = db.count<Word>();
 	std::cout << "wordsCount = " << WordsCount << '\n';
 	User newUser("Adrian", "password");
-	addUser(db,newUser);
+	//addUser(db,newUser);
 	auto UsersCount = db.count<User>();
-	std::cout << "usersCount = " << UsersCount << '\n';
+	try {
+		//addUser(db, newUser);
+		auto UsersCount = db.count<User>();
+		std::cout << "usersCount = " << UsersCount << '\n';
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
     return 0;
 }
