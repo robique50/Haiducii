@@ -89,11 +89,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CreatePrivateRoom.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Play.cpp" />
     <ClCompile Include="Register.cpp" />
     <QtRcc Include="FrontEnd.qrc" />
     <QtRcc Include="Register.qrc" />
+    <QtUic Include="CreatePrivateRoom.ui" />
     <QtUic Include="FrontEnd.ui" />
     <QtMoc Include="FrontEnd.h" />
     <ClCompile Include="FrontEnd.cpp" />
@@ -110,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Game.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="CreatePrivateRoom.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

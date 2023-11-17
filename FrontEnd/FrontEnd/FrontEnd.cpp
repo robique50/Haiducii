@@ -8,7 +8,7 @@ FrontEnd::FrontEnd(QWidget *parent)
     registerWindow = new Register();
     gameWindow = new Game();
     connect(registerWindow, &Register::loginWindow, this, &FrontEnd::show);
-    connect(registerWindow, &Register::registrationCompleted, this, &FrontEnd::show);
+    // connect(registerWindow, &Register::registrationCompleted, this, &FrontEnd::show);
     connect(this, &FrontEnd::loginSuccessful, gameWindow, &Game::show);
     
 
@@ -30,7 +30,8 @@ void FrontEnd::on_pushButton_login_clicked()
     password = ui.lineEdit_password->text();
 
     if (username.isEmpty() || password.isEmpty()) {
-        std::cout << "Date invalide";
+        QMessageBox::warning(this, "Login Error", "Please enter both username and password.");
+        return;
     }
 
     emit loginSuccessful();

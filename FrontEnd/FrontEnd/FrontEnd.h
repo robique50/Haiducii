@@ -4,6 +4,7 @@
 #include "ui_FrontEnd.h"
 #include "Register.h"
 #include "Game.h"
+#include <qmessagebox.h>
 
 class FrontEnd : public QMainWindow
 {

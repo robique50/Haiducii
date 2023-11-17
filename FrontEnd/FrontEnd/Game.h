@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include "ui_Game.h"
+#include "CreatePrivateRoom.h"
+#include "Play.h"
 
 class Game : public QMainWindow
 {
@@ -11,10 +13,14 @@ public:
 	Game(QWidget *parent = nullptr);
 	~Game();
 
+private slots:
+	 virtual void on_pushButton_create_private_room_clicked();
+	//virtual void on_pushButton_Play_clicked();
+
+
 private:
 	Ui::GameClass ui;
-
-signals:
-	void loginSuccess();
+	CreatePrivateRoom* createPrivateRoomWindow = nullptr;
+	Play* playWindow = nullptr;
 	
 };

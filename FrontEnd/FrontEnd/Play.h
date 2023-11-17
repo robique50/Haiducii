@@ -11,6 +11,9 @@ public:
 	Play(QWidget *parent = nullptr);
 	~Play();
 
+signals:
+	void playWindowSignal();
+
 private:
 	Ui::PlayClass ui;
 };

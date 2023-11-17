@@ -22,7 +22,7 @@ void Register::on_pushButton_Register_clicked()
 	username = ui.lineEdit_username->text();
 	password = ui.lineEdit_password->text();
 
-	emit registrationCompleted();
+	emit loginWindow();
 	this->close();
 }
 

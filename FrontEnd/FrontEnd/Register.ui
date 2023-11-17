@@ -10,8 +10,24 @@
     <height>400</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>400</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Register</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="FrontEnd.qrc">
+    <normaloff>:/FrontEnd/assets/images/Skribbl.io_2022_(Icon).png</normaloff>:/FrontEnd/assets/images/Skribbl.io_2022_(Icon).png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="Register">
@@ -149,8 +165,8 @@
      <rect>
       <x>-2</x>
       <y>-25</y>
-      <width>601</width>
-      <height>421</height>
+      <width>611</width>
+      <height>431</height>
      </rect>
     </property>
     <property name="text">
