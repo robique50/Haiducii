@@ -21,4 +21,9 @@ void Register::on_pushButton_Register_clicked()
 	fullname = ui.lineEdit_FullName->text();
 	username = ui.lineEdit_username->text();
 	password = ui.lineEdit_password->text();
+
+	emit registrationCompleted();
+	this->close();
 }
+
+

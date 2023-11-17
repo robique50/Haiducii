@@ -18,4 +18,5 @@ private:
 	Ui::RegisterClass ui;
 signals:
 	void loginWindow();
+	void registrationCompleted();
 };

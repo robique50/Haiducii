@@ -49,6 +49,9 @@
     <ClCompile Include="Play.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Register.h">
@@ -57,12 +60,18 @@
     <QtMoc Include="Play.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Game.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Register.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Play.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Game.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
