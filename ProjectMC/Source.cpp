@@ -1,8 +1,6 @@
-import user;
 #include <filesystem>
 #include <iostream>
 #include <memory>
-
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
 namespace sql = sqlite_orm;
@@ -10,9 +8,13 @@ namespace sql = sqlite_orm;
 #include "Database.h"
 #include "server.h"
 
+import user;
+
+using namespace skribbl;
+using skribbl::User;
+
 int main()
 {
-	
 	useDatabase();
 	showWordsCount();
 	
@@ -22,7 +24,6 @@ int main()
 	addUser(newUser2);
 	User userTest("Adr", "pard");
 	std::cout << userExists(userTest)<<"\n";
-	
 	
 
 	serverHandle();
