@@ -32,7 +32,11 @@ inline auto createStorage(const std::string& filename)
 
 using Storage = decltype(createStorage(""));
 
-void addUser(Storage& storage, const User& user);
+void addUser(const User& user);
 
-void populateStorage(Storage& storage);
+void populateStorage();
+
+void useDatabase();
+
+void showWordsCount();
 

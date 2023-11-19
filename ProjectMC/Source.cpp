@@ -12,26 +12,24 @@ namespace sql = sqlite_orm;
 
 int main()
 {
-	const std::string db_file = "words.sqlite";
-	Storage db = createStorage(db_file);
-	db.sync_schema();
-	auto initWordsCount = db.count<Words>();
-	if (initWordsCount == 0)
-		populateStorage(db);
-	auto WordsCount = db.count<Words>();
-	std::cout << "wordsCount = " << WordsCount << '\n';
+	
+	useDatabase();
+	showWordsCount();
+	/*
 	User newUser("Adrian", "password");
 	//addUser(db,newUser);
 	auto UsersCount = db.count<User>();
 	try {
-		//addUser(db, newUser);
+		addUser(db, newUser);
 		auto UsersCount = db.count<User>();
 		std::cout << "usersCount = " << UsersCount << '\n';
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}
+
 	serverHandle();
+	*/
 
     return 0;
 }

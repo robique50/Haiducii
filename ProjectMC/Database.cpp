@@ -1,7 +1,19 @@
 import user;
 #include "Database.h"
+const std::string db_file = "words.sqlite";
 
-void populateStorage(Storage& storage)
+
+Storage db = createStorage(db_file);
+
+void useDatabase()
+{
+	db.sync_schema();
+	auto initWordsCount = db.count<Words>();
+	if (initWordsCount == 0)
+		populateStorage();
+}
+
+void populateStorage()
 {
 	std::vector<Words> words;
 	std::string currentWord;
@@ -11,16 +23,23 @@ void populateStorage(Storage& storage)
 		Words ward{ -1,currentWord };
 		words.push_back(ward);
 	}
-	storage.insert_range(words.begin(), words.end());
+	db.insert_range(words.begin(), words.end());
 }
 
-void addUser(Storage& storage, const User& user)
+void addUser(const User& user)
 {
 	try {
-		storage.insert(user);
+		db.insert(user);
 		std::cout << "User added succesfully" << std::endl;
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Error at adding user: " << e.what() << std::endl;
 	}
+}
+
+
+void showWordsCount()
+{
+	auto WordsCount = db.count<Words>();
+	std::cout << "wordsCount = " << WordsCount << '\n';
 }
