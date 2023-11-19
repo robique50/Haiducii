@@ -16,6 +16,7 @@ namespace skribbl
 	private:
 		Round(const std::string& currentWord);
 		bool CorrectGuess(const std::string& guess);
+		std::string getCurrentWord();
 		void AddGuess(const std::string& guess, int responseTime);
 		int CalculateScore();
 		void ShowLetters();

@@ -18,6 +18,10 @@ bool Round::CorrectGuess(const std::string& guess)
             return std::tolower(a) == std::tolower(b);
         });
 }
+std::string Round::getCurrentWord()
+{
+    return m_currentWord;
+}
 void Round::ShowLetters()
 {
     if (m_time < 30)
