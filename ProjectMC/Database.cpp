@@ -67,4 +67,13 @@ namespace skribbl
 				<< user.getUsername() << ", Password: " << user.getPassword() << std::endl;
 		}
 	}
+
+	void GameDatabase::showWordsFromDatabase() {
+		auto allWords = db.get_all<Words>();
+
+		std::cout << "Words in the database:\n";
+		for (const auto& word : allWords) {
+			std::cout << "ID: " << word.getId() << ", Word: " << word.getWord() << "\n";
+		}
+	}
 }

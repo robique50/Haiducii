@@ -44,3 +44,5 @@ void showWordsCount();
 bool userExists(User user);
 
 void showUsers();
+
+void showWordsFromDatabase();
