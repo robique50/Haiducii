@@ -73,6 +73,15 @@ void User::updateStatistics(int score, double time) {
     m_statistics.updateStatistics(score, time);
 }
 
+bool User::isEqual(const User& user)
+{
+     if (m_username == user.getUsername() && m_password == user.getPassword())
+            return true;
+     return false;
+}
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 import user;
 #include "Database.h"
+#include <iostream>
 const std::string db_file = "words.sqlite";
 
 
@@ -42,4 +43,15 @@ void showWordsCount()
 {
 	auto WordsCount = db.count<Words>();
 	std::cout << "wordsCount = " << WordsCount << '\n';
+}
+
+bool userExists(User user1)
+{
+	auto allUsers = db.get_all<User>();
+	for (auto& user : allUsers)
+	{
+		if (user1.isEqual(user) == true)
+			return true;
+	}
+	return false;
 }

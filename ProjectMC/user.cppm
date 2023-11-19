@@ -34,6 +34,8 @@ namespace skribbl
 		int getID() const;
 		int16_t getScore() const;
 		void updateStatistics(int score, double time);
+		bool isEqual(const User& user);
+
 	private:
 		int m_id;
 		std::string m_username;

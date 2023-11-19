@@ -15,21 +15,18 @@ int main()
 	
 	useDatabase();
 	showWordsCount();
-	/*
+	
 	User newUser("Adrian", "password");
-	//addUser(db,newUser);
-	auto UsersCount = db.count<User>();
-	try {
-		addUser(db, newUser);
-		auto UsersCount = db.count<User>();
-		std::cout << "usersCount = " << UsersCount << '\n';
-	}
-	catch (const std::exception& e) {
-		std::cerr << "Error: " << e.what() << std::endl;
-	}
+	addUser(newUser);
+	User newUser2("Adi", "passwrd");
+	addUser(newUser2);
+	User userTest("Adr", "pard");
+	std::cout << userExists(userTest)<<"\n";
+	
+	
 
 	serverHandle();
-	*/
+	
 
     return 0;
 }
