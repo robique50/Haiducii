@@ -45,9 +45,6 @@
     <ClCompile Include="round.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="client.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="Database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

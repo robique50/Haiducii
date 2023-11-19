@@ -1,43 +1,33 @@
 #pragma once
-#include <fstream>
-#include <string>
+
+#include <iostream>
 #include <vector>
-#include <crow.h>
+#include <fstream>
 #include <sqlite_orm/sqlite_orm.h>
+#include <list>
+
 #include "words.h"
+
 import user;
+using skribbl::User;
 
 namespace sql = sqlite_orm;
-using namespace skribbl;
 
-inline auto createStorage(const std::string& filename)
-{
-    return sql::make_storage(
-        filename,
-        sql::make_table(
-            "Words",
-            sql::make_column("id", &Words::getId, &Words::setId,sql::primary_key().autoincrement()),
-            sql::make_column("word", &Words::getWord, &Words::setWord,sql::unique())
-        ), 
-        sql::make_table(
-            "User",
-            sql::make_column("id",
-                &User::getID,
-                &User::setID, sql::primary_key().autoincrement()),
-            sql::make_column("username",&User::getUsername,&User::setUsername, sql::unique()),
-            sql::make_column("password",&User::getPassword,&User::setPassword, sql::unique())
-        )
-    );
-}
+class GameDatabase {
+public:
+    GameDatabase(const std::string& filename);
+    void useDatabase();
+    void populateStorage();
+    void addUser(const User& user);
+    void showWordsCount();
+    bool userExists(const User& user);
 
-using Storage = decltype(createStorage(""));
+    void addUser(const User& user);
+    const std::list<User>& getUsersList();
 
-void addUser(const User& user);
+private:
+    sql::internal::storage_t<sqlite_orm::internal::columns_t<Words>> wordsTable;
+    sql::internal::storage_t<sqlite_orm::internal::columns_t<User>> usersTable;
 
-void populateStorage();
-
-void useDatabase();
-
-void showWordsCount();
-
-bool userExists(User user);
+    std::list<User> usersList;
+};
