@@ -1,5 +1,7 @@
 #include "Database.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 import user;
 const std::string db_file = "words.sqlite";
 
@@ -41,10 +43,10 @@ namespace skribbl
 	}
 
 
-	void showWordsCount()
+	int getWordsCount()
 	{
 		auto WordsCount = db.count<Words>();
-		std::cout << "wordsCount = " << WordsCount << '\n';
+		return WordsCount;
 	}
 
 	bool userExists(User user1)
@@ -76,4 +78,17 @@ namespace skribbl
 			std::cout << "ID: " << word.getId() << ", Word: " << word.getWord() << "\n";
 		}
 	}
+
+	std::string chooseRandomWord() {
+		auto allWords = db.get_all<Words>();
+		const int numbOfWords= db.getWordCount();
+		std::srand(std::time(0));
+		int randomId = std::rand() % rand + 1;
+		for (const auto& word : allWords) {
+			if (word.getId() == randomId)
+				return word.name;
+				
+		}
+	} 
+
 }
