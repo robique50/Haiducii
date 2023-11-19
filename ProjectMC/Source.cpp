@@ -7,8 +7,8 @@ import user;
 #include <sqlite_orm/sqlite_orm.h>
 namespace sql = sqlite_orm;
 
-#include "WordsDatabase.h"
-
+#include "Database.h"
+#include "server.h"
 
 int main()
 {
@@ -31,5 +31,7 @@ int main()
 	catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}
+	serverHandle();
+
     return 0;
 }

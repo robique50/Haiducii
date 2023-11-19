@@ -48,10 +48,13 @@
     <ClCompile Include="client.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="WordsDatabase.cpp">
+    <ClCompile Include="Database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="words.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,10 +64,13 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WordsDatabase.h">
+    <ClInclude Include="Database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="words.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

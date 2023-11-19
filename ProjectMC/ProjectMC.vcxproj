@@ -151,6 +151,7 @@
     <ClCompile Include="meetingroom.cppm" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="round.cppm" />
+    <ClCompile Include="server.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="user.cpp">
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
@@ -160,14 +161,15 @@
     </ClCompile>
     <ClCompile Include="user.cppm" />
     <ClCompile Include="words.cpp" />
-    <ClCompile Include="WordsDatabase.cpp" />
+    <ClCompile Include="Database.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="listOfWords.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="server.h" />
     <ClInclude Include="words.h" />
-    <ClInclude Include="WordsDatabase.h" />
+    <ClInclude Include="Database.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

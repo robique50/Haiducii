@@ -1,5 +1,5 @@
 import user;
-#include "WordsDatabase.h"
+#include "Database.h"
 
 void populateStorage(Storage& storage)
 {
