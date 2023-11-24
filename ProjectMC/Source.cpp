@@ -15,19 +15,7 @@ using skribbl::User;
 
 int main()
 {
-	useDatabase();
-	showWordsCount();
-	
-	User newUser("Adrian", "password");
-	addUser(newUser);
-	User newUser2("Adi", "passwrd");
-	addUser(newUser2);
-	User userTest("Adr", "pard");
-	std::cout << userExists(userTest)<<"\n";
-	
-
 	serverHandle();
-	
 
     return 0;
 }

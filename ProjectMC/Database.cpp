@@ -1,24 +1,24 @@
-#include "Database.h"
+#include "DataBase.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 import user;
-const std::string db_file = "words.sqlite";
+const std::string db_file = "cuvinte.sqlite";
 
 namespace skribbl
 {
-
-	Storage db = createStorage(db_file);
-
-	void useDatabase()
+	void skribbl::DataBase::addUser(const User& user)
 	{
-		db.sync_schema();
-		auto initWordsCount = db.count<Words>();
-		if (initWordsCount == 0)
-			populateStorage();
+		try {
+			db.insert(user);
+			std::cout << "User added succesfully" << std::endl;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Error at adding user: " << e.what() << std::endl;
+		}
 	}
 
-	void populateStorage()
+	void skribbl::DataBase::populateStorage()
 	{
 		std::vector<Words> words;
 		std::string currentWord;
@@ -31,25 +31,21 @@ namespace skribbl
 		db.insert_range(words.begin(), words.end());
 	}
 
-	void addUser(const User& user)
+	void skribbl::DataBase::useDatabase()
 	{
-		try {
-			db.insert(user);
-			std::cout << "User added succesfully" << std::endl;
-		}
-		catch (const std::exception& e) {
-			std::cerr << "Error at adding user: " << e.what() << std::endl;
-		}
+		db.sync_schema();
+		auto initWordsCount = db.count<Words>();
+		if (initWordsCount == 0)
+			populateStorage();
 	}
 
-
-	int getWordsCount()
+	int skribbl::DataBase::getWordsCount()
 	{
-		auto WordsCount = db.count<Words>();
+		int WordsCount = db.count<Words>();
 		return WordsCount;
 	}
 
-	bool userExists(User user1)
+	bool skribbl::DataBase::userExists(User user1)
 	{
 		auto allUsers = db.get_all<User>();
 		for (auto& user : allUsers)
@@ -60,7 +56,7 @@ namespace skribbl
 		return false;
 	}
 
-	void showUsers()
+	void skribbl::DataBase::showUsers()
 	{
 		auto users = db.get_all<User>();
 
@@ -70,25 +66,13 @@ namespace skribbl
 		}
 	}
 
-	void GameDatabase::showWordsFromDatabase() {
+	void skribbl::DataBase::showWordsFromDatabase()
+	{
 		auto allWords = db.get_all<Words>();
 
 		std::cout << "Words in the database:\n";
-		for (const auto& word : allWords) {
+		for (auto word : allWords) {
 			std::cout << "ID: " << word.getId() << ", Word: " << word.getWord() << "\n";
 		}
 	}
-
-	std::string chooseRandomWord() {
-		auto allWords = db.get_all<Words>();
-		const int numbOfWords= db.getWordCount();
-		std::srand(std::time(0));
-		int randomId = std::rand() % rand + 1;
-		for (const auto& word : allWords) {
-			if (word.getId() == randomId)
-				return word.name;
-				
-		}
-	} 
-
 }

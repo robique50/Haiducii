@@ -11,38 +11,48 @@ using skribbl::User;
 
 namespace sql = sqlite_orm;
 
-inline auto createStorage(const std::string& filename)
+namespace skribbl
 {
-    return sql::make_storage(
-        filename,
-        sql::make_table(
-            "Words",
-            sql::make_column("id", &Words::getId, &Words::setId, sql::primary_key().autoincrement()),
-            sql::make_column("word", &Words::getWord, &Words::setWord, sql::unique())
-        ),
-        sql::make_table(
-            "User",
-            sql::make_column("id",
-                &User::getID,
-                &User::setID, sql::primary_key().autoincrement()),
-            sql::make_column("username", &User::getUsername, &User::setUsername, sql::unique()),
-            sql::make_column("password", &User::getPassword, &User::setPassword, sql::unique())
-        )
-    );
+    inline auto createStorage(const std::string& filename)
+    {
+        return sql::make_storage(
+            filename,
+            sql::make_table(
+                "Words",
+                sql::make_column("id", &Words::setId, &Words::getId, sql::primary_key().autoincrement()),
+                sql::make_column("word", &Words::setWord, &Words::getWord, sql::unique())
+            ),
+            sql::make_table(
+                "User",
+                sql::make_column("id", &User::setID, &User::getID, sql::primary_key().autoincrement()),
+                sql::make_column("username", &User::setUsername, &User::getUsername, sql::unique()),
+                sql::make_column("password", &User::setPassword, &User::getPassword, sql::unique())
+            )
+        );
+    }
+
+    using Storage = decltype(createStorage(""));
+
+    class DataBase
+    {
+    public:
+        void addUser(const User& user);
+
+        void populateStorage();
+
+        void useDatabase();
+
+        int getWordsCount();
+
+        bool userExists(User user);
+
+        void showUsers();
+
+        void showWordsFromDatabase();
+    private:
+        const std::string db_file = "words.sqlite";
+    private:
+        Storage db = createStorage(db_file);
+    };
+
 }
-
-using Storage = decltype(createStorage(""));
-
-void addUser(const User& user);
-
-void populateStorage();
-
-void useDatabase();
-
-void showWordsCount();
-
-bool userExists(User user);
-
-void showUsers();
-
-void showWordsFromDatabase();
