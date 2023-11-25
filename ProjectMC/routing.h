@@ -3,6 +3,7 @@
 #include <cpr/cpr.h>
 #include <iostream>
 #include "Database.h"
+#include<vector>
 import user;
 namespace skribbl
 {
@@ -11,6 +12,7 @@ namespace skribbl
 	public:
 		void Run(skribbl::DataBase& db);
 	private:
+		cpr::Response sendRandomWords(skribbl::DataBase& db, int numberOfWords);
 		crow::SimpleApp m_app;
 	};
 }

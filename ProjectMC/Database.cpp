@@ -109,7 +109,18 @@ namespace skribbl
 		int wordsToRetrieve = std::min(numberOfWords, static_cast<int>(allWords.size()));
 		std::set<std::string> uniqueWords;
 		std::vector<Words> selectedWords;
+		for (auto word : allWords)
+		{
+			if (uniqueWords.insert(word.getWord()).second)
+			{
+				selectedWords.push_back(word);
 
+				if (selectedWords.size() == wordsToRetrieve)
+					break;
+			}
+		}
+
+		return selectedWords;
 
 	}
 }

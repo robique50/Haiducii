@@ -39,7 +39,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 	m_app.port(18080).multithreaded().run();
 }
 
-cpr::Response skribbl::Routing::getRandomWords(skribbl::DataBase& db, int numberOfWords)
+cpr::Response skribbl::Routing::sendRandomWords(skribbl::DataBase& db, int numberOfWords)
 {
     auto words = db.getRandomWords(numberOfWords);
 

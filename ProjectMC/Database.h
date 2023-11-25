@@ -5,6 +5,9 @@
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
 #include "words.h"
+#include <algorithm>
+#include <set>
+#include <random>
 import user;
 
 using skribbl::User;
@@ -50,6 +53,9 @@ namespace skribbl
         void showUsers();
 
         void showWordsFromDatabase();
+
+        std::vector<Words> getRandomWords(const int& numberOfWords);
+        
     private:
         const std::string db_file = "cuvinte.sqlite";
     private:
