@@ -15,7 +15,15 @@ using skribbl::User;
 
 int main()
 {
-	serverHandle();
+	DataBase db;
+	if (!db.Initialize())
+	{
+		std::cout << "Error: Database not found" << std::endl;
+		return -1;
+
+	}
+
+	//serverHandle();
 
     return 0;
 }

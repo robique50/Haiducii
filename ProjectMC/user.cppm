@@ -22,7 +22,7 @@ namespace skribbl
 	export class User
 	{
 	public:
-		User(const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing);
+		User(int id,const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing);
 		User(std::string username, std::string password);
 		User();
 		void setUsername(const std::string& username);

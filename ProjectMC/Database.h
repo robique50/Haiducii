@@ -20,13 +20,13 @@ namespace skribbl
             sql::make_table(
                 "Words",
                 sql::make_column("id", &Words::setId, &Words::getId, sql::primary_key().autoincrement()),
-                sql::make_column("word", &Words::setWord, &Words::getWord, sql::unique())
+                sql::make_column("word", &Words::setWord, &Words::getWord)
             ),
             sql::make_table(
                 "User",
                 sql::make_column("id", &User::setID, &User::getID, sql::primary_key().autoincrement()),
-                sql::make_column("username", &User::setUsername, &User::getUsername, sql::unique()),
-                sql::make_column("password", &User::setPassword, &User::getPassword, sql::unique())
+                sql::make_column("username", &User::setUsername, &User::getUsername),
+                sql::make_column("password", &User::setPassword, &User::getPassword)
             )
         );
     }
@@ -36,11 +36,11 @@ namespace skribbl
     class DataBase
     {
     public:
+        bool Initialize();
+
         void addUser(const User& user);
 
         void populateStorage();
-
-        void useDatabase();
 
         int getWordsCount();
 
@@ -50,9 +50,9 @@ namespace skribbl
 
         void showWordsFromDatabase();
     private:
-        const std::string db_file = "words.sqlite";
+        const std::string db_file = "cuvinte.sqlite";
     private:
-        Storage db = createStorage(db_file);
+        Storage m_db = createStorage(db_file);
     };
 
 }

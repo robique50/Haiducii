@@ -24,8 +24,8 @@ void Statistics::updateStatistics(int score, double time) {
     gamesPlayed++;
 }
 
-User::User(const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing)
-    : m_username(username), m_password(password), m_avatar(avatar), m_isDrawing(isDrawing) {}
+User::User(int id,const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing)
+    : m_id(id),m_username(username), m_password(password), m_avatar(avatar), m_isDrawing(isDrawing) {}
 
 User::User(std::string username, std::string password) 
     : m_username(std::move(username)), m_password(std::move(password))

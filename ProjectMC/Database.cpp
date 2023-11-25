@@ -3,14 +3,28 @@
 #include <cstdlib>
 #include <ctime>
 import user;
-const std::string db_file = "cuvinte.sqlite";
 
 namespace skribbl
 {
+	bool DataBase::Initialize()
+	{
+		m_db.sync_schema();
+		auto initWordsCount = m_db.count<Words>();
+		std::cout<<initWordsCount<<std::endl;
+		if (initWordsCount == 0)
+		{
+			populateStorage();
+			std::cout << "Database populated succesfully" << std::endl;
+		}
+		auto wordsCount = m_db.count<Words>();
+		std::cout << wordsCount << std::endl;
+		return wordsCount != 0;
+
+	}
 	void skribbl::DataBase::addUser(const User& user)
 	{
 		try {
-			db.insert(user);
+			m_db.insert(user);
 			std::cout << "User added succesfully" << std::endl;
 		}
 		catch (const std::exception& e) {
@@ -18,36 +32,44 @@ namespace skribbl
 		}
 	}
 
-	void skribbl::DataBase::populateStorage()
-	{
+	void skribbl::DataBase::populateStorage() {
 		std::vector<Words> words;
 		std::string currentWord;
-		for (std::ifstream f("listOfWords.txt"); !f.eof();)
-		{
-			f >> currentWord;
-			Words ward{ -1,currentWord };
-			words.push_back(ward);
+		std::ifstream f("listOfWords.txt");
+
+		// Check if the file is successfully opened
+		if (!f.is_open()) {
+			std::cerr << "Unable to open listOfWords.txt" << std::endl;
+			return;
 		}
-		db.insert_range(words.begin(), words.end());
+
+		while (f >> currentWord) {
+			std::cout << currentWord << std::endl; // Optional: for debugging
+			Words word{ -1, currentWord }; // Assuming Words constructor takes id and word
+			words.push_back(word);
+		}
+
+		f.close(); // Close the file when done
+
+		try {
+			m_db.insert_range(words.begin(), words.end());
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Error inserting words into database: " << e.what() << std::endl;
+		}
 	}
 
-	void skribbl::DataBase::useDatabase()
-	{
-		db.sync_schema();
-		auto initWordsCount = db.count<Words>();
-		if (initWordsCount == 0)
-			populateStorage();
-	}
+
 
 	int skribbl::DataBase::getWordsCount()
 	{
-		int WordsCount = db.count<Words>();
+		int WordsCount = m_db.count<Words>();
 		return WordsCount;
 	}
 
 	bool skribbl::DataBase::userExists(User user1)
 	{
-		auto allUsers = db.get_all<User>();
+		auto allUsers = m_db.get_all<User>();
 		for (auto& user : allUsers)
 		{
 			if (user1.isEqual(user) == true)
@@ -58,7 +80,7 @@ namespace skribbl
 
 	void skribbl::DataBase::showUsers()
 	{
-		auto users = db.get_all<User>();
+		auto users = m_db.get_all<User>();
 
 		for (const auto& user : users) {
 			std::cout << "ID: " << user.getID() << ", Username: "
@@ -68,7 +90,7 @@ namespace skribbl
 
 	void skribbl::DataBase::showWordsFromDatabase()
 	{
-		auto allWords = db.get_all<Words>();
+		auto allWords = m_db.get_all<Words>();
 
 		std::cout << "Words in the database:\n";
 		for (auto word : allWords) {
