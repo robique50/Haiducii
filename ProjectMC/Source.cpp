@@ -6,7 +6,7 @@
 namespace sql = sqlite_orm;
 
 #include "Database.h"
-#include "server.h"
+#include "routing.h"
 
 import user;
 
@@ -23,7 +23,9 @@ int main()
 
 	}
 
-	//serverHandle();
+	Routing r;
+	r.Run(db);
+	
 
     return 0;
 }

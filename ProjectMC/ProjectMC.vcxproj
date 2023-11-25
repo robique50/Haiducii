@@ -150,7 +150,7 @@
     <ClCompile Include="meetingroom.cppm" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="round.cppm" />
-    <ClCompile Include="server.cpp" />
+    <ClCompile Include="routing.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="user.cpp">
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
@@ -166,7 +166,7 @@
     <Text Include="listOfWords.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="server.h" />
+    <ClInclude Include="routing.h" />
     <ClInclude Include="words.h" />
     <ClInclude Include="Database.h" />
   </ItemGroup>

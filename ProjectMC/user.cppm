@@ -22,12 +22,14 @@ namespace skribbl
 	export class User
 	{
 	public:
-		User(int id,const std::string& username, const std::string& password, const std::string& avatar, bool isDrawing);
+		User(int id,const std::string& fullname,const std::string& username, const std::string& password,bool isDrawing);
 		User(std::string username, std::string password);
 		User();
+		void setFullname(const std::string& fullname);
 		void setUsername(const std::string& username);
 		void setPassword(const std::string& password);
 		void setID(const int& id);
+	    std::string getFullname() const;
 		std::string getUsername() const;
 		std::string getPassword() const;
 		std::string getAvatar() const;
@@ -38,6 +40,7 @@ namespace skribbl
 
 	private:
 		int m_id;
+		std::string m_fullname;
 		std::string m_username;
 		std::string m_password;
 		std::string m_avatar;

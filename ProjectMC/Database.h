@@ -24,7 +24,8 @@ namespace skribbl
             ),
             sql::make_table(
                 "User",
-                sql::make_column("id", &User::setID, &User::getID, sql::primary_key().autoincrement()),
+                sql::make_column("id",&User::setID, &User::getID, sql::primary_key().autoincrement()),
+                sql::make_column("fullname", &User::setFullname, &User::getFullname),
                 sql::make_column("username", &User::setUsername, &User::getUsername),
                 sql::make_column("password", &User::setPassword, &User::getPassword)
             )

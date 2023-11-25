@@ -51,7 +51,7 @@
     <ClCompile Include="words.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="server.cpp">
+    <ClCompile Include="routing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -67,7 +67,7 @@
     <ClInclude Include="words.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="server.h">
+    <ClInclude Include="routing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

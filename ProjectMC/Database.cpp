@@ -10,14 +10,12 @@ namespace skribbl
 	{
 		m_db.sync_schema();
 		auto initWordsCount = m_db.count<Words>();
-		std::cout<<initWordsCount<<std::endl;
 		if (initWordsCount == 0)
 		{
 			populateStorage();
 			std::cout << "Database populated succesfully" << std::endl;
 		}
 		auto wordsCount = m_db.count<Words>();
-		std::cout << wordsCount << std::endl;
 		return wordsCount != 0;
 
 	}
