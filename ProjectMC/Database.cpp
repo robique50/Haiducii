@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+
 import user;
 
 namespace skribbl
@@ -85,6 +86,7 @@ namespace skribbl
 				<< user.getUsername() << ", Password: " << user.getPassword() << std::endl;
 		}
 	}
+	
 
 	void skribbl::DataBase::showWordsFromDatabase()
 	{
@@ -94,5 +96,20 @@ namespace skribbl
 		for (auto word : allWords) {
 			std::cout << "ID: " << word.getId() << ", Word: " << word.getWord() << "\n";
 		}
+	}
+	std::vector<Words> DataBase::getRandomWords(const int& numberOfWords)
+	{
+		auto allWords = m_db.get_all<Words>();
+
+		auto allWords = m_db.get_all<Words>();
+
+		std::random_device rd;
+		std::default_random_engine rng(rd());
+		std::shuffle(allWords.begin(), allWords.end(), rng);
+		int wordsToRetrieve = std::min(numberOfWords, static_cast<int>(allWords.size()));
+		std::set<std::string> uniqueWords;
+		std::vector<Words> selectedWords;
+
+
 	}
 }
