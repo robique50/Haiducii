@@ -4,6 +4,8 @@ using skribbl::Game;
 
 import <iostream>;
 
+uint16_t Game::m_numberOfRounds = 4;
+
 Game::Game(uint16_t numberOfPlayers, uint16_t currentRound):
 	m_numberOfPlayers{ numberOfPlayers },
 	m_currentRound{ currentRound }
@@ -22,6 +24,11 @@ uint16_t Game::getCurrentRound()
 uint16_t Game::getNumberOfRounds()
 {
 	return this->m_numberOfRounds;
+}
+
+void skribbl::Game::setNumberOfRounds(uint16_t numberOfRounds)
+{
+	m_numberOfRounds = numberOfRounds;
 }
 
 void skribbl::Game::StartGame()
