@@ -48,14 +48,12 @@ namespace skribbl
 			words.push_back(word);
 		}
 
-		f.close(); // Close the file when done
-
-		try {
-			m_db.insert_range(words.begin(), words.end());
-		}
-		catch (const std::exception& e) {
-			std::cerr << "Error inserting words into database: " << e.what() << std::endl;
-		}
+	void skribbl::DataBase::useDatabase()
+	{
+		db.sync_schema();
+		auto initWordsCount = db.count<Words>();
+		if (initWordsCount == 0)
+			populateStorage();
 	}
 
 

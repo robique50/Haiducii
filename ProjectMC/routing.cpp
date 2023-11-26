@@ -44,7 +44,7 @@ cpr::Response skribbl::Routing::sendRandomWords(skribbl::DataBase& db, int numbe
     auto words = db.getRandomWords(numberOfWords);
 
     std::vector<crow::json::wvalue> jsonWords;
-    for (const auto& word : words) {
+    for (auto& word : words) {
         jsonWords.push_back({ {"id", word.getId()}, {"word", word.getWord()} });
     }
 
