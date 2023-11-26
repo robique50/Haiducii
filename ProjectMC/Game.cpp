@@ -24,6 +24,11 @@ uint16_t Game::getNumberOfRounds()
 	return this->m_numberOfRounds;
 }
 
+void skribbl::Game::StartGame()
+{
+	//Implementation needed
+}
+
 void skribbl::Game::setCurrentRound(const uint16_t& currentRound)
 {
 	this->m_currentRound = currentRound;

@@ -17,6 +17,7 @@ namespace skribbl
 		uint16_t getNumberOfPlayers();
 		uint16_t getCurrentRound();
 		uint16_t getNumberOfRounds();
+		void StartGame();
 		void setCurrentRound(const uint16_t& currentRound);
 		void setNumberOfPlayers(const uint16_t& numberOfPlayers);
 		void addPlayer(User& player);
