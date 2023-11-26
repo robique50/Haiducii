@@ -20,7 +20,7 @@ namespace skribbl
 		return wordsCount != 0;
 
 	}
-	void skribbl::DataBase::addUser(const User& user)
+	void DataBase::addUser(const User& user)
 	{
 		try {
 			m_db.insert(user);
@@ -31,7 +31,7 @@ namespace skribbl
 		}
 	}
 
-	void skribbl::DataBase::populateStorage() {
+	void DataBase::populateStorage() {
 		std::vector<Words> words;
 		std::string currentWord;
 		std::ifstream f("listOfWords.txt");
@@ -47,24 +47,15 @@ namespace skribbl
 			Words word{ -1, currentWord }; // Assuming Words constructor takes id and word
 			words.push_back(word);
 		}
-
-	void skribbl::DataBase::useDatabase()
-	{
-		db.sync_schema();
-		auto initWordsCount = db.count<Words>();
-		if (initWordsCount == 0)
-			populateStorage();
 	}
 
-
-
-	int skribbl::DataBase::getWordsCount()
+	int DataBase::getWordsCount()
 	{
 		int WordsCount = m_db.count<Words>();
 		return WordsCount;
 	}
 
-	bool skribbl::DataBase::userExists(User user1)
+	bool DataBase::userExists(User user1)
 	{
 		auto allUsers = m_db.get_all<User>();
 		for (auto& user : allUsers)
@@ -75,7 +66,7 @@ namespace skribbl
 		return false;
 	}
 
-	void skribbl::DataBase::showUsers()
+	void DataBase::showUsers()
 	{
 		auto users = m_db.get_all<User>();
 
@@ -86,7 +77,7 @@ namespace skribbl
 	}
 	
 
-	void skribbl::DataBase::showWordsFromDatabase()
+	void DataBase::showWordsFromDatabase()
 	{
 		auto allWords = m_db.get_all<Words>();
 
@@ -95,10 +86,9 @@ namespace skribbl
 			std::cout << "ID: " << word.getId() << ", Word: " << word.getWord() << "\n";
 		}
 	}
+
 	std::vector<Words> DataBase::getRandomWords(const int& numberOfWords)
 	{
-		auto allWords = m_db.get_all<Words>();
-
 		auto allWords = m_db.get_all<Words>();
 
 		std::random_device rd;
@@ -121,4 +111,41 @@ namespace skribbl
 		return selectedWords;
 
 	}
+
+	User DataBase::getUserByUsername(const std::string& username)
+	{
+		auto users = m_db.get_all<User>();
+
+		for (const auto& user : users) {
+			if (user.getUsername() == username) {
+				return user;
+			}
+		}
+
+		return User(-1, "", "");
+	}
+	void DataBase::removeWord(const Words& word)
+	{
+		try {
+			m_db.remove<Words>(word.getId());
+			std::cout << "Word removed successfully" << std::endl;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Error at removing word: " << e.what() << std::endl;
+		}
+	}
+
+	void DataBase::removeUser(const User& user)
+	{
+			try {
+				m_db.remove<User>(user.getID());
+				std::cout << "User removed successfully" << std::endl;
+			}
+			catch (const std::exception& e) {
+				std::cerr << "Error at removing user: " << e.what() << std::endl;
+			}
+		}
+
+	}
+
 }

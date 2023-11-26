@@ -24,8 +24,8 @@ int main()
 		return -1;
 
 	}
-	std::vector < Words >words= db.getRandomWords(4);
-	for (auto word : words) {
+	auto words= db.getRandomWords(4);
+	for (auto& word : words) {
 		std::cout << "Word ID: " << word.getId() << ", Word: " << word.getWord() << std::endl;
 	}
 	Routing r;

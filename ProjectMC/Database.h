@@ -55,6 +55,12 @@ namespace skribbl
         void showWordsFromDatabase();
 
         std::vector<Words> getRandomWords(const int& numberOfWords);
+
+        User getUserByUsername(const std::string& username);
+
+        void removeWord(const Words& word);
+
+        void removeUser(const User& user);
         
     private:
         const std::string db_file = "cuvinte.sqlite";

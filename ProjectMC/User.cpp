@@ -27,6 +27,10 @@ void Statistics::updateStatistics(int score, double time) {
 User::User(int id, const std::string& fullname, const std::string& username, const std::string& password, bool isDrawing)
     : m_id(id),m_fullname(fullname), m_username(username), m_password(password), m_isDrawing(isDrawing) {}
 
+skribbl::User::User(int id, const std::string& username, const std::string& password):
+    m_id(id),m_username(username),m_password(password)
+{}
+
 User::User(std::string& fullname,std::string& username, std::string& password) 
     : m_fullname(fullname), m_username(std::move(username)), m_password(std::move(password))
 {}
@@ -89,6 +93,7 @@ bool User::isEqual(const User& user)
             return true;
      return false;
 }
+
 
 
 

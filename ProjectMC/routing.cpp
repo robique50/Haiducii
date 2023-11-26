@@ -1,4 +1,5 @@
 #include "routing.h"
+#include "words.h"
 
 void skribbl::Routing::Run(skribbl::DataBase& db)
 {
@@ -16,7 +17,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
         std::string password = x["password"].s(); // Consider hashing the password
 
         User newUser(fullname, username, password);
-        db.AddUser(newUser); // Method to add user to database
+        db.addUser(newUser); // Method to add user to database
 
         return crow::response(200, "User registered successfully");
         });
@@ -45,7 +46,10 @@ cpr::Response skribbl::Routing::sendRandomWords(skribbl::DataBase& db, int numbe
 
     std::vector<crow::json::wvalue> jsonWords;
     for (auto& word : words) {
-        jsonWords.push_back({ {"id", word.getId()}, {"word", word.getWord()} });
+        jsonWords.push_back({
+            {"id", word.getId()}, 
+            {"word", word.getWord()} 
+            });
     }
 
     return cpr::Response{ crow::json::dump(jsonWords), 200, {"Content-Type", "application/json"} };
