@@ -147,6 +147,7 @@
     <ClCompile Include="chatinput.cppm" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
+    <ClCompile Include="meetingroom.cpp" />
     <ClCompile Include="meetingroom.cppm" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="round.cppm" />

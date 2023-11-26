@@ -12,6 +12,7 @@ namespace skribbl
 	export class Game
 	{
 	public:
+		//Game() {}
 		Game(uint16_t numberOfPlayers, uint16_t currentRound);
 		uint16_t getNumberOfPlayers();
 		uint16_t getCurrentRound();

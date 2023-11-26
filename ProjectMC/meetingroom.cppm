@@ -1,4 +1,4 @@
-module;
+module; 
 
 export module meetingroom;
 
@@ -7,6 +7,7 @@ import <string>;
 import <cstdlib>;
 import <ctime>;
 import <random>;
+import user;
 import game;
 
 namespace skribbl
@@ -14,6 +15,9 @@ namespace skribbl
     export class MeetingRoom {
     public:
         Game game;
+        MeetingRoom(const std::string& code);
+        void AddPlayer(const User& jucator);
+        void StartGame();
     private:
         std::string roomCode;
     };
