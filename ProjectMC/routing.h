@@ -12,7 +12,7 @@ namespace skribbl
 	public:
 		void Run(skribbl::DataBase& db);
 	private:
-		cpr::Response sendRandomWords(skribbl::DataBase& db, int numberOfWords);
+		
 		crow::SimpleApp m_app;
 	};
 }

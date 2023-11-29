@@ -1,28 +1,26 @@
 #include "words.h"
-#include "../../../AppData/Local/Temp/TFSTemp/vctmp8668_245641.words.00000000.h"
 
-Words::Words(int id, const std::string& word)
+skribbl::Words::Words(int id, const std::string& word) :m_id(id), m_word(word)
 {
-    m_id = id;
-    m_word = word;
 }
 
-int Words::getId()
+int skribbl::Words::getId() const
 {
-    return m_id;
+	return m_id;
 }
 
-std::string Words::getWord()
+std::string skribbl::Words::getWord()
 {
-    return m_word;
+	return m_word;
 }
 
-void Words::setId(int id)
+void skribbl::Words::setId(int m_id)
 {
-    Words::m_id = id;
+		this->m_id = m_id;
 }
 
-void Words::setWord(std::string word)
+void skribbl::Words::setWord(std::string word)
 {
-    Words::m_word = word;
+		this->m_word = word;
 }
+

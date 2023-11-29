@@ -1,3 +1,4 @@
+#pragma once
 #include<iostream>
 #include<string>
 
@@ -6,7 +7,7 @@ namespace skribbl {
 	class Words {
 	public:
 		Words(int id, const std::string& word);
-		int getId();
+		int getId() const;
 		std::string getWord();
 		void setId(int m_id);
 		void setWord(std::string word);

@@ -4,11 +4,10 @@
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
 #include <vector>
-namespace sql = sqlite_orm;
-
 #include "Database.h"
 #include "routing.h"
 #include "Words.h"
+namespace sql = sqlite_orm;
 
 import user;
 
@@ -24,10 +23,7 @@ int main()
 		return -1;
 
 	}
-	auto words= db.getRandomWords(4);
-	for (auto& word : words) {
-		std::cout << "Word ID: " << word.getId() << ", Word: " << word.getWord() << std::endl;
-	}
+	std::cout<<db.getWordsCount();
 	Routing r;
 	r.Run(db);
 	

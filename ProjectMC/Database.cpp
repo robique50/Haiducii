@@ -47,6 +47,7 @@ namespace skribbl
 			Words word{ -1, currentWord }; // Assuming Words constructor takes id and word
 			words.push_back(word);
 		}
+		m_db.insert_range(words.begin(), words.end());
 	}
 
 	int DataBase::getWordsCount()
@@ -148,4 +149,3 @@ namespace skribbl
 
 	}
 
-}

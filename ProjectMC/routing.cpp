@@ -40,18 +40,5 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 	m_app.port(18080).multithreaded().run();
 }
 
-cpr::Response skribbl::Routing::sendRandomWords(skribbl::DataBase& db, int numberOfWords)
-{
-    auto words = db.getRandomWords(numberOfWords);
 
-    std::vector<crow::json::wvalue> jsonWords;
-    for (auto& word : words) {
-        jsonWords.push_back({
-            {"id", word.getId()}, 
-            {"word", word.getWord()} 
-            });
-    }
-
-    return cpr::Response{ crow::json::dump(jsonWords), 200, {"Content-Type", "application/json"} };
-}
 
