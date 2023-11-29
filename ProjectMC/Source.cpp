@@ -23,7 +23,7 @@ int main()
 		return -1;
 
 	}
-	std::cout<<db.getWordsCount();
+	
 	Routing r;
 	r.Run(db);
 	

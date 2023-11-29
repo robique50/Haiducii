@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Database.h"
 #include<vector>
+#include "openssl/sha.h"
+
 import user;
 namespace skribbl
 {
