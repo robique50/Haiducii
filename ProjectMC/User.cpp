@@ -94,6 +94,11 @@ bool User::isEqual(const User& user)
      return false;
 }
 
+bool skribbl::User::isValid() const
+{
+    return !m_username.empty();
+}
+
 
 
 

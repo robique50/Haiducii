@@ -23,7 +23,7 @@ int main()
 		return -1;
 
 	}
-	
+	db.showUsers();
 	Routing r;
 	r.Run(db);
 	

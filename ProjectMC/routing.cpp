@@ -1,6 +1,6 @@
 #include "routing.h"
 #include "words.h"
-#include "bcrypt.h"
+
 void skribbl::Routing::Run(skribbl::DataBase& db)
 {
 	CROW_ROUTE(m_app, "/")([]() {
@@ -32,20 +32,24 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
     // Login Route 
     CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)([&db](const crow::request& req) {
         auto x = crow::json::load(req.body);
-        if (!x)
+        if (!x) {
             return crow::response(400, "Invalid JSON");
+        }
 
         std::string username = x["username"].s();
         std::string password = x["password"].s();
 
-        // Validate username and password
-        // ...
-
-        return crow::response(200, "Login successful");
-        });
+        User user = db.getUserByUsername(username);
+        if (user.isValid() && user.getPassword() == password) {
+            return crow::response(200, "Login successful");
+        }
+        else {
+            return crow::response(401, "Invalid username or password");
+        }
+	});
 
 	m_app.port(18080).multithreaded().run();
-}
+}   
 
 
 

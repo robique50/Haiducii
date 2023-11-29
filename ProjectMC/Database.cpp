@@ -115,15 +115,21 @@ namespace skribbl
 
 	User DataBase::getUserByUsername(const std::string& username)
 	{
-		auto users = m_db.get_all<User>();
+		try {
+			
+			auto allUsers = m_db.get_all<User>();
 
-		for (const auto& user : users) {
-			if (user.getUsername() == username) {
-				return user;
+			
+			for (const auto& user : allUsers) {
+				if (user.getUsername() == username) {
+					return user; 
+				}
 			}
 		}
-
-		return User(-1, "", "");
+		catch (const std::exception& e) {
+			std::cerr << "Error retrieving user '" << username << "': " << e.what() << std::endl;
+		}
+		return User(-1, "", ""); 
 	}
 	void DataBase::removeWord(const Words& word)
 	{

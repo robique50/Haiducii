@@ -38,6 +38,7 @@ namespace skribbl
 		int16_t getScore() const;
 		void updateStatistics(int score, double time);
 		bool isEqual(const User& user);
+		bool isValid() const;
 
 	private:
 		int m_id;
