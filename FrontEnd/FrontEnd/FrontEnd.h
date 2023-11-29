@@ -17,6 +17,7 @@ public:
 private slots:
     virtual void on_pushButton_login_clicked();
     virtual void on_pushButton_registerNow_clicked();
+    void onLoginResponse(QNetworkReply* reply);
 
 signals:
     void loginSuccessful();
@@ -24,5 +25,6 @@ signals:
 private:
     Ui::FrontEndClass ui;
     Register* registerWindow = nullptr;
-    Game* gameWindow = nullptr;
+    Game* gameWindow = nullptr; 
+    QNetworkAccessManager* networkManager;
 };
