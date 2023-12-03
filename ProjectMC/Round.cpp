@@ -1,4 +1,8 @@
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <ctime>
+#include <iostream>
 import round;
 
 using skribbl::Round;
@@ -22,11 +26,26 @@ std::string Round::getCurrentWord()
 {
     return m_currentWord;
 }
+/*
+std::pair<std::string, std::vector<int>> a_doua_jumatate_runda(const std::string& cuvant)
+{
+    std::vector<int> indici_dezvaluiti;
+    for (int i = 0; i < cuvant.size() / 2; ++i) {
+        indici_dezvaluiti.push_back(i);
+    }
+    std::random_shuffle(indici_dezvaluiti.begin(), indici_dezvaluiti.end());
+    std::string cuvant_partial = cuvant;
+    for (int indice : indici_dezvaluiti) {
+        cuvant_partial[indice] = 'a' + rand() % 26;
+    }
+
+    return std::make_pair(cuvant_partial, indici_dezvaluiti);
+}*/
 void Round::ShowLetters()
 {
     if (m_time < 30)
     {
-        //m_word.SelectRandomLetter();o sa facem in viitor
+        
     }
 }
 void Round::AddGuess(const std::string& guess, int responseTime)

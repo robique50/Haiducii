@@ -12,10 +12,9 @@ void Leaderboard::sortUsersByScore()
             });
     }
 
-/*
-void printLeaderboard() const {
-        for (const auto& user : m_users) {
-            std::cout << "ID: " << user.getID() << ", Score: " << user.getScore() << std::endl;
-        }
-    }
-*/
+void Leaderboard::printUsers()
+{
+    Leaderboard::sortUsersByScore();
+    for (auto user : m_users)
+        std::cout << user.getFullname << " ";
+}
