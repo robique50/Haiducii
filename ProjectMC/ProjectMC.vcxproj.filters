@@ -63,6 +63,9 @@
     <ClCompile Include="leaderboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="difficultyLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="listOfWords.txt">
@@ -77,6 +80,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="routing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="difficultyLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,6 +13,7 @@ namespace skribbl
 	{
 	public:
         void sortUsersByScore();
+		void printUsers();
          
 	private:
 		std::vector <User> m_users;

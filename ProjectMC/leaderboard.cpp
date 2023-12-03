@@ -1,5 +1,5 @@
 import leaderboard;
-
+import user;
 using skribbl::Leaderboard;
 
 import <iostream>;
@@ -16,5 +16,5 @@ void Leaderboard::printUsers()
 {
     Leaderboard::sortUsersByScore();
     for (auto user : m_users)
-        std::cout << user.getFullname << " ";
+        std::cout << user.getFullname() << " ";
 }

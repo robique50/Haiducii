@@ -70,10 +70,6 @@ std::string User::getPassword() const {
     return m_password;
 }
 
-std::string User::getAvatar() const {
-    return m_avatar;
-}
-
 int skribbl::User::getID() const
 {
     return m_id;

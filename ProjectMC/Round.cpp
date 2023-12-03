@@ -27,7 +27,7 @@ std::string Round::getCurrentWord()
     return m_currentWord;
 }
 /*
-std::pair<std::string, std::vector<int>> a_doua_jumatate_runda(const std::string& cuvant)
+std::pair<std::string, std::vector<int>> ShowLetters(const std::string& cuvant)
 {
     std::vector<int> indici_dezvaluiti;
     for (int i = 0; i < cuvant.size() / 2; ++i) {

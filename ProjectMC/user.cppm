@@ -45,7 +45,6 @@ namespace skribbl
 		std::string m_fullname;
 		std::string m_username;
 		std::string m_password;
-		std::string m_avatar;
 		bool m_isDrawing;
 		Statistics m_statistics;
 	};
