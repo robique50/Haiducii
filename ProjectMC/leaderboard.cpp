@@ -15,6 +15,6 @@ void Leaderboard::sortUsersByScore()
 void Leaderboard::printUsers()
 {
     Leaderboard::sortUsersByScore();
-    for (auto user : m_users)
+    for (const auto& user : m_users)
         std::cout << user.getFullname() << " ";
 }

@@ -5,8 +5,6 @@ import <iostream>;
 import <cstdint>;
 import <vector>;
 import user;
-import "difficultyLevel.h";
-//import words;
 
 namespace skribbl
 {
@@ -28,7 +26,6 @@ namespace skribbl
 		bool isFirstRound();
 		void nextRound();
 	private:
-		difficultyLevel diflevel;
 		static uint16_t m_numberOfRounds;
 		uint16_t m_currentRound;
 		uint16_t m_numberOfPlayers;

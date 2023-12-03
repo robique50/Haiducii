@@ -20,6 +20,7 @@ namespace skribbl
 		return wordsCount != 0;
 
 	}
+
 	void DataBase::addUser(const User& user)
 	{
 		try {

@@ -1,9 +1,11 @@
-import <iostream>;
 import user;
+import <iostream>;
 using skribbl::User;
 using skribbl::Statistics;
 
-Statistics::Statistics() : totalScore(0), averageScore(0), averageTime(0), gamesPlayed(0) {}
+
+Statistics::Statistics() : totalScore(0), averageScore(0), averageTime(0), gamesPlayed(0)
+{}
 
 int Statistics::getTotalScore() const {
     return totalScore;
@@ -94,10 +96,3 @@ bool skribbl::User::isValid() const
 {
     return !m_username.empty();
 }
-
-
-
-
-
-
-

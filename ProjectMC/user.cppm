@@ -33,7 +33,6 @@ namespace skribbl
 	    std::string getFullname() const;
 		std::string getUsername() const;
 		std::string getPassword() const;
-		std::string getAvatar() const;
 		int getID() const;
 		int16_t getScore() const;
 		void updateStatistics(int score, double time);

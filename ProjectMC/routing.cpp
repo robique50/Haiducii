@@ -18,6 +18,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
         std::string password = x["password"].s();
 
 
+
         User newUser(fullname, username, password);
         try {
             db.addUser(newUser);
@@ -48,6 +49,19 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
         }
 	});
 
+    CROW_ROUTE(app, "/receive_statistics")
+        .methods("POST"_method)
+        ([&user](const crow::request& req) {
+        auto json = crow::json::load(req.body);
+        if (!json) {
+            return crow::response(400, "Invalid JSON");
+        }
+
+        user.updateStatistics(json["score"].i(), json["time"].d());
+
+        return crow::response(200, "Statistics received successfully");
+            });
+
     CROW_ROUTE(m_app, "/getWords")([&db]() {
         std::vector<crow::json::wvalue> words_json;
 
@@ -55,7 +69,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
         for (const auto& word : words)
         {
             words_json.push_back(crow::json::wvalue{
-                {"id", word.getId()}, 
+                {"id", word.getId()},
                 {"word", word.getWord()}
                 });
         }
