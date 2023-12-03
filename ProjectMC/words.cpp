@@ -9,7 +9,7 @@ int skribbl::Words::getId() const
 	return m_id;
 }
 
-std::string skribbl::Words::getWord()
+std::string skribbl::Words::getWord() const
 {
 	return m_word;
 }

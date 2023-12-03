@@ -8,7 +8,7 @@ namespace skribbl {
 	public:
 		Words(int id, const std::string& word);
 		int getId() const;
-		std::string getWord();
+		std::string getWord() const;
 		void setId(int m_id);
 		void setWord(std::string word);
 	private:
