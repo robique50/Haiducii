@@ -31,6 +31,18 @@ namespace skribbl
 		}
 	}
 
+	void DataBase::addWord(const Words& word)
+	{
+		try {
+			m_db.insert(word);
+			std::cout << "Word added succesfully" << std::endl;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Error at adding word: " << e.what() << std::endl;
+		}
+	
+	}
+
 	void DataBase::populateStorage() {
 		std::vector<Words> words;
 		std::string currentWord;

@@ -43,6 +43,8 @@ namespace skribbl
         bool Initialize();
 
         void addUser(const User& user);
+        
+        void addWord(const Words& word);
 
         void populateStorage();
 
