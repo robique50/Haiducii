@@ -63,6 +63,8 @@ namespace skribbl
         void removeWord(const Words& word);
 
         void removeUser(const User& user);
+
+        void showUsersWithScoreGreaterThan(int score);
         
     private:
         const std::string db_file = "cuvinte.sqlite";

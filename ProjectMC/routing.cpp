@@ -49,7 +49,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
         }
 	});
 
-    CROW_ROUTE(app, "/receive_statistics")
+    CROW_ROUTE(m_app, "/receive_statistics")
         .methods("POST"_method)
         ([&user](const crow::request& req) {
         auto json = crow::json::load(req.body);

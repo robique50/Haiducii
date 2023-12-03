@@ -1,4 +1,4 @@
-#include "DataBase.h"
+#include "Database.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -166,5 +166,13 @@ namespace skribbl
 			}
 		}
 
+	void DataBase::showUsersWithScoreGreaterThan(int score)
+	{
+			auto users = m_db.select(&User::getScore > score);
+
+			for (const auto& user : users)
+			{
+				std::cout << "ID: " << user.getID() << ", Username: " << user.getUsername() << ", Score: " << user.getScore() << std::endl;
+			}
 	}
 
