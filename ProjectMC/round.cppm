@@ -4,6 +4,8 @@ import <algorithm> ;
 import <cctype>;
 import <string>;
 import <vector>;
+import <ctime>;
+import <time.h>;
 namespace skribbl
 {
 	export class Round

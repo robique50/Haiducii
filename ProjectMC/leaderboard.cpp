@@ -1,8 +1,8 @@
 import leaderboard;
 import user;
 using skribbl::Leaderboard;
-
-import <iostream>;
+#include <iostream>;
+#include <algorithm>
 
 void Leaderboard::sortUsersByScore()
 {
