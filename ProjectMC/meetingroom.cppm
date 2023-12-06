@@ -1,24 +1,32 @@
-module; 
-
 export module meetingroom;
 
-import <vector>;
 import <string>;
-import <cstdlib>;
-import <ctime>;
-import <random>;
+import <iostream>;
 import user;
-import game;
 
-namespace skribbl
+export namespace skribbl
 {
-    export class MeetingRoom {
+    class MeetingRoom {
     public:
-        Game game;
         MeetingRoom(const std::string& code);
-        void AddPlayer(const User& jucator);
+        void AddPlayer(const User& player);
+        void RemovePlayer(const User& player);
         void StartGame();
+        void EndGame();
+        void SetRoomCode(const std::string& code);
+        std::string GetRoomCode() const;
+        void SetCreatedByUserId(int userId);
+        int GetCreatedByUserId() const;
+        void SetGameState(const std::string& state);
+        std::string GetGameState() const;
+        void SetPlayerCount(int count);
+        int GetPlayerCount() const;
+
     private:
         std::string roomCode;
+        int createdByUserId;
+        std::string gameState;
+        int playerCount;
+        // Other necessary attributes as needed
     };
 }

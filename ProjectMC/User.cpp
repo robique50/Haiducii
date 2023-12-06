@@ -4,6 +4,7 @@ using skribbl::User;
 using skribbl::Statistics;
 
 
+
 Statistics::Statistics() : totalScore(0), averageScore(0), averageTime(0), gamesPlayed(0)
 {}
 

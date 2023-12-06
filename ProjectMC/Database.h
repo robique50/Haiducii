@@ -8,11 +8,9 @@
 #include <algorithm>
 #include <set>
 #include <random>
-import user;
-
-using skribbl::User;
-
 namespace sql = sqlite_orm;
+
+import user;
 
 namespace skribbl
 {

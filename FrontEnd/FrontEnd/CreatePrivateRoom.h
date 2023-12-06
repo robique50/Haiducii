@@ -8,7 +8,7 @@ class CreatePrivateRoom : public QMainWindow
 	Q_OBJECT
 
 public:
-	CreatePrivateRoom(QWidget *parent = nullptr);
+	CreatePrivateRoom(QWidget *parent = nullptr,int userID=0);
 	~CreatePrivateRoom();
 
 private slots:
@@ -18,4 +18,5 @@ signals:
 	void createPrivateRoomSignal();
 private:
 	Ui::CreatePrivateRoomClass ui;
+	int userID;
 };

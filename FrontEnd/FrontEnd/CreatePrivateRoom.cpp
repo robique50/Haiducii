@@ -1,7 +1,7 @@
 #include "CreatePrivateRoom.h"
 
-CreatePrivateRoom::CreatePrivateRoom(QWidget *parent)
-	: QMainWindow(parent)
+CreatePrivateRoom::CreatePrivateRoom(QWidget *parent,int userID)
+	: QMainWindow(parent),userID(userID)
 {
 	ui.setupUi(this);
 }

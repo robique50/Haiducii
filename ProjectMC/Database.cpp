@@ -41,7 +41,7 @@ namespace skribbl
 		catch (const std::exception& e) {
 			std::cerr << "Error at adding word: " << e.what() << std::endl;
 		}
-	
+
 	}
 
 	void DataBase::populateStorage() {
@@ -89,7 +89,7 @@ namespace skribbl
 				<< user.getUsername() << ", Password: " << user.getPassword() << std::endl;
 		}
 	}
-	
+
 
 	void DataBase::showWordsFromDatabase()
 	{
@@ -129,20 +129,20 @@ namespace skribbl
 	User DataBase::getUserByUsername(const std::string& username)
 	{
 		try {
-			
+
 			auto allUsers = m_db.get_all<User>();
 
-			
+
 			for (const auto& user : allUsers) {
 				if (user.getUsername() == username) {
-					return user; 
+					return user;
 				}
 			}
 		}
 		catch (const std::exception& e) {
 			std::cerr << "Error retrieving user '" << username << "': " << e.what() << std::endl;
 		}
-		return User(-1, "", ""); 
+		return User(-1, "", "");
 	}
 	void DataBase::removeWord(const Words& word)
 	{
@@ -157,22 +157,24 @@ namespace skribbl
 
 	void DataBase::removeUser(const User& user)
 	{
-			try {
-				m_db.remove<User>(user.getID());
-				std::cout << "User removed successfully" << std::endl;
-			}
-			catch (const std::exception& e) {
-				std::cerr << "Error at removing user: " << e.what() << std::endl;
-			}
+		try {
+			m_db.remove<User>(user.getID());
+			std::cout << "User removed successfully" << std::endl;
 		}
+		catch (const std::exception& e) {
+			std::cerr << "Error at removing user: " << e.what() << std::endl;
+		}
+	}
 
 	void DataBase::showUsersWithScoreGreaterThan(int score)
 	{
-			auto users = m_db.select(&User::getScore > score);
+		
+		auto users = m_db.get_all<User>(sql::where(sql::c(&User::getScore) > score));
 
-			for (const auto& user : users)
-			{
-				std::cout << "ID: " << user.getID() << ", Username: " << user.getUsername() << ", Score: " << user.getScore() << std::endl;
-			}
+		for (const auto& user : users)
+		{
+			std::cout << "ID: " << user.getID() << ", Username: " << user.getUsername() << ", Score: " << user.getScore() << std::endl;
+		}
 	}
+}
 

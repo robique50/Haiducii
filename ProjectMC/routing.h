@@ -5,8 +5,8 @@
 #include "Database.h"
 #include <vector>
 
-
 import user;
+
 namespace skribbl
 {
 	class Routing

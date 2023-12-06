@@ -42,39 +42,51 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 
         User user = db.getUserByUsername(username);
         if (user.isValid() && user.getPassword() == password) {
-            return crow::response(200, "Login successful");
+            int userID = user.getID();
+
+            // Ensure the user ID is valid
+            if (userID == -1) {
+                return crow::response(401, "User not found");
+            }
+
+            // Create a JSON object for the response
+            crow::json::wvalue response;
+            response["message"] = "Login successful";
+            response["userID"] = userID;
+
+            return crow::response(200, response);
         }
         else {
             return crow::response(401, "Invalid username or password");
         }
 	});
 
-    CROW_ROUTE(m_app, "/receive_statistics")
-        .methods("POST"_method)
+   /* CROW_ROUTE(m_app, "/receive_statistics")
+        .methods("post"_method)
         ([&user](const crow::request& req) {
         auto json = crow::json::load(req.body);
         if (!json) {
-            return crow::response(400, "Invalid JSON");
+            return crow::response(400, "invalid json");
         }
 
-        user.updateStatistics(json["score"].i(), json["time"].d());
+        user.updatestatistics(json["score"].i(), json["time"].d());
 
-        return crow::response(200, "Statistics received successfully");
+        return crow::response(200, "statistics received successfully");
             });
 
-    CROW_ROUTE(m_app, "/getWords")([&db]() {
+    CROW_ROUTE(m_app, "/getwords")([&db]() {
         std::vector<crow::json::wvalue> words_json;
 
-        auto words = db.getRandomWords(16);
+        auto words = db.getrandomwords(16);
         for (const auto& word : words)
         {
             words_json.push_back(crow::json::wvalue{
-                {"id", word.getId()},
-                {"word", word.getWord()}
+                {"id", word.getid()},
+                {"word", word.getword()}
                 });
         }
         return crow::json::wvalue{ words_json };
-        });
+        });*/
 
 	m_app.port(18080).multithreaded().run();
 }   
