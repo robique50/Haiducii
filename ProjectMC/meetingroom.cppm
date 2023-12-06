@@ -4,23 +4,23 @@ import <string>;
 import <iostream>;
 import user;
 
-export namespace skribbl
+namespace skribbl
 {
-    class MeetingRoom {
+    export class MeetingRoom {
     public:
         MeetingRoom(const std::string& code);
-        void AddPlayer(const User& player);
-        void RemovePlayer(const User& player);
-        void StartGame();
-        void EndGame();
-        void SetRoomCode(const std::string& code);
-        std::string GetRoomCode() const;
-        void SetCreatedByUserId(int userId);
-        int GetCreatedByUserId() const;
-        void SetGameState(const std::string& state);
-        std::string GetGameState() const;
-        void SetPlayerCount(int count);
-        int GetPlayerCount() const;
+        void addPlayer(const User& player);
+        void removePlayer(const User& player);
+        void startGame();
+        void endGame();
+        void setRoomCode(const std::string& code);
+        std::string getRoomCode() const;    
+        void setCreatedByUserId(int userId);
+        int getCreatedByUserId() const;
+        void setGameState(const std::string& state);
+        std::string getGameState() const;
+        void setPlayerCount(int count);
+        int getPlayerCount() const;
 
     private:
         std::string roomCode;

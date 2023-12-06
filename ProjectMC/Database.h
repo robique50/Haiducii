@@ -11,6 +11,7 @@
 namespace sql = sqlite_orm;
 
 import user;
+import meetingroom;
 
 namespace skribbl
 {
@@ -29,6 +30,13 @@ namespace skribbl
                 sql::make_column("fullname", &User::setFullname, &User::getFullname),
                 sql::make_column("username", &User::setUsername, &User::getUsername),
                 sql::make_column("password", &User::setPassword, &User::getPassword)
+            ),
+            sql::make_table(
+                "MeetingRoom",
+                sql::make_column("roomCode", &MeetingRoom::SetRoomCode, &MeetingRoom::GetRoomCode, sql::primary_key()),
+                sql::make_column("createdByUserId", &MeetingRoom::SetCreatedByUserId, &MeetingRoom::GetCreatedByUserId),
+                sql::make_column("gameState", &MeetingRoom::SetGameState, &MeetingRoom::GetGameState),
+                sql::make_column("playerCount", &MeetingRoom::SetPlayerCount, &MeetingRoom::GetPlayerCount)
             )
         );
     }

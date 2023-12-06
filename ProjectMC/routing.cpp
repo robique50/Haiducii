@@ -25,7 +25,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
             return crow::response(200, "User registered successfully");
         }
         catch (const std::exception& e) {
-            // Handle specific exceptions if necessary
+            
             return crow::response(500, "Error registering user: " + std::string(e.what()));
         }
         });
@@ -44,12 +44,12 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
         if (user.isValid() && user.getPassword() == password) {
             int userID = user.getID();
 
-            // Ensure the user ID is valid
+            
             if (userID == -1) {
                 return crow::response(401, "User not found");
             }
 
-            // Create a JSON object for the response
+            
             crow::json::wvalue response;
             response["message"] = "Login successful";
             response["userID"] = userID;
