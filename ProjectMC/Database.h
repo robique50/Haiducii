@@ -33,10 +33,10 @@ namespace skribbl
             ),
             sql::make_table(
                 "MeetingRoom",
-                sql::make_column("roomCode", &MeetingRoom::SetRoomCode, &MeetingRoom::GetRoomCode, sql::primary_key()),
-                sql::make_column("createdByUserId", &MeetingRoom::SetCreatedByUserId, &MeetingRoom::GetCreatedByUserId),
-                sql::make_column("gameState", &MeetingRoom::SetGameState, &MeetingRoom::GetGameState),
-                sql::make_column("playerCount", &MeetingRoom::SetPlayerCount, &MeetingRoom::GetPlayerCount)
+                sql::make_column("roomCode", &MeetingRoom::setRoomCode, &MeetingRoom::getRoomCode, sql::primary_key()),
+                sql::make_column("createdByUserId", &MeetingRoom::setCreatedByUserId, &MeetingRoom::getCreatedByUserId),
+                sql::make_column("gameState", &MeetingRoom::setGameState, &MeetingRoom::getGameState),
+                sql::make_column("playerCount", &MeetingRoom::setPlayerCount, &MeetingRoom::getPlayerCount)
             )
         );
     }
@@ -52,9 +52,13 @@ namespace skribbl
         
         void addWord(const Words& word);
 
+        void addMeetingRoom(const MeetingRoom& meetingRoom);
+
         void populateStorage();
 
         int getWordsCount();
+        
+        MeetingRoom getMeetingRoomByCode(const std::string& code);
 
         bool userExists(User user);
 
@@ -69,6 +73,8 @@ namespace skribbl
         void removeWord(const Words& word);
 
         void removeUser(const User& user);
+
+        void removeMeetingRoom(const MeetingRoom& meetingRoom);
 
         void showUsersWithScoreGreaterThan(int score);
         

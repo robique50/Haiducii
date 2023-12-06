@@ -2,6 +2,9 @@ import meetingroom;
 
 namespace skribbl
 {
+    MeetingRoom::MeetingRoom()
+    {
+    }
     MeetingRoom::MeetingRoom(const std::string& code) : roomCode(code), createdByUserId(0), gameState("waiting"), playerCount(0) {
         std::cout << "The meeting room was created with code " << roomCode << ".\n";
     }
@@ -14,8 +17,8 @@ namespace skribbl
 
     void MeetingRoom::removePlayer(const User& player)
     {
-		playerCount--;
-		std::cout << "Player " << player.getUsername() << " was removed from the meeting room.\n";
+        playerCount--;
+        std::cout << "Player " << player.getUsername() << " was removed from the meeting room.\n";
     }
 
     void MeetingRoom::startGame()
@@ -27,17 +30,16 @@ namespace skribbl
         gameState = "in progress";
         std::cout << "The game started in the room " << roomCode << "!\n";
     }
-    }
 
     void MeetingRoom::endGame()
     {
         gameState = "finished";
-		std::cout << "The game ended in the room " << roomCode << ".\n";
+        std::cout << "The game ended in the room " << roomCode << ".\n";
     }
 
     void MeetingRoom::setRoomCode(const std::string& code)
     {
-
+        roomCode = code;
     }
 
     std::string MeetingRoom::getRoomCode() const
@@ -47,33 +49,37 @@ namespace skribbl
 
     void MeetingRoom::setCreatedByUserId(int userId)
     {
+        createdByUserId = userId;
     }
 
     int MeetingRoom::getCreatedByUserId() const
     {
-        return 0;
+        return createdByUserId;
     }
 
     void MeetingRoom::setGameState(const std::string& state)
     {
+        gameState = state;
     }
 
     std::string MeetingRoom::getGameState() const
     {
-        return std::string();
+        return gameState;
     }
 
     void MeetingRoom::setPlayerCount(int count)
     {
+        playerCount = count;
     }
 
     int MeetingRoom::getPlayerCount() const
     {
-        return 0;
+        return playerCount;
     }
+}
+
 
 
 
 
    
-}

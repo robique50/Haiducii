@@ -8,6 +8,7 @@ namespace skribbl
 {
     export class MeetingRoom {
     public:
+        MeetingRoom();
         MeetingRoom(const std::string& code);
         void addPlayer(const User& player);
         void removePlayer(const User& player);

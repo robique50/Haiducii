@@ -44,6 +44,17 @@ namespace skribbl
 
 	}
 
+	void DataBase::addMeetingRoom(const MeetingRoom& meetingRoom)
+	{
+		try {
+			m_db.replace(meetingRoom);
+			std::cout << "Meeting room added succesfully" << std::endl;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Error at adding meeting room: " << e.what() << std::endl;
+		}
+	}
+
 	void DataBase::populateStorage() {
 		std::vector<Words> words;
 		std::string currentWord;
@@ -67,6 +78,19 @@ namespace skribbl
 	{
 		int WordsCount = m_db.count<Words>();
 		return WordsCount;
+	}
+
+	MeetingRoom DataBase::getMeetingRoomByCode(const std::string& code)
+	{
+		try{
+		auto room = m_db.get<MeetingRoom>(sql::where(sql::c(&MeetingRoom::getRoomCode) == code));
+		return room;
+		}
+			catch (const std::exception& e) {
+			std::cerr << "Error retrieving meeting room by code: " << e.what() << std::endl;
+		}
+		return MeetingRoom(""); // Return an empty or default MeetingRoom object in case of error
+
 	}
 
 	bool DataBase::userExists(User user1)
@@ -163,6 +187,17 @@ namespace skribbl
 		}
 		catch (const std::exception& e) {
 			std::cerr << "Error at removing user: " << e.what() << std::endl;
+		}
+	}
+
+	void DataBase::removeMeetingRoom(const MeetingRoom& meetingRoom)
+	{
+		try {
+			m_db.remove<MeetingRoom>(meetingRoom.getRoomCode());
+			std::cout << "Meeting room removed successfully" << std::endl;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Error at removing meeting room: " << e.what() << std::endl;
 		}
 	}
 
