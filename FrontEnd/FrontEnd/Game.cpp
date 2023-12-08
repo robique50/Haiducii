@@ -11,7 +11,7 @@ Game::Game(QWidget *parent,int userID)
 	//bool privateRoomConnection = connect(createPrivateRoomWindow, &CreatePrivateRoom::createPrivateRoomSignal, this, &Game::show);
 	//bool playWindowConnection = connect(playWindow, &Play::playWindowSignal, this, &Game::show);
 	connect(createPrivateRoomWindow, &CreatePrivateRoom::createPrivateRoomSignal, this, &Game::show);
-	connect(playWindow, &Play::playWindowSignal, this, &Game::show);
+	connect(ui.pushButton_Play, &QPushButton::clicked, this, &Game::playButtonClicked);
 	/*if (privateRoomConnection) {
 		QMessageBox::information(this, "Connection Status", "Connection to createPrivateRoomSignal successful!");
 	}
@@ -42,10 +42,19 @@ void Game::setUserID(int userID)
 	this->userID = userID;
 }
 
-void Game::on_pushButton_Play_clicked()
+/*void Game::on_pushButton_Play_clicked()
 {
 	if (playWindow) {
 		playWindow->show();
+		this->close();
+	}
+}*/
+
+void Game::playButtonClicked()
+{
+	if (mainWindow) {
+		MainWindow* drawingBoard = new MainWindow;
+		drawingBoard->show();
 		this->close();
 	}
 }

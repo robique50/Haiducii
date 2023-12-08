@@ -55,12 +55,24 @@ void MainWindow::createActions()
 
 void MainWindow::createMenus()
 {
-    
+    optionMenu = new QMenu(tr("&Options"), this);
+    optionMenu->addAction(penColorAct);
+    optionMenu->addAction(penWidthAct);
+    optionMenu->addSeparator();
+    optionMenu->addAction(clearScreenAct);
+    menuBar()->addMenu(optionMenu);
 }
 
 void MainWindow::penWidth()
 {
+    bool ok;
 
+    int newWidth = QInputDialog::getInt(this, tr("Scribble"),
+        tr("Select pen width:"),
+        drawingBoard->penWidth(),
+        1, 50, 1, &ok);
+    if (ok)
+        drawingBoard->setPenWidth(newWidth);
 }
 
 void MainWindow::showMainWindow()

@@ -5,6 +5,7 @@
 #include "CreatePrivateRoom.h"
 #include "Play.h"
 #include <qmessagebox.h>
+#include "mainwindow.h"
 
 class Game : public QMainWindow
 {
@@ -17,12 +18,15 @@ public:
 
 private slots:
 	 virtual void on_pushButton_create_private_room_clicked();
-	 virtual void on_pushButton_Play_clicked();
+	 //virtual void on_pushButton_Play_clicked();
+	 void playButtonClicked();
 
 
 private:
 	Ui::GameClass ui;
 	CreatePrivateRoom* createPrivateRoomWindow = nullptr;
 	Play* playWindow = nullptr;
+	MainWindow*  mainWindow= nullptr;
+
 	int userID;
 };
