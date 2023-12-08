@@ -47,12 +47,19 @@ void DrawingBoard::mouseMoveEvent(QMouseEvent* event)
 
 void DrawingBoard::mouseReleaseEvent(QMouseEvent* event)
 {
-
+    if (event->button() == Qt::LeftButton) {
+        lastPoint = event->pos();
+        scribbling = true;
+    }
 }
 
 void DrawingBoard::paintEvent(QPaintEvent* event)
 {
+    QPainter painter(this);
 
+    QRect dirtyRect = event->rect();
+
+    painter.drawImage(dirtyRect, image, dirtyRect);
 }
 
 void DrawingBoard::resizeEvent(QResizeEvent* event)
