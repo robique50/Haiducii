@@ -13,7 +13,7 @@ class DrawingBoard :public QWidget
 	Q_OBJECT
 
 public:
-	DrawingBoard();
+	DrawingBoard(QWidget* parent=0);
     void setPenColor(const QColor& newColor);
     void setPenWidth(int newWidth);
 
