@@ -47,9 +47,9 @@ void DrawingBoard::mouseMoveEvent(QMouseEvent* event)
 
 void DrawingBoard::mouseReleaseEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton) {
-        lastPoint = event->pos();
-        scribbling = true;
+    if (event->button() == Qt::LeftButton && scribbling) {
+        drawLineTo(event->pos());
+        scribbling = false;
     }
 }
 
@@ -64,12 +64,22 @@ void DrawingBoard::paintEvent(QPaintEvent* event)
 
 void DrawingBoard::resizeEvent(QResizeEvent* event)
 {
+    if (width() > image.width() || height() > image.height()) {
+        int newWidth = qMax(width() + 128, image.width());
+        int newHeight = qMax(height() + 128, image.height());
+        resizeImage(&image, QSize(newWidth, newHeight));
+        update();
+    }
+    QWidget::resizeEvent(event);
 
 }
 
 void DrawingBoard::mousePressEvent(QMouseEvent* event)
 {
-
+    if (event->button() == Qt::LeftButton) {
+        lastPoint = event->pos();
+        scribbling = true;
+    }
 }
 
 void DrawingBoard::drawLineTo(const QPoint& endPoint)
