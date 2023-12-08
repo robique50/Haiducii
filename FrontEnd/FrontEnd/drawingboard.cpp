@@ -84,10 +84,32 @@ void DrawingBoard::mousePressEvent(QMouseEvent* event)
 
 void DrawingBoard::drawLineTo(const QPoint& endPoint)
 {
+    QPainter painter(&image);
 
+    painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap,
+        Qt::RoundJoin));
+
+    painter.drawLine(lastPoint, endPoint);
+
+    modified = true;
+
+    int rad = (myPenWidth / 2) + 2;
+
+    update(QRect(lastPoint, endPoint).normalized()
+        .adjusted(-rad, -rad, +rad, +rad));
+
+    lastPoint = endPoint;
 }
 
 void DrawingBoard::resizeImage(QImage* image, const QSize& newSize)
 {
+    if (image->size() == newSize)
+        return;
 
+    QImage newImage(newSize, QImage::Format_RGB32);
+    newImage.fill(qRgb(255, 255, 255));
+
+    QPainter painter(&newImage);
+    painter.drawImage(QPoint(0, 0), *image);
+    *image = newImage;
 }

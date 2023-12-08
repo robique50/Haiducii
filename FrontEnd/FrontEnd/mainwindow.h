@@ -7,6 +7,7 @@
 #include <QMainWindow>
 #include "ui_Game.h"
 #include "ui_mainwindow.h"
+#include "drawingboard.h"
 
 class MainWindow : public QMainWindow
 {
@@ -35,6 +36,8 @@ private:
     QAction* penColorAct = nullptr;
     QAction* penWidthAct = nullptr;
     QAction* clearScreenAct = nullptr;
+
+    DrawingBoard* drawingBoard = nullptr;
 
     Ui::MainWindow uiMain;
     Ui::GameClass uiGame;
