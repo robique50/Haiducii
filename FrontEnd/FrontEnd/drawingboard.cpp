@@ -22,20 +22,27 @@ DrawingBoard::DrawingBoard(QWidget* parent)
 
 void DrawingBoard::setPenColor(const QColor& newColor)
 {
+    myPenColor = newColor;
 }
 
 void DrawingBoard::setPenWidth(int newWidth)
 {
-
+    myPenWidth = newWidth;
 }
 
 void DrawingBoard::clearImage()
 {
-
+    image.fill(qRgb(255, 255, 255));
+    modified = true;
+    update();
 }
 
 void DrawingBoard::mouseMoveEvent(QMouseEvent* event)
 {
+    if (event->button() == Qt::LeftButton) {
+        lastPoint = event->pos();
+        scribbling = true;
+    }
 }
 
 void DrawingBoard::mouseReleaseEvent(QMouseEvent* event)
@@ -54,6 +61,16 @@ void DrawingBoard::resizeEvent(QResizeEvent* event)
 }
 
 void DrawingBoard::mousePressEvent(QMouseEvent* event)
+{
+
+}
+
+void DrawingBoard::drawLineTo(const QPoint& endPoint)
+{
+
+}
+
+void DrawingBoard::resizeImage(QImage* image, const QSize& newSize)
 {
 
 }

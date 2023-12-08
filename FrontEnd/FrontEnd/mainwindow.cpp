@@ -1,5 +1,6 @@
 #include <QtWidgets>
 #include "mainwindow.h"
+#include "drawingboard.h"
 
 MainWindow::MainWindow()
 {
