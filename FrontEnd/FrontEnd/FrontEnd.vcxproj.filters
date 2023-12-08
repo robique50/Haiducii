@@ -55,6 +55,12 @@
     <ClCompile Include="CreatePrivateRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drawingboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Register.h">
@@ -69,6 +75,12 @@
     <QtMoc Include="CreatePrivateRoom.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="drawingboard.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Register.ui">
@@ -81,6 +93,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="CreatePrivateRoom.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="mainwindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -39,12 +39,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtModules>core;gui;network;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
-    <QtInstall>6.6.0_msvc2019_64</QtInstall>
+    <QtInstall>6.6.0</QtInstall>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtModules>core;gui;network;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
-    <QtInstall>6.6.0_msvc2019_64</QtInstall>
+    <QtInstall>6.6.0</QtInstall>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -102,7 +102,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreatePrivateRoom.cpp" />
+    <ClCompile Include="drawingboard.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Play.cpp" />
     <ClCompile Include="Register.cpp" />
     <QtRcc Include="FrontEnd.qrc" />
@@ -113,6 +115,7 @@
     <ClCompile Include="FrontEnd.cpp" />
     <ClCompile Include="main.cpp" />
     <QtUic Include="Game.ui" />
+    <QtUic Include="mainwindow.ui" />
     <QtUic Include="Play.ui" />
     <QtUic Include="Register.ui" />
   </ItemGroup>
@@ -127,6 +130,12 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="CreatePrivateRoom.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="mainwindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="drawingboard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
