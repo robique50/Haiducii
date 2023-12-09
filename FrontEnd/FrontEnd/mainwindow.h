@@ -32,6 +32,7 @@ private:
 
     QMenu* optionMenu = nullptr;
 
+    QAction* eraseAct = nullptr;
     QAction* exitAct = nullptr;
     QAction* penColorAct = nullptr;
     QAction* penWidthAct = nullptr;

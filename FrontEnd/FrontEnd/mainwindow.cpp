@@ -4,6 +4,7 @@
 
 MainWindow::MainWindow()
 {
+    {
     drawingBoard = new DrawingBoard;
 
         QVBoxLayout* mainLayout = new QVBoxLayout;
@@ -18,6 +19,7 @@ MainWindow::MainWindow()
     setWindowTitle(tr("Skribbl"));
     uiMain.verticalLayout->addWidget(drawingBoard);
     resize(500, 500);
+}
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -54,6 +56,10 @@ void MainWindow::createActions()
     penWidthAct = new QAction(tr("Pen &Width..."), this);
     connect(penWidthAct, SIGNAL(triggered()), this, SLOT(penWidth()));
 
+    eraseAct = new QAction(tr("&Erase Mode"), this);
+    eraseAct->setShortcut(tr("Ctrl+E"));
+    connect(eraseAct, SIGNAL(triggered()), drawingBoard, SLOT(toggleEraseMode()));
+
     clearScreenAct = new QAction(tr("&Clear Screen"), this);
     clearScreenAct->setShortcut(tr("Ctrl+L"));
     connect(clearScreenAct, SIGNAL(triggered()),
@@ -67,6 +73,7 @@ void MainWindow::createMenus()
     optionMenu->addAction(penWidthAct);
     optionMenu->addSeparator();
     optionMenu->addAction(clearScreenAct);
+    optionMenu->addAction(eraseAct);
     menuBar()->addMenu(optionMenu);
 }
 

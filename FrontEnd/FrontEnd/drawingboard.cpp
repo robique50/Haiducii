@@ -10,7 +10,14 @@
 #include "drawingboard.h"
 
 DrawingBoard::DrawingBoard(QWidget* parent)
-    : QWidget(parent)
+    : QWidget(parent),
+    modified(false),
+    scribbling(false),
+    myPenWidth(5),
+    myPenColor(Qt::blue),
+    eraserMode(false),
+    currentMode(PenMode::Pen),
+    originalPenColor(myPenColor)
 {
     setAttribute(Qt::WA_StaticContents);
 
@@ -28,21 +35,31 @@ void DrawingBoard::setPenColor(const QColor& newColor)
 
 void DrawingBoard::setPenWidth(int newWidth)
 {
-    myPenWidth = newWidth;
+    myPenWidth = qBound(1, newWidth, 50);
 }
 
-void DrawingBoard::setDrawMode(DrawMode mode)
+void DrawingBoard::setOriginalColor(const QColor& newColor)
 {
-    currentDrawMode = mode;
+	originalPenColor = newColor;
+}
 
-    if (mode == Eraser) {
-        originalPenColor = myPenColor;
-        myPenColor = Qt::white;
-        setPenColor(myPenColor);
+void DrawingBoard::setDrawingMode(PenMode mode)
+{
+    currentMode = mode;
+
+    if (currentMode == PenMode::Eraser) {
+        setPenColor(QColor(255, 255, 255)); 
+        setPenWidth(myPenWidth);
     }
     else {
-        restoreOriginalColor();
+        setPenColor(originalPenColor);
     }
+
+}
+
+void DrawingBoard::setModified(bool modified)
+{
+	this->modified = modified;
 }
 
 void DrawingBoard::restoreOriginalColor()
@@ -71,11 +88,16 @@ void DrawingBoard::setEraserMode()
     }
 }
 
+void DrawingBoard::toggleEraseMode()
+{
+    setDrawingMode(currentMode == PenMode::Pen ? PenMode::Eraser : PenMode::Pen);
+}
+
 void DrawingBoard::mouseMoveEvent(QMouseEvent* event)
 {
     if ((event->buttons() & Qt::LeftButton) && scribbling)
     {
-        if (currentDrawMode == Eraser) {
+        if (currentMode == PenMode::Eraser) {
             drawLineTo(event->pos(),true);
     }
         else {
@@ -87,7 +109,7 @@ void DrawingBoard::mouseMoveEvent(QMouseEvent* event)
 void DrawingBoard::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton && scribbling) {
-        if (currentDrawMode == Eraser) {
+        if (currentMode == PenMode::Eraser) {
             drawLineTo(event->pos(), true);
         }
         else {
@@ -108,9 +130,8 @@ void DrawingBoard::paintEvent(QPaintEvent* event)
 
 void DrawingBoard::resizeEvent(QResizeEvent* event)
 {
-    if (width() > image.width() || height() > image.height()) {
-        int newWidth = qMax(width() + 128, image.width());
-        int newHeight = qMax(height() + 128, image.height());
+    int newWidth = qMax(contentsRect().width() + 128, image.width());
+    int newHeight = qMax(contentsRect().height() + 128, image.height());
         resizeImage(&image, QSize(newWidth, newHeight));
         update();
     }
@@ -123,10 +144,8 @@ void DrawingBoard::mousePressEvent(QMouseEvent* event)
     if (event->button() == Qt::LeftButton) {
         lastPoint = event->pos();
         scribbling = true;
-    }
-
-    if (currentDrawMode == Eraser) {
-        myPenColor = Qt::white;
+        lastPoint = event->pos();
+        drawLineTo(lastPoint, currentMode == PenMode::Eraser);
 }
 }
 
