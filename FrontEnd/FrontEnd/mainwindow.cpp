@@ -5,7 +5,14 @@
 MainWindow::MainWindow()
 {
     drawingBoard = new DrawingBoard;
-    setCentralWidget(drawingBoard);
+
+        QVBoxLayout* mainLayout = new QVBoxLayout;
+        mainLayout->addWidget(drawingBoard);
+
+        QWidget* centralWidget = new QWidget;
+        centralWidget->setLayout(mainLayout);
+        setCentralWidget(centralWidget);
+
     createActions();
     createMenus();
     setWindowTitle(tr("Skribbl"));
