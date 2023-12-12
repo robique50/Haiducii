@@ -26,7 +26,12 @@ MainWindow::MainWindow()
     connect(uiMain.lineEdit_chatInput, &QLineEdit::returnPressed, this, &MainWindow::onChatInputReturnPressed);
     connect(uiMain.pushButton_leave, &QPushButton::clicked, this, &MainWindow::onLeaveGameButtonClicked);
     connectPenColor();
-
+    connect(uiMain.pushButton_ClearDrawing, &QPushButton::clicked, this, [this]() {
+        drawingBoard->clearImage();
+        });
+    connect(uiMain.hSliderPenWidth, &QSlider::valueChanged, this, [this](int newValue) {
+        drawingBoard->setPenWidth(newValue);
+        });
 
     resize(1000, 800);
 }

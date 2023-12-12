@@ -10,18 +10,6 @@
     <height>800</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>1000</width>
-    <height>800</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>1000</width>
-    <height>800</height>
-   </size>
-  </property>
   <property name="mouseTracking">
    <bool>false</bool>
   </property>
@@ -457,6 +445,35 @@ background-color: rgb(193, 6, 255);</string>
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QSlider" name="hSliderPenWidth">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>660</y>
+      <width>371</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_ClearDrawing">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>650</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(:/FrontEnd/assets/images/rsz_1pozagunoi.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>label_background</zorder>
    <zorder>verticalLayoutWidget</zorder>
    <zorder>verticalLayoutWidget_2</zorder>
@@ -473,6 +490,8 @@ background-color: rgb(193, 6, 255);</string>
    <zorder>pushColorGreen</zorder>
    <zorder>pushColorBlue</zorder>
    <zorder>pushColorPurple</zorder>
+   <zorder>hSliderPenWidth</zorder>
+   <zorder>pushButton_ClearDrawing</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
