@@ -52,11 +52,9 @@ void Game::setUserID(int userID)
 
 void Game::playButtonClicked()
 {
-	if (mainWindow) {
 		MainWindow* drawingBoard = new MainWindow;
 		drawingBoard->show();
 		this->close();
-	}
 }
 
 void Game::on_pushButton_create_private_room_clicked()

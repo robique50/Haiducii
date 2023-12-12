@@ -17,7 +17,7 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
     setWindowTitle(tr("Skribbl"));
-    uiMain.verticalLayout->addWidget(drawingBoard);
+    //uiMain.verticalLayout->addWidget(drawingBoard);
     resize(500, 500);
 }
 }

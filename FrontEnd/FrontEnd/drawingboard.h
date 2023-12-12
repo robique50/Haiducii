@@ -29,7 +29,6 @@ public:
     bool isModified() const { return modified; }
     QColor penColor() const { return myPenColor; }
     int penWidth() const { return myPenWidth; }
-    void clearImage();
 
 public slots:
     void clearImage();

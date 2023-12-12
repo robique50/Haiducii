@@ -101,8 +101,8 @@ void DrawingBoard::mouseMoveEvent(QMouseEvent* event)
             drawLineTo(event->pos(),true);
     }
         else {
-            drawLineTo(event->pos(),false);
-}
+            drawLineTo(event->pos(), false);
+        }
     }
 }
 
@@ -135,9 +135,6 @@ void DrawingBoard::resizeEvent(QResizeEvent* event)
         resizeImage(&image, QSize(newWidth, newHeight));
         update();
     }
-    QWidget::resizeEvent(event);
-
-}
 
 void DrawingBoard::mousePressEvent(QMouseEvent* event)
 {
@@ -146,9 +143,8 @@ void DrawingBoard::mousePressEvent(QMouseEvent* event)
         scribbling = true;
         lastPoint = event->pos();
         drawLineTo(lastPoint, currentMode == PenMode::Eraser);
+    }
 }
-}
-
 void DrawingBoard::drawLineTo(const QPoint& endPoint, bool eraseMode)
 {
     QPainter painter(&image);

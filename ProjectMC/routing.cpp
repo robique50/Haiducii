@@ -1,5 +1,6 @@
 #include "routing.h"
 #include "words.h"
+static const int numberOfWords = 16;
 
 void skribbl::Routing::Run(skribbl::DataBase& db)
 {
@@ -72,11 +73,10 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
         user.updatestatistics(json["score"].i(), json["time"].d());
 
         return crow::response(200, "statistics received successfully");
-            });
+            });*/
 
     CROW_ROUTE(m_app, "/getwords")([&db]() {
         std::vector<crow::json::wvalue> words_json;
-        std::array<>
         auto words = db.getRandomWords(numberOfWords);
         for (const auto& word : words)
         {
