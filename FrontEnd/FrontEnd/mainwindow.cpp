@@ -5,20 +5,15 @@
 MainWindow::MainWindow()
 {
     {
+    uiMain.setupUi(this);
     drawingBoard = new DrawingBoard;
-
-        QVBoxLayout* mainLayout = new QVBoxLayout;
-        mainLayout->addWidget(drawingBoard);
-
-        QWidget* centralWidget = new QWidget;
-        centralWidget->setLayout(mainLayout);
-        setCentralWidget(centralWidget);
 
     createActions();
     createMenus();
     setWindowTitle(tr("Skribbl"));
+    uiMain.verticalLayout_drawingBoard->addWidget(drawingBoard);
     //uiMain.verticalLayout->addWidget(drawingBoard);
-    resize(500, 500);
+    resize(1000, 800);
 }
 }
 

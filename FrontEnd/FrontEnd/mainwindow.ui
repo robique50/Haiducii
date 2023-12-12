@@ -28,6 +28,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="FrontEnd.qrc">
+    <normaloff>:/FrontEnd/assets/images/Skribbl.io_2022_(Icon).png</normaloff>:/FrontEnd/assets/images/Skribbl.io_2022_(Icon).png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
@@ -84,8 +88,31 @@
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_numberOfPlayerdAndRoundNumbers">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QListWidget" name="listWidget"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="styleSheet">
+        <string notr="true">text-align:center;</string>
+       </property>
+       <property name="text">
+        <string>Room Code</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_leave">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>Leave</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -117,6 +144,19 @@
       <string>Words to be guessed</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>10</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Timer</string>
+     </property>
+    </widget>
    </widget>
    <zorder>label_background</zorder>
    <zorder>verticalLayoutWidget</zorder>
@@ -124,6 +164,7 @@
    <zorder>verticalLayoutWidget_3</zorder>
    <zorder>groupBox</zorder>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -134,7 +175,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
   <include location="FrontEnd.qrc"/>
