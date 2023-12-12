@@ -13,6 +13,7 @@ MainWindow::MainWindow()
     setWindowTitle(tr("Skribbl"));
     uiMain.verticalLayout_drawingBoard->addWidget(drawingBoard);
     connect(uiMain.lineEdit_chatInput, &QLineEdit::returnPressed, this, &MainWindow::onChatInputReturnPressed);
+    connect(uiMain.pushButton_leave, &QPushButton::clicked, this, &MainWindow::onLeaveGameButtonClicked);
     
     resize(1000, 800);
 }
@@ -48,6 +49,12 @@ void MainWindow::onChatInputReturnPressed()
     uiMain.textEdit_chatDislay->append(message);
 	uiMain.lineEdit_chatInput->clear();
     }
+}
+
+void MainWindow::onLeaveGameButtonClicked()
+{
+    emit leaveGame();
+    this->hide(); 
 }
 
 void MainWindow::createActions()

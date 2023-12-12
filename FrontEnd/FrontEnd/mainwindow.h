@@ -26,6 +26,10 @@ private slots:
     void penWidth();
     void penColor();
     void onChatInputReturnPressed();
+    void onLeaveGameButtonClicked();
+
+signals:
+    void leaveGame();
 
 private:
     void createActions();

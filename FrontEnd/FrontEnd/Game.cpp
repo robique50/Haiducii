@@ -42,19 +42,23 @@ void Game::setUserID(int userID)
 	this->userID = userID;
 }
 
-/*void Game::on_pushButton_Play_clicked()
-{
-	if (playWindow) {
-		playWindow->show();
-		this->close();
-	}
-}*/
+
 
 void Game::playButtonClicked()
 {
-		MainWindow* drawingBoard = new MainWindow;
-		drawingBoard->show();
-		this->close();
+	mainWindow = new MainWindow;
+	connect(mainWindow, &MainWindow::leaveGame, this, &Game::showAndHandleLeave);
+	mainWindow->show();
+	this->hide();
+}
+
+void Game::showAndHandleLeave()
+{
+	this->show();
+	if (mainWindow) {
+		mainWindow->deleteLater();
+		mainWindow = nullptr;
+	}
 }
 
 void Game::on_pushButton_create_private_room_clicked()

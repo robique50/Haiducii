@@ -20,6 +20,7 @@ private slots:
 	 virtual void on_pushButton_create_private_room_clicked();
 	 //virtual void on_pushButton_Play_clicked();
 	 void playButtonClicked();
+	 void showAndHandleLeave();
 
 
 private:
