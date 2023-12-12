@@ -32,7 +32,9 @@ MainWindow::MainWindow()
     connect(uiMain.hSliderPenWidth, &QSlider::valueChanged, this, [this](int newValue) {
         drawingBoard->setPenWidth(newValue);
         });
-
+		connect(uiMain.pushButton_FillDrawing, &QPushButton::clicked, this, [this]() {
+		drawingBoard->fillColorAtLastPoint();
+		});
     resize(1000, 800);
 }
 }

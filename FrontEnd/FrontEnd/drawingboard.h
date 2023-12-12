@@ -54,6 +54,8 @@ private:
     QColor originalPenColor;
     QImage image;
     QPoint lastPoint;
+    QPoint lastClickPoint;
+    QColor fillColor;
 };
 #endif
 

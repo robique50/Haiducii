@@ -93,6 +93,32 @@ void DrawingBoard::toggleEraseMode()
     setDrawingMode(currentMode == PenMode::Pen ? PenMode::Eraser : PenMode::Pen);
 }
 
+void DrawingBoard::fillColor(const QPoint& point, const QColor& newColor)
+{
+    QColor oldColor = image.pixelColor(point);
+
+    if (oldColor == newColor) return;
+
+    std::stack<QPoint> stack;
+    stack.push(point);
+
+    while (!stack.empty()) {
+        QPoint current = stack.top();
+        stack.pop();
+
+        if (image.pixelColor(current) == oldColor) {
+            image.setPixelColor(current, newColor);
+
+            stack.push(QPoint(current.x() + 1, current.y()));
+            stack.push(QPoint(current.x() - 1, current.y()));
+            stack.push(QPoint(current.x(), current.y() + 1));
+            stack.push(QPoint(current.x(), current.y() - 1));
+        }
+    }
+
+    update();
+}
+
 void DrawingBoard::mouseMoveEvent(QMouseEvent* event)
 {
     if ((event->buttons() & Qt::LeftButton) && scribbling)
