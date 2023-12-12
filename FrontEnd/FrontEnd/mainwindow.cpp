@@ -7,6 +7,17 @@ MainWindow::MainWindow()
     {
     uiMain.setupUi(this);
     drawingBoard = new DrawingBoard;
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MainWindow::updateTimer);
+
+    // Setup the progress bar and label (Assuming you've set their object names in Qt Designer)
+    uiMain.progressBar_timer = findChild<QProgressBar*>("progressBar_timer");
+    uiMain.label_timer = findChild<QLabel*>("label_timer");
+
+    timeLeft = 10; // 2 minutes, for example
+    uiMain.progressBar_timer->setMaximum(timeLeft);
+    uiMain.progressBar_timer->setValue(timeLeft);
+    timer->start(1000); // Update every second
 
     createActions();
     createMenus();
@@ -57,6 +68,18 @@ void MainWindow::onLeaveGameButtonClicked()
     this->hide(); 
 }
 
+void MainWindow::updateTimer()
+{
+    timeLeft--;
+    uiMain.progressBar_timer->setValue(timeLeft);
+    uiMain.label_timer->setText(QString::number(timeLeft) + " seconds");
+
+    if (timeLeft <= 0) {
+        timer->stop();
+        endRound();
+    }
+}
+
 void MainWindow::createActions()
 {
     exitAct = new QAction(tr("&Exit"), this);
@@ -90,6 +113,25 @@ void MainWindow::createMenus()
     menuBar()->addMenu(optionMenu);
 }
 
+void MainWindow::endRound()
+{
+    QMessageBox::information(this, "Time's Up", "The round has ended.");
+    // Additional logic for ending the round
+    // Call startNewRound() after a delay or based on game logic
+    QTimer::singleShot(3000, this, &MainWindow::startNewRound); // Example: 3-second delay
+}
+
+void MainWindow::startNewRound()
+{
+    // Logic for starting a new round
+    timeLeft = 10; // Reset the timer for the new round
+    uiMain.progressBar_timer->setMaximum(timeLeft);
+    uiMain.progressBar_timer->setValue(timeLeft);
+    timer->start(1000);
+    drawingBoard->clearImage(); // Clear the drawing board
+    // Additional setup for the new round
+}
+
 void MainWindow::penWidth()
 {
     bool ok;
@@ -102,7 +144,3 @@ void MainWindow::penWidth()
         drawingBoard->setPenWidth(newWidth);
 }
 
-void MainWindow::showMainWindow()
-{
-    this->show();
-}

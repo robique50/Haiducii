@@ -15,9 +15,6 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow();
-public slots:
-    //void playButtonClicked();
-    void showMainWindow();
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -27,13 +24,17 @@ private slots:
     void penColor();
     void onChatInputReturnPressed();
     void onLeaveGameButtonClicked();
+    void updateTimer();
 
 signals:
     void leaveGame();
+    
 
 private:
     void createActions();
     void createMenus();
+    void endRound();
+    void startNewRound();
 
     QMenu* optionMenu = nullptr;
 
@@ -47,6 +48,10 @@ private:
 
     Ui::MainWindow uiMain;
     Ui::GameClass uiGame;
+
+    QTimer* timer;
+    int timeLeft;
+
 };
 
 #endif
