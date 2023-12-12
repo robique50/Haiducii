@@ -2,6 +2,10 @@
 
 #include <QMainWindow>
 #include "ui_CreatePrivateRoom.h"
+#include <random>
+#include <tuple>
+#include <string>
+#include <vector>
 
 class CreatePrivateRoom : public QMainWindow
 {
@@ -10,7 +14,7 @@ class CreatePrivateRoom : public QMainWindow
 public:
 	CreatePrivateRoom(QWidget *parent = nullptr,int userID=0);
 	~CreatePrivateRoom();
-
+	std::string generateRandomCode(const int& length);
 private slots:
 	void on_pushButton_generateCode_clicked();
 
