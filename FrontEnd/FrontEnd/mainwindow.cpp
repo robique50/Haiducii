@@ -12,7 +12,8 @@ MainWindow::MainWindow()
     createMenus();
     setWindowTitle(tr("Skribbl"));
     uiMain.verticalLayout_drawingBoard->addWidget(drawingBoard);
-    //uiMain.verticalLayout->addWidget(drawingBoard);
+    connect(uiMain.lineEdit_chatInput, &QLineEdit::returnPressed, this, &MainWindow::onChatInputReturnPressed);
+    
     resize(1000, 800);
 }
 }
@@ -37,6 +38,16 @@ void MainWindow::penColor()
 
     if (newColor.isValid())
         drawingBoard->setPenColor(newColor);
+}
+
+void MainWindow::onChatInputReturnPressed()
+{
+	QString message = uiMain.lineEdit_chatInput->text();
+    if (!message.isEmpty())
+    {
+    uiMain.textEdit_chatDislay->append(message);
+	uiMain.lineEdit_chatInput->clear();
+    }
 }
 
 void MainWindow::createActions()

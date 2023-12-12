@@ -54,8 +54,18 @@
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2_chat">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QTextEdit" name="textEdit"/>
+      <widget class="QTextEdit" name="textEdit_chatDislay">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_chatInput"/>
      </item>
     </layout>
    </widget>
@@ -95,12 +105,15 @@
       <widget class="QListWidget" name="listWidget"/>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLabel" name="label_2">
        <property name="styleSheet">
-        <string notr="true">text-align:center;</string>
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
         <string>Room Code</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -140,8 +153,17 @@
        <height>21</height>
       </rect>
      </property>
+     <property name="statusTip">
+      <string/>
+     </property>
      <property name="text">
       <string>Words to be guessed</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="label">
@@ -155,6 +177,9 @@
      </property>
      <property name="text">
       <string>Timer</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>

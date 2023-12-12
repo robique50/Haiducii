@@ -25,6 +25,7 @@ protected:
 private slots:
     void penWidth();
     void penColor();
+    void onChatInputReturnPressed();
 
 private:
     void createActions();
