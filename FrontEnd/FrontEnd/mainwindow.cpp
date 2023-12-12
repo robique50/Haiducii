@@ -14,7 +14,7 @@ MainWindow::MainWindow()
     uiMain.progressBar_timer = findChild<QProgressBar*>("progressBar_timer");
     uiMain.label_timer = findChild<QLabel*>("label_timer");
 
-    timeLeft = 10; // 2 minutes, for example
+    timeLeft = 60; // 2 minutes, for example
     uiMain.progressBar_timer->setMaximum(timeLeft);
     uiMain.progressBar_timer->setValue(timeLeft);
     timer->start(1000); // Update every second
@@ -25,7 +25,9 @@ MainWindow::MainWindow()
     uiMain.verticalLayout_drawingBoard->addWidget(drawingBoard);
     connect(uiMain.lineEdit_chatInput, &QLineEdit::returnPressed, this, &MainWindow::onChatInputReturnPressed);
     connect(uiMain.pushButton_leave, &QPushButton::clicked, this, &MainWindow::onLeaveGameButtonClicked);
-    
+    connectPenColor();
+
+
     resize(1000, 800);
 }
 }
@@ -78,6 +80,43 @@ void MainWindow::updateTimer()
         timer->stop();
         endRound();
     }
+}
+
+void MainWindow::connectPenColor()
+{
+    connect(uiMain.pushColorWhite, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(255, 255, 255));
+        });
+    connect(uiMain.pushColorGray, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(116, 116, 116));
+        });
+    connect(uiMain.pushColorBlack, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(0,0, 0));
+        });
+    connect(uiMain.pushColorRed, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(255, 0, 0));
+        });
+    connect(uiMain.pushColorBrown, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(150, 75, 0));
+        });
+    connect(uiMain.pushColorOrange, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(255, 85, 0));
+        });
+    connect(uiMain.pushColorYellow, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(255, 255, 0));
+        });
+    connect(uiMain.pushColorLime, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(0, 255, 0));
+        });
+    connect(uiMain.pushColorGreen, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(0, 109, 0));
+        });
+    connect(uiMain.pushColorBlue, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(0, 0, 255));
+        });
+    connect(uiMain.pushColorPurple, &QPushButton::clicked, this, [this]() {
+        drawingBoard->setPenColor(QColor(193, 6, 255));
+        });
 }
 
 void MainWindow::createActions()

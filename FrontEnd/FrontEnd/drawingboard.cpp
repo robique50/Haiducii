@@ -24,7 +24,7 @@ DrawingBoard::DrawingBoard(QWidget* parent)
     modified = false;
     scribbling = false;
     myPenWidth = 1;
-    myPenColor = Qt::blue;
+    myPenColor = QColor(255,0,0);
     originalPenColor = myPenColor;
 }
 

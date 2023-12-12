@@ -25,7 +25,7 @@ private slots:
     void onChatInputReturnPressed();
     void onLeaveGameButtonClicked();
     void updateTimer();
-
+    void connectPenColor();
 signals:
     void leaveGame();
     
