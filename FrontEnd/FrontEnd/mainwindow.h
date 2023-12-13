@@ -38,11 +38,11 @@ private:
 
     QMenu* optionMenu = nullptr;
 
-    QAction* eraseAct = nullptr;
-    QAction* exitAct = nullptr;
-    QAction* penColorAct = nullptr;
-    QAction* penWidthAct = nullptr;
-    QAction* clearScreenAct = nullptr;
+    std::unique_ptr<QAction> eraseAct;
+    std::unique_ptr<QAction> exitAct;
+    std::unique_ptr<QAction> penColorAct;
+    std::unique_ptr<QAction> penWidthAct;
+    std::unique_ptr<QAction> clearScreenAct;
 
     DrawingBoard* drawingBoard = nullptr;
 

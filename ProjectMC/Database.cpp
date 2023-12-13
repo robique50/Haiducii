@@ -60,17 +60,15 @@ namespace skribbl
 		std::string currentWord;
 		std::ifstream f("listOfWords.txt");
 
-		// Check if the file is successfully opened
-		if (!f.is_open()) {
-			std::cerr << "Unable to open listOfWords.txt" << std::endl;
+		if (!f) {
+			std::cerr << "Unable to open file." << std::endl;
 			return;
 		}
 
-		while (f >> currentWord) {
-			std::cout << currentWord << std::endl; // Optional: for debugging
-			Words word{ -1, currentWord }; // Assuming Words constructor takes id and word
-			words.push_back(word);
+		for (std::string currentWord; f >> currentWord; ) {
+			words.emplace_back(-1, std::move(currentWord));
 		}
+
 		m_db.insert_range(words.begin(), words.end());
 	}
 
@@ -89,17 +87,17 @@ namespace skribbl
 			catch (const std::exception& e) {
 			std::cerr << "Error retrieving meeting room by code: " << e.what() << std::endl;
 		}
-		return MeetingRoom(""); // Return an empty or default MeetingRoom object in case of error
+		return MeetingRoom("");
 
 	}
 
 	bool DataBase::userExists(User user1)
 	{
 		auto allUsers = m_db.get_all<User>();
-		for (auto& user : allUsers)
-		{
-			if (user1.isEqual(user) == true)
-				return true;
+		return std::any_of(allUsers.begin(), allUsers.end(),[&user]
+		(const auto& user1){ 
+				return user.isEqual(user1); 
+			});
 		}
 		return false;
 	}
@@ -120,7 +118,7 @@ namespace skribbl
 		auto allWords = m_db.get_all<Words>();
 
 		std::cout << "Words in the database:\n";
-		for (auto word : allWords) {
+		for (const auto& word : allWords) {
 			std::cout << "ID: " << word.getId() << ", Word: " << word.getWord() << "\n";
 		}
 	}

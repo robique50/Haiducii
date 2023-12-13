@@ -32,22 +32,11 @@ std::string skribbl::Words::toString() const
 
 std::string skribbl::Words::getRandomHalfLetters() const
 {
-        std::string result;
-        int halfSize = m_word.size() / 2;
-
-        if (halfSize == 0) {
-            return result;
-        }
-
+    std::string shuffled = m_word;
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> distribution(0, m_word.size() - 1);
+    std::shuffle(shuffled.begin(), shuffled.end(), gen);
 
-        for (int i = 0; i < halfSize; ++i) {
-            int randomIndex = distribution(gen);
-            result += m_word[randomIndex];
-        }
-
-        return result;
+    return shuffled.substr(0, shuffled.size() / 2);
     }
 

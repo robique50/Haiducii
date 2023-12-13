@@ -33,7 +33,7 @@ void skribbl::Game::setNumberOfRounds(uint16_t numberOfRounds)
 
 void skribbl::Game::StartGame()
 {
-	//Implementation needed
+
 }
 
 void skribbl::Game::setCurrentRound(const uint16_t& currentRound)

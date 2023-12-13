@@ -7,17 +7,17 @@ MainWindow::MainWindow()
     {
     uiMain.setupUi(this);
     drawingBoard = new DrawingBoard;
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &MainWindow::updateTimer);
+	timer = std::make_unique<QTimer>(this);
+	connect(timer.get(), &QTimer::timeout, this, &MainWindow::updateTimer);
 
     // Setup the progress bar and label (Assuming you've set their object names in Qt Designer)
     uiMain.progressBar_timer = findChild<QProgressBar*>("progressBar_timer");
     uiMain.label_timer = findChild<QLabel*>("label_timer");
 
-    timeLeft = 60; // 2 minutes, for example
+	timeLeft = 120; 
     uiMain.progressBar_timer->setMaximum(timeLeft);
     uiMain.progressBar_timer->setValue(timeLeft);
-    timer->start(1000); // Update every second
+	timer->start(1000);
 
     createActions();
     createMenus();
@@ -33,7 +33,8 @@ MainWindow::MainWindow()
         drawingBoard->setPenWidth(newValue);
         });
 		connect(uiMain.pushButton_FillDrawing, &QPushButton::clicked, this, [this]() {
-		drawingBoard->fillColorAtLastPoint();
+		//drawingBoard->fillColorAtLastPoint();
+		drawingBoard->setFillMode(true);
 		});
     resize(1000, 800);
 }
@@ -98,7 +99,7 @@ void MainWindow::connectPenColor()
         drawingBoard->setPenColor(QColor(116, 116, 116));
         });
     connect(uiMain.pushColorBlack, &QPushButton::clicked, this, [this]() {
-        drawingBoard->setPenColor(QColor(0,0, 0));
+		drawingBoard->setPenColor(QColor(0, 0, 0));
         });
     connect(uiMain.pushColorRed, &QPushButton::clicked, this, [this]() {
         drawingBoard->setPenColor(QColor(255, 0, 0));
@@ -128,35 +129,29 @@ void MainWindow::connectPenColor()
 
 void MainWindow::createActions()
 {
-    exitAct = new QAction(tr("&Exit"), this);
+	exitAct = std::make_unique<QAction>(tr("&Exit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
-    connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
+	connect(exitAct.get(), &QAction::triggered, this, &MainWindow::close);
 
-    penColorAct = new QAction(tr("&Pen Color..."), this);
-    connect(penColorAct, SIGNAL(triggered()), this, SLOT(penColor()));
+	penColorAct = std::make_unique<QAction>(tr("&Pen Color..."), this);
+	connect(penColorAct.get(), &QAction::triggered, this, &MainWindow::penColor);
 
-    penWidthAct = new QAction(tr("Pen &Width..."), this);
-    connect(penWidthAct, SIGNAL(triggered()), this, SLOT(penWidth()));
+	penWidthAct = std::make_unique<QAction>(tr("Pen &Width..."), this);
+	connect(penWidthAct.get(), &QAction::triggered, this, &MainWindow::penWidth);
 
-    eraseAct = new QAction(tr("&Erase Mode"), this);
+	eraseAct = std::make_unique<QAction>(tr("&Erase Mode"), this);
     eraseAct->setShortcut(tr("Ctrl+E"));
-    connect(eraseAct, SIGNAL(triggered()), drawingBoard, SLOT(toggleEraseMode()));
+	connect(eraseAct.get(), &QAction::triggered, drawingBoard, &DrawingBoard::toggleEraseMode);
 
-    clearScreenAct = new QAction(tr("&Clear Screen"), this);
+	clearScreenAct = std::make_unique<QAction>(tr("&Clear Screen"), this);
     clearScreenAct->setShortcut(tr("Ctrl+L"));
-    connect(clearScreenAct, SIGNAL(triggered()),
-        drawingBoard, SLOT(clearImage()));
-}
+	connect(clearScreenAct.get(), &QAction::triggered, drawingBoard, &DrawingBoard::clearImage);
 
-void MainWindow::createMenus()
-{
-    optionMenu = new QMenu(tr("&Options"), this);
-    optionMenu->addAction(penColorAct);
-    optionMenu->addAction(penWidthAct);
-    optionMenu->addSeparator();
-    optionMenu->addAction(clearScreenAct);
-    optionMenu->addAction(eraseAct);
-    menuBar()->addMenu(optionMenu);
+	addAction(exitAct.get());
+	addAction(penColorAct.get());
+	addAction(penWidthAct.get());
+	addAction(eraseAct.get());
+	addAction(clearScreenAct.get());
 }
 
 void MainWindow::endRound()

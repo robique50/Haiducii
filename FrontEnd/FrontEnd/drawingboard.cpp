@@ -10,14 +10,16 @@
 #include "drawingboard.h"
 
 DrawingBoard::DrawingBoard(QWidget* parent)
-    : QWidget(parent),
-    modified(false),
-    scribbling(false),
-    myPenWidth(5),
-    myPenColor(Qt::blue),
-    eraserMode(false),
-    currentMode(PenMode::Pen),
-    originalPenColor(myPenColor)
+	: QWidget{ parent },
+	modified{ false },
+	scribbling{ false },
+	myPenWidth{ 5 },
+	myPenColor{ Qt::blue },
+	eraserMode{ false },
+	fillModeActive{ false },
+	currentMode{ PenMode::Pen },
+	lastUsedPenColor{ Qt::blue }
+
 {
     setAttribute(Qt::WA_StaticContents);
 
@@ -30,6 +32,9 @@ DrawingBoard::DrawingBoard(QWidget* parent)
 
 void DrawingBoard::setPenColor(const QColor& newColor)
 {
+	if (!eraserMode) {
+		lastUsedPenColor = newColor;
+	}
     myPenColor = newColor;
 }
 
@@ -48,11 +53,12 @@ void DrawingBoard::setDrawingMode(PenMode mode)
     currentMode = mode;
 
     if (currentMode == PenMode::Eraser) {
-        setPenColor(QColor(255, 255, 255)); 
-        setPenWidth(myPenWidth);
+		lastUsedPenColor = myPenColor;
+		myPenColor = Qt::white;
     }
-    else {
-        setPenColor(originalPenColor);
+	else if (!eraserMode) {
+		// Restaurăm culoarea numai dacă nu suntem în modul gumei de șters
+		myPenColor = lastUsedPenColor;
     }
 
 }
@@ -77,15 +83,17 @@ void DrawingBoard::clearImage()
 
 void DrawingBoard::setEraserMode()
 {
-    eraserMode = !eraserMode;
-
-    if (eraserMode) {
+	eraserMode = !eraserMode;
+	if (eraserMode) {
+		lastUsedPenColor = myPenColor;
         myPenColor = Qt::white;
-        setPenWidth(myPenWidth);
+		eraserMode = true;
     }
     else {
-        myPenColor = originalPenColor;
+		myPenColor = lastUsedPenColor;
+		eraserMode = false;
     }
+	setPenWidth(myPenWidth);
 }
 
 void DrawingBoard::toggleEraseMode()
