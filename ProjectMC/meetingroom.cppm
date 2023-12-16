@@ -26,7 +26,7 @@ namespace skribbl
     private:
         std::string roomCode;
         int createdByUserId;
-        std::string gameState;
+		std::string gameState;//enum class
         int playerCount;
         // Other necessary attributes as needed
     };

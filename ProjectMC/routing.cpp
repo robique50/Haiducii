@@ -1,5 +1,6 @@
 #include "routing.h"
-#include "words.h"
+#include  "words.h"
+
 static const int numberOfWords = 16;
 
 void skribbl::Routing::Run(skribbl::DataBase& db)
@@ -8,7 +9,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return "This is an example app of crow and sql-orm";
 		});
     // Registration Route
-    CROW_ROUTE(m_app, "/register").methods(crow::HTTPMethod::POST)([this,&db](const crow::request& req) {
+	CROW_ROUTE(m_app, "/register").methods(crow::HTTPMethod::POST)([this, &db](const crow::request& req) {
         auto x = crow::json::load(req.body);
         if (!x) {
             return crow::response(400, "Invalid JSON");

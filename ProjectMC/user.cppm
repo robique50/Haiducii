@@ -13,18 +13,18 @@ namespace skribbl
 		double getAverageTime() const;
 		void updateStatistics(int score, double time);
 	private:
-		int totalScore;
-		double averageScore;
-		double averageTime;
-		int gamesPlayed;
+		int m_totalScore;
+		double m_averageScore;
+		double m_averageTime;
+		int m_gamesPlayed;
 	};
 
 	export class User
 	{
 	public:
-		User(int id,const std::string& fullname,const std::string& username, const std::string& password,bool isDrawing);
-		User(int id, const std::string& username,const std::string& password);
-		User(std::string& fullname,std::string& username, std::string& password);
+		User(int id, const std::string& fullname, const std::string& username, const std::string& password, bool isDrawing);
+		User(int id, const std::string& username, const std::string& password);
+		User(std::string& fullname, std::string& username, std::string& password);
 		User();
 		void setFullname(const std::string& fullname);
 		void setUsername(const std::string& username);
@@ -36,7 +36,7 @@ namespace skribbl
 		int getID() const;
 		int16_t getScore() const;
 		void updateStatistics(int score, double time);
-		bool isEqual(const User& user);
+		bool isEqual(const User& user) const;
 		bool isValid() const;
 
 	private:

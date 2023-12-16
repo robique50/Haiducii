@@ -3,28 +3,30 @@ import <iostream>;
 using skribbl::User;
 using skribbl::Statistics;
 
-
-
-Statistics::Statistics() : totalScore(0), averageScore(0), averageTime(0), gamesPlayed(0)
+Statistics::Statistics() :
+	m_totalScore{ 0 },
+	m_averageScore{ 0 },
+	m_averageTime{ 0 },
+	m_gamesPlayed{ 0 }
 {}
 
 int Statistics::getTotalScore() const {
-    return totalScore;
+    return m_totalScore;
 }
 
 double Statistics::getAverageScore() const {
-    return averageScore;
+    return m_averageScore;
 }
 
 double Statistics::getAverageTime() const {
-    return averageTime;
+    return m_averageTime;
 }
 
 void Statistics::updateStatistics(int score, double time) {
-    totalScore += score;
-    averageScore = static_cast<double>(totalScore) / gamesPlayed;
-    averageTime = (averageTime * gamesPlayed + time) / (gamesPlayed + 1);
-    gamesPlayed++;
+    m_totalScore += score;
+    m_averageScore = static_cast<double>(m_totalScore) / m_gamesPlayed;
+    m_averageTime = (m_averageTime * m_gamesPlayed + time) / (m_gamesPlayed + 1);
+    m_gamesPlayed++;
 }
 
 User::User(int id, const std::string& fullname, const std::string& username, const std::string& password, bool isDrawing)

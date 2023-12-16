@@ -1,7 +1,11 @@
 #include "words.h"
 #include <random>
 
-skribbl::Words::Words(int id, const std::string& word) :m_id(id), m_word(word)
+using skribbl::Words;
+
+Words::Words(int id, const std::string& word) :
+	m_id{ id },
+	m_word{ word }
 {
 }
 

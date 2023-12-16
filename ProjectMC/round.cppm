@@ -1,14 +1,28 @@
 export module round;
 
+import <iostream>;
 import <ctime>;
 import <time.h>;
 import <algorithm>;
 import <cctype>;
 import <string>;
 import <vector>;
+import <unordered_map>;
+import <chrono>;
+import <iostream>;
+import <random>;
+import <thread>;
+
+export enum class RoundState
+{
+	Waiting,
+	Playing,
+	Finished
+};
 
 namespace skribbl
 {
+
 	export class Round
 	{
 	public:
@@ -18,11 +32,14 @@ namespace skribbl
 		void AddGuess(const std::string& guess, int responseTime);
 		int CalculateScore();
 		void ShowLetters();
+		void SetState(const RoundState& state);
+
 	private:
 		const std::string m_currentWord;
 		uint8_t m_time;
-		std::vector<std::pair<std::string, uint16_t>>m_guesses;
-		//Words m_word;
+		std::unordered_map<uint16_t, std::string>m_guesses;
+		RoundState m_state;
+
 	};
 
 

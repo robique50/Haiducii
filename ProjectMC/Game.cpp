@@ -6,7 +6,7 @@ import <iostream>;
 
 uint16_t Game::m_numberOfRounds = 4;
 
-Game::Game(uint16_t numberOfPlayers, uint16_t currentRound):
+Game::Game(uint16_t numberOfPlayers, uint16_t currentRound) :
 	m_numberOfPlayers{ numberOfPlayers },
 	m_currentRound{ currentRound }
 {}
@@ -26,7 +26,7 @@ uint16_t Game::getNumberOfRounds()
 	return this->m_numberOfRounds;
 }
 
-void skribbl::Game::setNumberOfRounds(uint16_t numberOfRounds)
+void skribbl::Game::setNumberOfRounds(const uint16_t& numberOfRounds)
 {
 	m_numberOfRounds = numberOfRounds;
 }
@@ -46,14 +46,14 @@ void skribbl::Game::setNumberOfPlayers(const uint16_t& numberOfPlayers)
 	this->m_numberOfPlayers = numberOfPlayers;
 }
 
-void Game::addPlayer(User& player)
+void skribbl::Game::addPlayer(const User& player)
 {
-	players.push_back(player);
+	this->players.push_back(player);
 }
 
-bool skribbl::Game::isGameFinished(const uint16_t& currentRound, const uint16_t numberOfRounds)
+bool skribbl::Game::isGameFinished(const uint16_t& currentRound, const uint16_t& numberOfRounds)
 {
-	return (currentRound > numberOfRounds);
+	return currentRound == numberOfRounds;
 }
 
 bool skribbl::Game::isFirstRound()

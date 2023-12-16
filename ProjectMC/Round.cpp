@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <ctime>
 #include <iostream>
+#include <random>
 import round;
+import <iostream>;
 
 using skribbl::Round;
 
@@ -43,14 +45,70 @@ std::pair<std::string, std::vector<int>> ShowLetters(const std::string& cuvant)
 }*/
 void Round::ShowLetters()
 {
-    if (m_time < 30)
+	if (m_time < 30)
+	{
+	int n = m_currentWord.size();
+	int numToDisplay = n / 2;
+	if (numToDisplay < 1)
     {
+		numToDisplay = 1;
+	}
+
+	std::string displayedWord = m_currentWord;
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
         
+	std::vector<int> randomIndices;
+	for (int i = 0; i < numToDisplay; ++i)
+	{
+		int randomIndex;
+		do
+		{
+			randomIndex = std::uniform_int_distribution<int>(0, n - 1)(gen);
+		} while (displayedWord[randomIndex] == '_');
+		displayedWord[randomIndex] = '_';
     }
+		std::cout << "The word is: " << displayedWord << std::endl;
+	}
 }
+
+void Round::SetState(const RoundState& state)
+{
+	m_state = state;
+}
+
+void skribbl::Round::updateTimer()
+{
+	while (m_time > 0)
+	{
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+		m_time--;
+	}
+}
+
+void skribbl::Round::startRound(const int& duration)
+{
+	int timeToStartDisplay = duration - 30;
+
+	if (timeToStartDisplay <= 0)
+	{
+		std::cout << "Starting to display letters." << std::endl;
+		ShowLetters();
+	}
+	else
+	{
+		std::cout << "Round will start in " << timeToStartDisplay << " seconds." << std::endl;
+
+		std::this_thread::sleep_for(std::chrono::seconds(timeToStartDisplay));
+		std::cout << "Starting the round now." << std::endl;
+		ShowLetters();
+	}
+}
+
 void Round::AddGuess(const std::string& guess, int responseTime)
 {
-    m_guesses.push_back(std::make_pair(guess, responseTime));
+    m_guesses.insert(std::make_pair(responseTime, guess));
 }
 
 int Round::CalculateScore() {
@@ -59,9 +117,9 @@ int Round::CalculateScore() {
     }
     double totalResponseTime = 0;
     int numCorrectGuesses = 0;
-    for (const auto& guess : m_guesses) {
-        if (guess.first == m_currentWord) {
-            totalResponseTime += guess.second;
+    for (const auto& [responseTime, guess] : m_guesses) {
+        if (guess == m_currentWord) {
+            totalResponseTime += responseTime;
             numCorrectGuesses++;
         }
     }
