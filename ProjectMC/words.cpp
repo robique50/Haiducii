@@ -1,5 +1,4 @@
 #include "words.h"
-#include <random>
 
 using skribbl::Words;
 
@@ -9,38 +8,38 @@ Words::Words(int id, const std::string& word) :
 {
 }
 
-int skribbl::Words::getId() const
+int Words::getId() const
 {
 	return m_id;
 }
 
-std::string skribbl::Words::getWord() const
+std::string Words::getWord() const
 {
 	return m_word;
 }
 
-void skribbl::Words::setId(int m_id)
+void Words::setId(int m_id)
 {
-		this->m_id = m_id;
+	this->m_id = m_id;
 }
 
-void skribbl::Words::setWord(std::string word)
+void Words::setWord(std::string word)
 {
-		this->m_word = word;
+	this->m_word = word;
 }
 
-std::string skribbl::Words::toString() const
+std::string Words::toString() const
 {
 	return m_word;
 }
 
-std::string skribbl::Words::getRandomHalfLetters() const
+std::string Words::getRandomHalfLetters() const
 {
-    std::string shuffled = m_word;
-        std::random_device rd;
-        std::mt19937 gen(rd());
-    std::shuffle(shuffled.begin(), shuffled.end(), gen);
+	std::string shuffled = m_word;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::shuffle(shuffled.begin(), shuffled.end(), gen);
 
-    return shuffled.substr(0, shuffled.size() / 2);
-    }
+	return shuffled.substr(0, shuffled.size() / 2);
+}
 

@@ -9,9 +9,10 @@ import <string>;
 import <vector>;
 import <unordered_map>;
 import <chrono>;
-import <iostream>;
 import <random>;
 import <thread>;
+import <atomic>;
+import <unordered_set>;
 
 export enum class RoundState
 {
@@ -22,7 +23,6 @@ export enum class RoundState
 
 namespace skribbl
 {
-
 	export class Round
 	{
 	public:
@@ -33,13 +33,19 @@ namespace skribbl
 		int CalculateScore();
 		void ShowLetters();
 		void SetState(const RoundState& state);
-
+		void startRound(const int& duration);
+		void updateTimer();
+		bool isTimeUp() const;
+		void prepareNextRound();
+		std::string getNextWord();
 	private:
 		const std::string m_currentWord;
-		uint8_t m_time;
+		std::atomic<uint16_t>m_time;
 		std::unordered_map<uint16_t, std::string>m_guesses;
 		RoundState m_state;
-
+		std::unordered_set<std::string> m_wordsList;
+		size_t m_nextWordIndex;
+		static const uint16_t m_initialDuration{ 60 };
 	};
 
 

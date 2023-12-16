@@ -1,7 +1,4 @@
 #include "Database.h"
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
 
 import user;
 
@@ -57,18 +54,14 @@ namespace skribbl
 
 	void DataBase::populateStorage() {
 		std::vector<Words> words;
-		std::string currentWord;
 		std::ifstream f("listOfWords.txt");
-
 		if (!f) {
 			std::cerr << "Unable to open file." << std::endl;
 			return;
 		}
-
 		for (std::string currentWord; f >> currentWord; ) {
 			words.emplace_back(-1, std::move(currentWord));
 		}
-
 		m_db.insert_range(words.begin(), words.end());
 	}
 
@@ -80,26 +73,24 @@ namespace skribbl
 
 	MeetingRoom DataBase::getMeetingRoomByCode(const std::string& code)
 	{
-		try{
-		auto room = m_db.get<MeetingRoom>(sql::where(sql::c(&MeetingRoom::getRoomCode) == code));
-		return room;
+		try {
+			auto room = m_db.get<MeetingRoom>(sql::where(sql::c(&MeetingRoom::getRoomCode) == code));
+			return room;
 		}
-			catch (const std::exception& e) {
+		catch (const std::exception& e) {
 			std::cerr << "Error retrieving meeting room by code: " << e.what() << std::endl;
 		}
 		return MeetingRoom("");
 
 	}
 
-	bool DataBase::userExists(User user1)
+	bool DataBase::userExists(const User& user)
 	{
 		auto allUsers = m_db.get_all<User>();
-		return std::any_of(allUsers.begin(), allUsers.end(),[&user]
-		(const auto& user1){ 
-				return user.isEqual(user1); 
+		return std::any_of(allUsers.begin(), allUsers.end(), [&user]
+		(const auto& user1) {
+				return user.isEqual(user1);
 			});
-		}
-		return false;
 	}
 
 	void DataBase::showUsers()
@@ -112,7 +103,6 @@ namespace skribbl
 		}
 	}
 
-
 	void DataBase::showWordsFromDatabase()
 	{
 		auto allWords = m_db.get_all<Words>();
@@ -123,38 +113,29 @@ namespace skribbl
 		}
 	}
 
-	std::vector<Words> DataBase::getRandomWords(const int& numberOfWords)
+	const std::vector<Words>& DataBase::getRandomWords(const int& numberOfWords)
 	{
 		auto allWords = m_db.get_all<Words>();
 
 		std::random_device rd;
-		std::default_random_engine rng(rd());
+		std::mt19937 rng(rd());
 		std::shuffle(allWords.begin(), allWords.end(), rng);
-		int wordsToRetrieve = std::min(numberOfWords, static_cast<int>(allWords.size()));
-		std::set<std::string> uniqueWords;
-		std::vector<Words> selectedWords;
-		for (auto word : allWords)
-		{
-			if (uniqueWords.insert(word.getWord()).second)
-			{
-				selectedWords.push_back(word);
 
-				if (selectedWords.size() == wordsToRetrieve)
-					break;
+		std::vector<Words> selectedWords;
+		for (const auto& word : allWords) {
+			selectedWords.push_back(word);
+			if (selectedWords.size() == static_cast<size_t>(numberOfWords)) {
+				break;
 			}
 		}
 
 		return selectedWords;
-
 	}
 
 	User DataBase::getUserByUsername(const std::string& username)
 	{
 		try {
-
 			auto allUsers = m_db.get_all<User>();
-
-
 			for (const auto& user : allUsers) {
 				if (user.getUsername() == username) {
 					return user;
@@ -166,6 +147,7 @@ namespace skribbl
 		}
 		return User(-1, "", "");
 	}
+
 	void DataBase::removeWord(const Words& word)
 	{
 		try {
@@ -201,7 +183,7 @@ namespace skribbl
 
 	void DataBase::showUsersWithScoreGreaterThan(int score)
 	{
-		
+
 		auto users = m_db.get_all<User>(sql::where(sql::c(&User::getScore) > score));
 
 		for (const auto& user : users)
@@ -210,4 +192,3 @@ namespace skribbl
 		}
 	}
 }
-

@@ -14,7 +14,7 @@ namespace skribbl
 	public:
 		void Run(skribbl::DataBase& db);
 	private:
-		
+
 		crow::SimpleApp m_app;
 	};
 }

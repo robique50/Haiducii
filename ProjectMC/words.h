@@ -4,7 +4,6 @@
 #include <random>
 
 namespace skribbl {
-
 	class Words {
 	public:
 		Words(int id, const std::string& word);

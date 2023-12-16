@@ -39,6 +39,6 @@ void CreatePrivateRoom::on_pushButton_generateCode_clicked()
 {
     int codeLength = 8;
     QString temp = QString::fromStdString(generateRandomCode(codeLength));
-	QLineEdit* generateCodeLineEdit = findChild<QLineEdit*>("lineEdit_generateCode");
-	generateCodeLineEdit->setText(temp);
+    QLineEdit* generateCodeLineEdit = findChild<QLineEdit*>("lineEdit_generateCode");
+    generateCodeLineEdit->setText(temp);
 }

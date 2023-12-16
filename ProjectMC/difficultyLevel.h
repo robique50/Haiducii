@@ -1,35 +1,37 @@
 #pragma once
 #include <string>
 #include <iostream>
-class difficultyLevel
-{
-    enum Level { Easy, Medium, Hard };
 
-    difficultyLevel(Level initialLevel = Easy) : level(initialLevel) {}
+namespace skribbl {
+	class difficultyLevel
+	{
+		enum Level { Easy, Medium, Hard };
 
-    void setLevel(Level newLevel) {
-        level = newLevel;
-    }
+		difficultyLevel(Level initialLevel = Easy) : level(initialLevel) {}
 
-    Level getLevel() const {
-        return level;
-    }
+		void setLevel(Level newLevel) {
+			level = newLevel;
+		}
 
-    bool isDifficult() const {
-        return level == Hard;
-    }
+		Level getLevel() const {
+			return level;
+		}
 
-    void increaseDifficulty() {
-        if (level != Hard) {
-            level = static_cast<Level>(level + 1);
-        }
-    }
+		bool isDifficult() const {
+			return level == Hard;
+		}
 
-    bool isMaxDifficulty() const {
-        return level == Hard;
-    }
-   
-private:
-    Level level;
-};
+		void increaseDifficulty() {
+			if (level != Hard) {
+				level = static_cast<Level>(level + 1);
+			}
+		}
 
+		bool isMaxDifficulty() const {
+			return level == Hard;
+		}
+
+	private:
+		Level level;
+	};
+}

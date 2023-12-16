@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
+    <width>995</width>
     <height>800</height>
    </rect>
   </property>
@@ -90,7 +90,11 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QListWidget" name="listWidget"/>
+      <widget class="QListWidget" name="listWidget">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
@@ -127,7 +131,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string notr="true">background-color: rgb(255, 255, 255);
+</string>
     </property>
     <property name="title">
      <string/>
@@ -449,8 +454,8 @@ background-color: rgb(193, 6, 255);</string>
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>660</y>
-      <width>371</width>
+      <y>650</y>
+      <width>311</width>
       <height>41</height>
      </rect>
     </property>
@@ -468,7 +473,23 @@ background-color: rgb(193, 6, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(:/FrontEnd/assets/images/rsz_1pozagunoi.png);</string>
+     <string notr="true">background-image: url(:/FrontEnd/assets/images/cleanalldrawing_image.jpg);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_FillDrawing">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>650</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(:/FrontEnd/assets/images/bucket_fill.jpg);</string>
     </property>
     <property name="text">
      <string/>
@@ -492,6 +513,7 @@ background-color: rgb(193, 6, 255);</string>
    <zorder>pushColorPurple</zorder>
    <zorder>hSliderPenWidth</zorder>
    <zorder>pushButton_ClearDrawing</zorder>
+   <zorder>pushButton_FillDrawing</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
@@ -499,7 +521,7 @@ background-color: rgb(193, 6, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
+     <width>995</width>
      <height>22</height>
     </rect>
    </property>

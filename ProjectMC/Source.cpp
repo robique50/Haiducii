@@ -7,6 +7,7 @@
 #include "Database.h"
 #include "routing.h"
 #include "Words.h"
+#include "client.h"
 
 namespace sql = sqlite_orm;
 
@@ -27,17 +28,24 @@ int main()
 	}
 	db.showUsers();
 	Routing r;
-	//r.Run(db);
 	//std::string cuvant = "aloevera";
 	//Round round{cuvant};
 	std::cout << "\n";
-	std::string cuvant = "aloevera";
+	/*std::string cuvant = "aloevera";
 	Round round{ cuvant };
 	if(round.CorrectGuess("aloevera"))
 		std::cout << "Corect\n";
 	else
 		std::cout << "Gresit\n";
-	round.startRound(60);
-	r.Run(db);
-    return 0;
+	round.startRound(60);*/
+	//r.Run(db);
+	
+	/*Client client("http://localhost:18080/getwords");
+	std::unordered_set<std::string> words = client.getWordsFromServer();
+
+	std::cout << "Words:\n";
+	for (const auto& word : words) {
+		std::cout << word << std::endl;
+	}*/
+	return 0;
 }

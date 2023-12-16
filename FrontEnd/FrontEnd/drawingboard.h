@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QPoint>
 #include <QWidget>
+#include <stack>
 
 enum class PenMode
 {
@@ -22,18 +23,19 @@ public:
 	DrawingBoard(QWidget* parent=0);
     void setPenColor(const QColor& newColor);
     void setPenWidth(int newWidth);
-    void setOriginalColor(const QColor& newColor);
     void setDrawingMode(PenMode mode);
     void setModified(bool modified);
-    void restoreOriginalColor();
     bool isModified() const { return modified; }
     QColor penColor() const { return myPenColor; }
     int penWidth() const { return myPenWidth; }
+    void setFillColor(const QColor& newColor);
+    void setFillMode(bool active);
 
 public slots:
     void clearImage();
     void setEraserMode();
     void toggleEraseMode();  
+    void fillColor(const QPoint& point,const QColor& newColor);
 
 protected:
     void mouseMoveEvent(QMouseEvent* event) override;
@@ -48,14 +50,15 @@ private:
     bool modified;
     bool scribbling;
     bool eraserMode;
+    bool fillModeActive;
     int myPenWidth;
     PenMode currentMode;
     QColor myPenColor;
-    QColor originalPenColor;
+    QColor lastUsedPenColor;
     QImage image;
     QPoint lastPoint;
     QPoint lastClickPoint;
-    QColor fillColor;
+    QColor lastFillColor;
 };
 #endif
 

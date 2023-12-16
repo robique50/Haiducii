@@ -4,10 +4,12 @@
 #define MAINWINDOW_H
 
 #include <QList>
+#include <QTimer>
 #include <QMainWindow>
 #include "ui_Game.h"
 #include "ui_mainwindow.h"
 #include "drawingboard.h"
+#include <memory>
 
 class MainWindow : public QMainWindow
 {
@@ -32,11 +34,8 @@ signals:
 
 private:
     void createActions();
-    void createMenus();
     void endRound();
     void startNewRound();
-
-    QMenu* optionMenu = nullptr;
 
     std::unique_ptr<QAction> eraseAct;
     std::unique_ptr<QAction> exitAct;
@@ -49,9 +48,8 @@ private:
     Ui::MainWindow uiMain;
     Ui::GameClass uiGame;
 
-    QTimer* timer;
+    std::unique_ptr<QTimer> timer;
     int timeLeft;
-
 };
 
 #endif
