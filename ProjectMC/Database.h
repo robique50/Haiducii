@@ -81,6 +81,8 @@ namespace skribbl
 
 		void showUsersWithScoreGreaterThan(int score);
 
+		User getUserById(const int& id);
+
 	private:
 		const std::string db_file{ "cuvinte.sqlite" };
 	private:

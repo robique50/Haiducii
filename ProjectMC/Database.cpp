@@ -191,4 +191,23 @@ namespace skribbl
 			std::cout << "ID: " << user.getID() << ", Username: " << user.getUsername() << ", Score: " << user.getScore() << std::endl;
 		}
 	}
+
+	User DataBase::getUserById(const int& id)
+	{
+		try {
+			auto allUsers = m_db.get_all<User>();
+			for (const auto& user : allUsers) {
+				if (user.getID() == id) {
+					return user;
+				}
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Error retrieving user '" << id << "': " << e.what() << std::endl;
+		}
+		return User(-1, "", "");
+	}
+
+	
+
 }

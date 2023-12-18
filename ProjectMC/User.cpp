@@ -22,6 +22,11 @@ double Statistics::getAverageTime() const {
 	return m_averageTime;
 }
 
+int Statistics::getGamesPlayed() const
+{
+	return m_gamesPlayed;
+}
+
 void Statistics::updateStatistics(int score, double time) {
 	m_totalScore += score;
 	m_averageScore = static_cast<double>(m_totalScore) / m_gamesPlayed;
@@ -30,10 +35,11 @@ void Statistics::updateStatistics(int score, double time) {
 }
 
 User::User(int id, const std::string& fullname, const std::string& username, const std::string& password, bool isDrawing)
-	: m_id(id), m_fullname(fullname), m_username(username), m_password(password), m_isDrawing(isDrawing) {}
+	: m_id(id), m_fullname(std::move(fullname)), m_username(std::move(username)),
+	m_password(std::move(password)), m_isDrawing(std::move(isDrawing)) {}
 
 User::User(int id, const std::string& username, const std::string& password) :
-	m_id(id), m_username(username), m_password(password)
+	m_id(id), m_username(std::move(username)), m_password(std::move(password))
 {}
 
 User::User(std::string& fullname, std::string& username, std::string& password)
@@ -98,4 +104,9 @@ bool User::isEqual(const User& user) const
 bool User::isValid() const
 {
 	return !m_username.empty();
+}
+
+const Statistics& skribbl::User::getStatistics() const
+{
+	return m_statistics;
 }

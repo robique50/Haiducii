@@ -1,4 +1,5 @@
 import meetingroom;
+import <string>;
 
 namespace skribbl
 {
@@ -8,6 +9,7 @@ namespace skribbl
 	MeetingRoom::MeetingRoom(const std::string& code) :
 		roomCode{ code },
 		createdByUserId{ 0 },
+
 		gameState{ "waiting" },
 		playerCount{ 0 } {
 		std::cout << "The meeting room was created with code " << roomCode << ".\n";

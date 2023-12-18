@@ -28,20 +28,10 @@ int main()
 	}
 	db.showUsers();
 	Routing r;
-	//std::string cuvant = "aloevera";
-	//Round round{cuvant};
 	std::cout << "\n";
-	/*std::string cuvant = "aloevera";
-	Round round{ cuvant };
-	if(round.CorrectGuess("aloevera"))
-		std::cout << "Corect\n";
-	else
-		std::cout << "Gresit\n";
-	round.startRound(60);*/
-	//r.Run(db);
-	
-	/*Client client("http://localhost:18080/getwords");
-	std::unordered_set<std::string> words = client.getWordsFromServer();
+	r.Run(db);
+	/*Client client("http://localhost:18080");
+	std::unordered_set<std::string> words = client.loadWordsFromServer();
 
 	std::cout << "Words:\n";
 	for (const auto& word : words) {

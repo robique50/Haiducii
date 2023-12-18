@@ -2,6 +2,7 @@ export module meetingroom;
 
 import <string>;
 import <iostream>;
+import <vector>;
 import user;
 
 namespace skribbl
@@ -25,6 +26,7 @@ namespace skribbl
 
 	private:
 		std::string roomCode;
+		std::vector<User> players;
 		int createdByUserId;
 		std::string gameState;//enum class
 		int playerCount;

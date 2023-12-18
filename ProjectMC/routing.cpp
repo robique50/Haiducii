@@ -62,19 +62,25 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 			return crow::response(401, "Invalid username or password");
 		}
 		});
+	
+	CROW_ROUTE(m_app, "/getStatistics/<int>").methods(crow::HTTPMethod::GET)([&db](int userID) {
+		User user = db.getUserById(userID);
+		if (!user.isValid()) {
+			return crow::response(404, "User not found");
+		}
 
-	/* CROW_ROUTE(m_app, "/receive_statistics")
-		 .methods("post"_method)
-		 ([&user](const crow::request& req) {
-		 auto json = crow::json::load(req.body);
-		 if (!json) {
-			 return crow::response(400, "invalid json");
-		 }
+		Statistics stats = user.getStatistics();
 
-		 user.updatestatistics(json["score"].i(), json["time"].d());
+		crow::json::wvalue response;
+		response["userID"] = user.getID();
+		response["username"] = user.getUsername();
+		response["totalScore"] = stats.getTotalScore();
+		response["averageScore"] = stats.getAverageScore();
+		response["averageTime"] = stats.getAverageTime();
+		response["gamesPlayed"] = stats.getGamesPlayed();
 
-		 return crow::response(200, "statistics received successfully");
-			 });*/
+		return crow::response{ response };
+		});
 
 	CROW_ROUTE(m_app, "/getwords")([&db]() {
 		std::vector<crow::json::wvalue> words_json;

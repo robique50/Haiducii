@@ -11,6 +11,7 @@ namespace skribbl
 		int getTotalScore() const;
 		double getAverageScore() const;
 		double getAverageTime() const;
+		int getGamesPlayed() const;
 		void updateStatistics(int score, double time);
 	private:
 		int m_totalScore;
@@ -38,6 +39,7 @@ namespace skribbl
 		void updateStatistics(int score, double time);
 		bool isEqual(const User& user) const;
 		bool isValid() const;
+		const Statistics& getStatistics() const;
 
 	private:
 		int m_id;

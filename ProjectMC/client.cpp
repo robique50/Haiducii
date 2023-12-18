@@ -5,10 +5,10 @@ skribbl::Client::Client(const std::string& serverUrl) : m_serverUrl{ serverUrl }
 
 std::unordered_set<std::string> skribbl::Client::loadWordsFromServer()
 {
-	std::string response{ makeHTTPRequest(m_serverUrl + "/words") };
+	std::string response{ makeHTTPRequest(m_serverUrl + "/getwords") };
 	return parseWordsResponse(response);
-}
 
+}
 
 std::string skribbl::Client::makeHTTPRequest(const std::string& url)
 {
@@ -26,5 +26,3 @@ std::unordered_set<std::string> skribbl::Client::parseWordsResponse(const std::s
 	}
 	return words;
 }
-
-
