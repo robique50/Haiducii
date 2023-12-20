@@ -55,6 +55,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 			crow::json::wvalue response;
 			response["message"] = "Login successful";
 			response["userID"] = userID;
+			response["username"] = username;
 
 			return crow::response(200, response);
 		}

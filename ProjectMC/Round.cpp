@@ -1,6 +1,8 @@
 import round;
 import <iostream>;
 import <random>;
+import <thread>;
+import <chrono>;
 
 using skribbl::Round;
 

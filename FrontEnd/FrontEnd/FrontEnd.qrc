@@ -6,5 +6,6 @@
         <file>assets/images/rsz_1pozagunoi.png</file>
         <file>assets/images/bucket_fill.jpg</file>
         <file>assets/images/cleanalldrawing_image.jpg</file>
+        <file>assets/images/exitButton.png</file>
     </qresource>
 </RCC>
