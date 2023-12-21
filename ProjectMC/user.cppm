@@ -27,6 +27,7 @@ namespace skribbl
 		User(int id, const std::string& username, const std::string& password);
 		User(std::string& fullname, std::string& username, std::string& password);
 		User();
+		User(int id, std::string username);
 		void setFullname(const std::string& fullname);
 		void setUsername(const std::string& username);
 		void setPassword(const std::string& password);

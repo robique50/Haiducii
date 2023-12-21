@@ -1,10 +1,11 @@
 #include "routing.h"
 #include  "words.h"
-
+#include "PlayerManagement.h"
 static const int numberOfWords = 16;
 
 void skribbl::Routing::Run(skribbl::DataBase& db)
 {
+
 	CROW_ROUTE(m_app, "/")([]() {
 		return "This is an example app of crow and sql-orm";
 		});
@@ -32,8 +33,9 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		}
 		});
 
-	// Login Route 
-	CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)([&db](const crow::request& req) {
+	skribbl::PlayerManager playerManager;
+	CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)([&db,&playerManager]
+	(const crow::request& req) {
 		auto x = crow::json::load(req.body);
 		if (!x) {
 			return crow::response(400, "Invalid JSON");
@@ -51,6 +53,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 				return crow::response(401, "User not found");
 			}
 
+			playerManager.addPlayer(user);
 
 			crow::json::wvalue response;
 			response["message"] = "Login successful";
@@ -94,6 +97,19 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 				});
 		}
 		return crow::json::wvalue{ words_json };
+		});
+
+	CROW_ROUTE(m_app, "/getConnected").methods(crow::HTTPMethod::GET)([this,&playerManager]() {
+		crow::json::wvalue response;
+
+		const auto& allPlayers = playerManager.getPlayers();
+		for (const auto& [id, player] : allPlayers) {
+			response["players"][std::to_string(id)] = {
+				{"name", player.getUsername()},
+			};
+		}
+
+		return crow::response{ response };
 		});
 
 	m_app.port(18080).multithreaded().run();

@@ -48,6 +48,11 @@ User::User(std::string& fullname, std::string& username, std::string& password)
 
 User::User() = default;
 
+User::User(int id, std::string username) : m_id{ id }, m_username{ username }
+{
+}
+
+
 void User::setFullname(const std::string& fullname)
 {
 	m_fullname = fullname;

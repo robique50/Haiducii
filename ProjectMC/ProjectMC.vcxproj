@@ -168,6 +168,7 @@
     <ClCompile Include="leaderboard.cppm" />
     <ClCompile Include="meetingroom.cpp" />
     <ClCompile Include="meetingroom.cppm" />
+    <ClCompile Include="PlayerManagement.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="round.cppm" />
     <ClCompile Include="routing.cpp" />
@@ -188,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="client.h" />
     <ClInclude Include="difficultyLevel.h" />
+    <ClInclude Include="PlayerManagement.h" />
     <ClInclude Include="routing.h" />
     <ClInclude Include="words.h" />
     <ClInclude Include="Database.h" />
