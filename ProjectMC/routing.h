@@ -4,8 +4,13 @@
 #include <iostream>
 #include "Database.h"
 #include <vector>
+#include "words.h"
+#include "PlayerManagement.h"
+#include "Lobby.h"
 
 import user;
+using skribbl::PlayerManager;
+using skribbl::LobbyManager;
 
 namespace skribbl
 {
@@ -14,7 +19,8 @@ namespace skribbl
 	public:
 		void Run(skribbl::DataBase& db);
 	private:
-
+		PlayerManager playerManager;
+		LobbyManager lobbyManager;
 		crow::SimpleApp m_app;
 	};
 }

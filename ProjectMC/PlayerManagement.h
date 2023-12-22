@@ -21,8 +21,8 @@ namespace skribbl {
     public:
         PlayerManager() = default;
         int addPlayer(const User& user);
-        void removePlayer(int id);
         const std::map<int, User>& getPlayers() const;
+        bool doesPlayerExist(const int& playerID) const;
     private:
         std::map<int, User> m_players; 
         

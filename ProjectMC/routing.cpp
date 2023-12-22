@@ -1,11 +1,8 @@
 #include "routing.h"
-#include  "words.h"
-#include "PlayerManagement.h"
 static const int numberOfWords = 16;
 
 void skribbl::Routing::Run(skribbl::DataBase& db)
 {
-
 	CROW_ROUTE(m_app, "/")([]() {
 		return "This is an example app of crow and sql-orm";
 		});
@@ -33,40 +30,39 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		}
 		});
 
-	skribbl::PlayerManager playerManager;
-	CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)([&db,&playerManager]
+	CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)([this, &db]
 	(const crow::request& req) {
-		auto x = crow::json::load(req.body);
-		if (!x) {
-			return crow::response(400, "Invalid JSON");
-		}
-
-		std::string username = x["username"].s();
-		std::string password = x["password"].s();
-
-		User user = db.getUserByUsername(username);
-		if (user.isValid() && user.getPassword() == password) {
-			int userID = user.getID();
-
-
-			if (userID == -1) {
-				return crow::response(401, "User not found");
+			auto x = crow::json::load(req.body);
+			if (!x) {
+				return crow::response(400, "Invalid JSON");
 			}
 
-			playerManager.addPlayer(user);
+			std::string username = x["username"].s();
+			std::string password = x["password"].s();
 
-			crow::json::wvalue response;
-			response["message"] = "Login successful";
-			response["userID"] = userID;
-			response["username"] = username;
+			User user = db.getUserByUsername(username);
+			if (user.isValid() && user.getPassword() == password) {
+				int userID = user.getID();
 
-			return crow::response(200, response);
-		}
-		else {
-			return crow::response(401, "Invalid username or password");
-		}
+
+				if (userID == -1) {
+					return crow::response(401, "User not found");
+				}
+
+				playerManager.addPlayer(user);
+
+				crow::json::wvalue response;
+				response["message"] = "Login successful";
+				response["userID"] = userID;
+				response["username"] = username;
+
+				return crow::response(200, response);
+			}
+			else {
+				return crow::response(401, "Invalid username or password");
+			}
 		});
-	
+
 	CROW_ROUTE(m_app, "/getStatistics/<int>").methods(crow::HTTPMethod::GET)([&db](int userID) {
 		User user = db.getUserById(userID);
 		if (!user.isValid()) {
@@ -99,7 +95,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::json::wvalue{ words_json };
 		});
 
-	CROW_ROUTE(m_app, "/getConnected").methods(crow::HTTPMethod::GET)([this,&playerManager]() {
+	CROW_ROUTE(m_app, "/getConnected").methods(crow::HTTPMethod::GET)([this]() {
 		crow::json::wvalue response;
 
 		const auto& allPlayers = playerManager.getPlayers();
@@ -112,18 +108,32 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::response{ response };
 		});
 
-	CROW_ROUTE(m_app, "/createLobby").methods(crow::HTTPMethod::POST)([&](const crow::request& req) {
+	CROW_ROUTE(m_app, "/createLobby").methods(crow::HTTPMethod::POST)([this](const crow::request& req) {
 		auto x = crow::json::load(req.body);
 		if (!x) return crow::response(400, "Invalid JSON");
 
 		std::string lobbyCode = x["code"].s();
-		//TO DO-logic for creating lobby
-		return crow::response(200, "Lobby created");
+		if (lobbyManager.createLobby(lobbyCode)) {
+			return crow::response(200, "Lobby created successfully");
+		}
+		else {
+			return crow::response(400, "Lobby already exists");
+		}
 		});
 
-	CROW_ROUTE(m_app, "/joinLobby/<string>").methods(crow::HTTPMethod::GET)([&](const crow::request& req, std::string lobbyCode) {
-		
-		return crow::response(200, "Joined lobby");
+	CROW_ROUTE(m_app, "/joinLobby/<string>/<int>").methods(crow::HTTPMethod::GET)([this]
+	(std::string lobbyCode, int userID)
+		{
+			if (!lobbyManager.doesLobbyExist(lobbyCode)) {
+				return crow::response(404, "Lobby not found");
+			}
+
+			if (!playerManager.doesPlayerExist(userID)) {
+				return crow::response(404, "User not found");
+			}
+
+			lobbyManager.addPlayerToLobby(lobbyCode, userID);
+			return crow::response(200, "Joined lobby successfully");
 		});
 	m_app.port(18080).multithreaded().run();
 }
