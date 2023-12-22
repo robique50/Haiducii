@@ -112,6 +112,19 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::response{ response };
 		});
 
+	CROW_ROUTE(m_app, "/createLobby").methods(crow::HTTPMethod::POST)([&](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+		if (!x) return crow::response(400, "Invalid JSON");
+
+		std::string lobbyCode = x["code"].s();
+		//TO DO-logic for creating lobby
+		return crow::response(200, "Lobby created");
+		});
+
+	CROW_ROUTE(m_app, "/joinLobby/<string>").methods(crow::HTTPMethod::GET)([&](const crow::request& req, std::string lobbyCode) {
+		
+		return crow::response(200, "Joined lobby");
+		});
 	m_app.port(18080).multithreaded().run();
 }
 

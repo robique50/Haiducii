@@ -85,4 +85,9 @@ void CreatePrivateRoom::on_pushButton_generateCode_clicked()
     QString temp = QString::fromStdString(generateRandomCode(codeLength));
     QLineEdit* generateCodeLineEdit = findChild<QLineEdit*>("lineEdit_generateCode");
     generateCodeLineEdit->setText(temp);
+
+    QPushButton* generateCodeButton = findChild<QPushButton*>("pushButton_generateCode");
+    if (generateCodeButton) {
+        generateCodeButton->setDisabled(true);
+    }
 }
