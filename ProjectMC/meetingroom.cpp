@@ -1,10 +1,12 @@
-import meetingroom;
+﻿import meetingroom;
+import <iostream>;
 import <string>;
 
 namespace skribbl
 {
 	MeetingRoom::MeetingRoom()
 	{
+		
 	}
 	MeetingRoom::MeetingRoom(const std::string& code) :
 		roomCode{ code },
@@ -82,6 +84,24 @@ namespace skribbl
 	{
 		return playerCount;
 	}
+
+	std::string MeetingRoom::generateUniqueCode()
+	{
+		std::string chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		std::random_device rd;
+		std::mt19937 generator(rd());
+		std::uniform_int_distribution<> distribution(0, chars.size() - 1);
+
+		std::string code;
+		int codeLength = 8; // Lungimea dorită pentru cod
+
+		for (int i = 0; i < codeLength; ++i) {
+			code += chars[distribution(generator)];
+		}
+
+		return code;
+	}
+	
 }
 
 

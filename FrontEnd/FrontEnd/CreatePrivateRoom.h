@@ -22,9 +22,8 @@ class CreatePrivateRoom : public QMainWindow
 public:
 	CreatePrivateRoom(QWidget *parent = nullptr,int userID=0);
 	~CreatePrivateRoom();
-	std::string generateRandomCode(const int& length);
+	void setRoomCode(const QString& code);
 private slots:
-	void on_pushButton_generateCode_clicked();
 	void on_pushButton_Start();
 	void onHttpReply(QNetworkReply* reply);
 
@@ -33,11 +32,13 @@ signals:
 private:
 	Ui::CreatePrivateRoomClass ui;
 	int userID;
+	QString roomCode;
 
 	QNetworkAccessManager* networkManager;
 	QStandardItemModel* playerModel;
 
 	void fetchPlayerData();
+	void fetchRoomCode();
 	void updatePlayerModel(const QJsonObject& json);
 
 };

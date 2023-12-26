@@ -1,4 +1,4 @@
-#include "Database.h"
+﻿#include "Database.h"
 
 import user;
 
@@ -41,15 +41,17 @@ namespace skribbl
 
 	}
 
-	void DataBase::addMeetingRoom(const MeetingRoom& meetingRoom)
+	void DataBase::addMeetingRoom(MeetingRoom& meetingRoom)
 	{
 		try {
+			meetingRoom.setRoomCode(MeetingRoom::generateUniqueCode());
 			m_db.replace(meetingRoom);
-			std::cout << "Meeting room added succesfully" << std::endl;
+			std::cout << "Meeting room added successfully with code: " << meetingRoom.getRoomCode() << std::endl;
 		}
 		catch (const std::exception& e) {
 			std::cerr << "Error at adding meeting room: " << e.what() << std::endl;
 		}
+
 	}
 
 	void DataBase::populateStorage() {
@@ -208,6 +210,6 @@ namespace skribbl
 		return User(-1, "", "");
 	}
 
-	
+
 
 }

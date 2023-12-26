@@ -1,5 +1,6 @@
-#include "routing.h"
+﻿#include "routing.h"
 static const int numberOfWords = 16;
+
 
 void skribbl::Routing::Run(skribbl::DataBase& db)
 {
@@ -108,16 +109,24 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::response{ response };
 		});
 
-	CROW_ROUTE(m_app, "/createLobby").methods(crow::HTTPMethod::POST)([this](const crow::request& req) {
-		auto x = crow::json::load(req.body);
-		if (!x) return crow::response(400, "Invalid JSON");
+	CROW_ROUTE(m_app, "/createLobby").methods("POST"_method)([&db](const crow::request& req) {
+		MeetingRoom newRoom;
+		db.addMeetingRoom(newRoom);  // Asigură-te că această funcție generează un cod pentru newRoom
 
-		std::string lobbyCode = x["code"].s();
-		if (lobbyManager.createLobby(lobbyCode)) {
-			return crow::response(200, "Lobby created successfully");
+		crow::json::wvalue response;
+		response["roomCode"] = newRoom.getRoomCode();
+		std::cout << "Generated room code: " << newRoom.getRoomCode() << std::endl;
+
+		return crow::response(200, response);
+		});
+
+	CROW_ROUTE(m_app, "/getRoomCode").methods("GET"_method)([&db]() {
+		try {
+			auto room = db.getMeetingRoomByCode("cod_unic"); 
+			return crow::response(200, room.getRoomCode());
 		}
-		else {
-			return crow::response(400, "Lobby already exists");
+		catch (const std::exception& e) {
+			return crow::response(500, "Error retrieving lobby code: " + std::string(e.what()));
 		}
 		});
 
@@ -137,6 +146,8 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		});
 	m_app.port(18080).multithreaded().run();
 }
+
+
 
 
 

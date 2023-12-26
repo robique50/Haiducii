@@ -55,7 +55,7 @@ namespace skribbl
 
 		void addWord(const Words& word);
 
-		void addMeetingRoom(const MeetingRoom& meetingRoom);
+		void addMeetingRoom(MeetingRoom& meetingRoom);
 
 		void populateStorage();
 

@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 
 
 
@@ -9,24 +9,10 @@ Game::Game(QWidget* parent, int userID, const QString& username)
 	ui.label_username->setText("Hello " + m_username);
 	playWindow = new Play();
 	createPrivateRoomWindow = new CreatePrivateRoom(this, userID);
-	//bool privateRoomConnection = connect(createPrivateRoomWindow, &CreatePrivateRoom::createPrivateRoomSignal, this, &Game::show);
-	//bool playWindowConnection = connect(playWindow, &Play::playWindowSignal, this, &Game::show);
 	connect(createPrivateRoomWindow, &CreatePrivateRoom::createPrivateRoomSignal, this, &Game::show);
 	connect(ui.pushButton_Play, &QPushButton::clicked, this, &Game::playButtonClicked);
 	connect(ui.pushButton_exit, &QPushButton::clicked, this, &Game::backToLoginScreen);
-	/*if (privateRoomConnection) {
-		QMessageBox::information(this, "Connection Status", "Connection to createPrivateRoomSignal successful!");
-	}
-	else {
-		QMessageBox::critical(this, "Connection Status", "Connection to createPrivateRoomSignal failed!");
-	}
-
-	if (playWindowConnection) {
-		QMessageBox::information(this, "Connection Status", "Connection to playWindowSignal successful!");
-	}
-	else {
-		QMessageBox::critical(this, "Connection Status", "Connection to playWindowSignal failed!");
-	}*/
+	
 }
 
 Game::~Game()
@@ -48,6 +34,8 @@ void Game::setUserID(int userID)
 
 void Game::playButtonClicked()
 {
+	/*playWindow = new Play;
+	connect(playWindow,&Play:b)*/
 	mainWindow = new MainWindow;
 	connect(mainWindow, &MainWindow::leaveGame, this, &Game::showAndHandleLeave);
 	mainWindow->show();
@@ -71,10 +59,38 @@ void Game::on_pushButton_exit_clicked()
 
 void Game::on_pushButton_create_private_room_clicked()
 {
-	if (createPrivateRoomWindow) {
-		createPrivateRoomWindow->show();
+	QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
+	QNetworkRequest request(QUrl("http://localhost:18080/createLobby"));
+	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+	connect(networkManager, &QNetworkAccessManager::finished, this, [this, networkManager](QNetworkReply* reply) {
+		if (reply->error()) {
+			qDebug() << "Error in network reply:" << reply->errorString();
+			reply->deleteLater();
+			networkManager->deleteLater();
+			return;
+		}
+
+		QByteArray response = reply->readAll();
+		QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
+		if (!jsonDoc.isObject()) {
+			qDebug() << "Invalid JSON received";
+			return;
+		}
+		QString roomCode = jsonDoc.object().value("roomCode").toString();
+		qDebug() << "Lobby created with code: " << roomCode;
+
+		if (createPrivateRoomWindow) {
+			createPrivateRoomWindow->setRoomCode(roomCode);
+			createPrivateRoomWindow->show();
+		}
+
+		reply->deleteLater();
+		networkManager->deleteLater();
 		this->close();
-	}
+		});
+
+	networkManager->post(request, QByteArray());
 }
 
 
