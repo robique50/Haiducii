@@ -26,12 +26,16 @@ public:
 private slots:
 	void on_pushButton_Start();
 	void onHttpReply(QNetworkReply* reply);
+	void showEvent(QShowEvent* event);
+	void hideEvent(QHideEvent* event);
+		
 
 signals:
 	void createPrivateRoomSignal();
 private:
 	Ui::CreatePrivateRoomClass ui;
 	int userID;
+	QTimer* timer;
 	QString roomCode;
 
 	QNetworkAccessManager* networkManager;

@@ -10,7 +10,7 @@ CreatePrivateRoom::CreatePrivateRoom(QWidget *parent,int userID)
     playerModel = new QStandardItemModel(this);
     ui.tableView_PlayersConected->setModel(playerModel); 
 
-    QTimer* timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &CreatePrivateRoom::fetchPlayerData);
     timer->start(2000);
     //fetchRoomCode();
@@ -18,6 +18,16 @@ CreatePrivateRoom::CreatePrivateRoom(QWidget *parent,int userID)
 
 CreatePrivateRoom::~CreatePrivateRoom()
 {}
+
+void CreatePrivateRoom::showEvent(QShowEvent* event) {
+    QMainWindow::showEvent(event);
+    timer->start(2000); 
+}
+
+void CreatePrivateRoom::hideEvent(QHideEvent* event) {
+    QMainWindow::hideEvent(event);
+    timer->stop(); 
+}
 
 void CreatePrivateRoom::setRoomCode(const QString & code)
 {
