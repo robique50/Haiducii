@@ -7,11 +7,10 @@ Game::Game(QWidget* parent, int userID, const QString& username)
 {
 	ui.setupUi(this);
 	ui.label_username->setText("Hello " + m_username);
-	playWindow = new Play();
 	createPrivateRoomWindow = new CreatePrivateRoom(this, userID);
 	connect(createPrivateRoomWindow, &CreatePrivateRoom::createPrivateRoomSignal, this, &Game::show);
-	connect(ui.pushButton_Play, &QPushButton::clicked, this, &Game::playButtonClicked);
-	connect(ui.pushButton_exit, &QPushButton::clicked, this, &Game::backToLoginScreen);
+	connect(ui.pushButton_Play, &QPushButton::clicked, this, &Game::on_pushButton_Play_clicked);
+	//connect(ui.pushButton_exit, &QPushButton::clicked, this, &Game::backToLoginScreen);
 	
 }
 
@@ -32,13 +31,30 @@ void Game::setUserID(int userID)
 
 
 
-void Game::playButtonClicked()
+//void Game::playButtonClicked()
+//{
+//	/*mainWindow = new MainWindow;
+//	connect(mainWindow, &MainWindow::leaveGame, this, &Game::showAndHandleLeave);
+//	mainWindow->show();
+//	this->hide();*/
+//
+//	//if (playWindow) {
+//	//	delete playWindow;
+//	//}
+//
+//	//playWindow = new Play(this, m_userID); // Transmiteți m_userID aici
+//	//playWindow->show();
+//	//this->hide();
+//}
+
+void Game::on_pushButton_Play_clicked()
 {
-	/*playWindow = new Play;
-	connect(playWindow,&Play:b)*/
-	mainWindow = new MainWindow;
-	connect(mainWindow, &MainWindow::leaveGame, this, &Game::showAndHandleLeave);
-	mainWindow->show();
+	if (playWindow) {
+		delete playWindow;
+	}
+
+	playWindow = new Play(this, m_userID); // Transmiteți m_userID aici
+	playWindow->show();
 	this->hide();
 }
 

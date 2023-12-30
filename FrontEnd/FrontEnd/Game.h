@@ -18,8 +18,8 @@ public:
 
 private slots:
 	virtual void on_pushButton_create_private_room_clicked();
-	//virtual void on_pushButton_Play_clicked();
-	void playButtonClicked();
+	virtual void on_pushButton_Play_clicked();
+	//void playButtonClicked();
 	void showAndHandleLeave();
 	void on_pushButton_exit_clicked();
 
@@ -30,8 +30,6 @@ private:
 	CreatePrivateRoom* createPrivateRoomWindow = nullptr;
 	Play* playWindow = nullptr;
 	MainWindow* mainWindow = nullptr;
-
-
 	int m_userID;
 	QString m_username;
 };

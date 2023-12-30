@@ -111,7 +111,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 
 	CROW_ROUTE(m_app, "/createLobby").methods("POST"_method)([&db](const crow::request& req) {
 		MeetingRoom newRoom;
-		db.addMeetingRoom(newRoom);  // Asigură-te că această funcție generează un cod pentru newRoom
+		db.addMeetingRoom(newRoom);  
 
 		crow::json::wvalue response;
 		response["roomCode"] = newRoom.getRoomCode();
@@ -130,20 +130,28 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		}
 		});
 
-	CROW_ROUTE(m_app, "/joinLobby/<string>/<int>").methods(crow::HTTPMethod::GET)([this]
-	(std::string lobbyCode, int userID)
-		{
-			if (!lobbyManager.doesLobbyExist(lobbyCode)) {
-				return crow::response(404, "Lobby not found");
-			}
+	CROW_ROUTE(m_app, "/joinLobby/<string>/<int>").methods(crow::HTTPMethod::GET)
+		([this](std::string lobbyCode, int userID) {
+		// Check if the lobby exists
+		MeetingRoom* lobby = lobbyManager.getLobbyByCode(lobbyCode);
+		if (!lobby) {
+			return crow::response(404, "Lobby not found");
+		}
 
-			if (!playerManager.doesPlayerExist(userID)) {
-				return crow::response(404, "User not found");
-			}
+		// Check if the player exists
+		User user = playerManager.getUserById(userID);
+		if (!user.isValid()) { // Assuming there's an isValid method in the User class
+			return crow::response(404, "User not found");
+		}
 
-			lobbyManager.addPlayerToLobby(lobbyCode, userID);
-			return crow::response(200, "Joined lobby successfully");
-		});
+		// Add the player to the lobby
+		lobby->addPlayer(user);
+
+		// Optionally: You could also check and update the lobby state after adding the player
+
+		return crow::response(200, "Joined lobby successfully");
+			});
+
 	m_app.port(18080).multithreaded().run();
 }
 

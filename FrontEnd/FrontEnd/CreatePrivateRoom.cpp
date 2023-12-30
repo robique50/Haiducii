@@ -31,12 +31,11 @@ void CreatePrivateRoom::hideEvent(QHideEvent* event) {
 
 void CreatePrivateRoom::setRoomCode(const QString & code)
 {
-    roomCode = code;    
-    ui.lineEdit_roomCode=findChild<QLineEdit*>("ui.lineEdit_roomCode");
-    if(ui.lineEdit_roomCode)
-	{
-		ui.lineEdit_roomCode->setText(roomCode);
-	}
+    roomCode = code;
+    if (ui.lineEdit_roomCode)
+    {
+        ui.lineEdit_roomCode->setText(roomCode);
+    }
 }
 
 void CreatePrivateRoom::fetchPlayerData() {

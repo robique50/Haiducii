@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QNetworkAccessManager>
 #include "ui_Play.h"
 
 class Play : public QMainWindow
@@ -8,17 +9,19 @@ class Play : public QMainWindow
 	Q_OBJECT
 
 public:
-	Play(QWidget *parent = nullptr);
+	Play(QWidget* parent = nullptr, int userID = 0);
 	~Play();
 
 signals:
-	void playWindowSignal();
 	void joinGame(const QString& roomCode);
 
 private slots:
-	//void on_pushButton_joinGame_clicked();
+	void on_pushButton_joinGame_clicked();
+	void handleJoinLobbyResponse();
 
 private:
 	Ui::PlayClass ui;
-	//QNetworkAccessManager* networkManager=nullptr;
+	QNetworkAccessManager* networkManager;
+	int m_userID;
+
 };
