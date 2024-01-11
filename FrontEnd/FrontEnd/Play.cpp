@@ -43,6 +43,9 @@ void Play::on_pushButton_joinGame_clicked()
 void Play::handleJoinLobbyResponse()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    createPrivateRoomWindow = new CreatePrivateRoom();
+    ui.setupUi(createPrivateRoomWindow);
+    
     if (!reply) {
         QMessageBox::critical(this, "Error", "An unexpected error occurred.");
         return;
@@ -53,7 +56,6 @@ void Play::handleJoinLobbyResponse()
         reply->deleteLater();
         return;
     }
-
 
     QByteArray responseBytes = reply->readAll();
     QJsonDocument jsonResponse = QJsonDocument::fromJson(responseBytes);
@@ -66,20 +68,27 @@ void Play::handleJoinLobbyResponse()
     QJsonObject responseObject = jsonResponse.object();
     QString message = responseObject.value("message").toString();
     bool success = responseObject.value("success").toBool();
+    QString lobbyCode; 
 
     if (success) {
+        lobbyCode = responseObject.value("lobbyCode").toString(); 
 
         QMessageBox::information(this, "Lobby", "Successfully joined the lobby!");
-        // Aici puteți adăuga cod pentru a deschide fereastra lobby-ului sau pentru a actualiza interfața
+
+        if (createPrivateRoomWindow) {
+            createPrivateRoomWindow->setRoomCode(lobbyCode);
+            createPrivateRoomWindow->show();
+        }
+        this->hide();
+        this->deleteLater();
+
     }
     else {
-        // Afisează un mesaj de eroare
         QMessageBox::warning(this, "Failed", message);
     }
 
     reply->deleteLater();
 }
-
 
 
 

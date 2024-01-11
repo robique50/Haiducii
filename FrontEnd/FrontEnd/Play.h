@@ -2,6 +2,7 @@
 
 #include <QMainWindow>
 #include <QNetworkAccessManager>
+#include "CreatePrivateRoom.h"
 #include "ui_Play.h"
 
 class Play : public QMainWindow
@@ -21,6 +22,7 @@ private slots:
 
 
 private:
+	CreatePrivateRoom* createPrivateRoomWindow=nullptr;
 	Ui::PlayClass ui;
 	QNetworkAccessManager* networkManager;
 	int m_userID;
