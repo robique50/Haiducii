@@ -2,18 +2,26 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <random>
+import user;
 
 namespace skribbl {
 	class Lobby
 	{
 		friend class LobbyManager;
 	public:
+		enum class GameState :uint8_t {
+			Waiting,
+			Playing,
+			Finished
+		};
 		Lobby(const std::string& code);
 		Lobby() = default;
+		const std::vector<User>& getPlayers() const;
 	protected:
 		std::string m_roomCode;
-		std::vector<int>m_playersID;
-		bool m_isGameStarted = false;
+		std::vector<User>m_players;
+		GameState m_gameState:2;
 	};
 
 	class LobbyManager
@@ -21,12 +29,14 @@ namespace skribbl {
 	public:
 		//LobbyManager();
 		bool createLobby(const std::string& code);
-		void addPlayerToLobby(const std::string& code, const int& playerID);
-		void removePlayerFromLobby(const std::string& code, const int& playerID);
+		void addPlayerToLobby(const std::string& code, const User& player);
+		void removePlayerFromLobby(const std::string& code, const User& player);
 		void deleteLobby(const std::string& code);
 		bool doesLobbyExist(const std::string& code) const;
 		//void startGame(const std::string& code);
+		const Lobby& getLobby(const std::string& code) const ;
 
+		std::string generateUniqueCode();
 	private:
 		std::map<std::string, Lobby>m_lobbies;
 	};

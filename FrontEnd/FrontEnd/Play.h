@@ -19,6 +19,7 @@ private slots:
 	void on_pushButton_joinGame_clicked();
 	void handleJoinLobbyResponse();
 
+
 private:
 	Ui::PlayClass ui;
 	QNetworkAccessManager* networkManager;

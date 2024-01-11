@@ -78,7 +78,11 @@ void Game::on_pushButton_create_private_room_clicked()
 	QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
 	QNetworkRequest request(QUrl("http://localhost:18080/createLobby"));
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+	QJsonObject jsonObj;
+	jsonObj["userID"] = m_userID;
 
+	QJsonDocument doc(jsonObj);
+	QByteArray postData = doc.toJson();
 	connect(networkManager, &QNetworkAccessManager::finished, this, [this, networkManager](QNetworkReply* reply) {
 		if (reply->error()) {
 			qDebug() << "Error in network reply:" << reply->errorString();
@@ -106,7 +110,7 @@ void Game::on_pushButton_create_private_room_clicked()
 		this->close();
 		});
 
-	networkManager->post(request, QByteArray());
+	networkManager->post(request, postData);
 }
 
 

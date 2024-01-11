@@ -12,16 +12,16 @@ namespace skribbl
 	{
 	public:
 		//Game() {}
-		Game(uint16_t numberOfPlayers, uint16_t currentRound);
+		Game(uint16_t numberOfPlayers, uint16_t currentRound);//TODO :Vectorul de playeri 
 		uint16_t getNumberOfPlayers();
 		uint16_t getCurrentRound();
 		uint16_t getNumberOfRounds();
 		void StartGame();
-		void setCurrentRound(const uint16_t& currentRound);
-		void setNumberOfPlayers(const uint16_t& numberOfPlayers);
+		void setCurrentRound(const uint16_t& currentRound);//nu trebuie
+		void setNumberOfPlayers(const uint16_t& numberOfPlayers);//nu trebuie
 		void addPlayer(const User& player);
 		bool isGameFinished(const uint16_t& currentRound,
-			const uint16_t& numberOfRounds);
+							const uint16_t& numberOfRounds);
 		bool isFirstRound();
 		void nextRound();
 	private:

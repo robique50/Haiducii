@@ -167,8 +167,6 @@
     <ClCompile Include="leaderboard.cpp" />
     <ClCompile Include="leaderboard.cppm" />
     <ClCompile Include="Lobby.cpp" />
-    <ClCompile Include="meetingroom.cpp" />
-    <ClCompile Include="meetingroom.cppm" />
     <ClCompile Include="PlayerManagement.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="round.cppm" />

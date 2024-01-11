@@ -41,6 +41,7 @@ namespace skribbl
 		bool isEqual(const User& user) const;
 		bool isValid() const;
 		const Statistics& getStatistics() const;
+		friend bool operator==(const User& lhs, const User& rhs);
 
 	private:
 		int m_id;
@@ -50,4 +51,10 @@ namespace skribbl
 		bool m_isDrawing;
 		Statistics m_statistics;
 	};
+
+	export bool operator==(const User& lhs, const User& rhs)
+	{
+		return lhs.m_id==rhs.m_id;
+	}
+
 }

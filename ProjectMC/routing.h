@@ -20,7 +20,6 @@ namespace skribbl
 	public:
 		void Run(skribbl::DataBase& db);
 	private:
-		PlayerManager playerManager;
 		LobbyManager lobbyManager;
 		crow::SimpleApp m_app;
 	};

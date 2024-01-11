@@ -39,9 +39,6 @@
     <ClCompile Include="chatinput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="meetingroom.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="round.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -52,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="routing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="meetingroom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="leaderboard.cppm">

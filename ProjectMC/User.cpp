@@ -115,3 +115,8 @@ const Statistics& skribbl::User::getStatistics() const
 {
 	return m_statistics;
 }
+
+bool operator ==(const User& lhs, const User& rhs)
+{
+		return lhs.getID() == rhs.getID();
+}

@@ -39,15 +39,26 @@ void CreatePrivateRoom::setRoomCode(const QString & code)
 }
 
 void CreatePrivateRoom::fetchPlayerData() {
-    QNetworkRequest request(QUrl("http://localhost:18080/getConnected"));
+    if (roomCode.isEmpty()) {
+        return; 
+    }
+    QNetworkRequest request(QUrl(QString("http://localhost:18080/getConnected/%1").arg(roomCode)));
     networkManager->get(request);
 }
 
-void CreatePrivateRoom::fetchRoomCode()
-{
-    QNetworkRequest request(QUrl("http://localhost:18080/getRoomCode"));  
-    networkManager->get(request);
+void CreatePrivateRoom::fetchRoomCode() {
+    QNetworkRequest request(QUrl("http://localhost:18080/createLobby"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QJsonObject jsonObj;
+    jsonObj["userID"] = userID;
+
+    QJsonDocument doc(jsonObj);
+    QByteArray postData = doc.toJson();
+
+    networkManager->post(request, postData);
 }
+
 
 void CreatePrivateRoom::onHttpReply(QNetworkReply* reply) {
     if (reply->error()) {
@@ -57,7 +68,18 @@ void CreatePrivateRoom::onHttpReply(QNetworkReply* reply) {
 
     QByteArray response = reply->readAll();
     QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
-    updatePlayerModel(jsonDoc.object());
+
+    if (jsonDoc.isObject()) {
+        QJsonObject jsonObj = jsonDoc.object();
+        if (jsonObj.contains("roomCode")) {
+            QString roomCode = jsonObj["roomCode"].toString();
+            setRoomCode(roomCode);
+            fetchPlayerData(); // Start fetching player data for the new room
+        }
+        else {
+            updatePlayerModel(jsonObj);
+        }
+    }
 }
 
 void CreatePrivateRoom::updatePlayerModel(const QJsonObject& json) {

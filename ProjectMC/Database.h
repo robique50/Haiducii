@@ -14,7 +14,6 @@
 namespace sql = sqlite_orm;
 
 import user;
-import meetingroom;
 
 namespace skribbl
 {
@@ -33,13 +32,6 @@ namespace skribbl
 				sql::make_column("fullname", &User::setFullname, &User::getFullname),
 				sql::make_column("username", &User::setUsername, &User::getUsername),
 				sql::make_column("password", &User::setPassword, &User::getPassword)
-			),
-			sql::make_table(
-				"MeetingRoom",
-				sql::make_column("roomCode", &MeetingRoom::setRoomCode, &MeetingRoom::getRoomCode, sql::primary_key()),
-				sql::make_column("createdByUserId", &MeetingRoom::setCreatedByUserId, &MeetingRoom::getCreatedByUserId),
-				sql::make_column("gameState", &MeetingRoom::setGameState, &MeetingRoom::getGameState),
-				sql::make_column("playerCount", &MeetingRoom::setPlayerCount, &MeetingRoom::getPlayerCount)
 			)
 		);
 	}
@@ -55,13 +47,9 @@ namespace skribbl
 
 		void addWord(const Words& word);
 
-		void addMeetingRoom(MeetingRoom& meetingRoom);
-
 		void populateStorage();
 
 		int getWordsCount();
-
-		MeetingRoom getMeetingRoomByCode(const std::string& code);
 
 		bool userExists(const User& user);
 
@@ -76,8 +64,6 @@ namespace skribbl
 		void removeWord(const Words& word);
 
 		void removeUser(const User& user);
-
-		void removeMeetingRoom(const MeetingRoom& meetingRoom);
 
 		void showUsersWithScoreGreaterThan(int score);
 

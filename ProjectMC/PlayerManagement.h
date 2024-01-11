@@ -12,7 +12,6 @@
 namespace sql = sqlite_orm;
 
 import user;
-import meetingroom;
 
 namespace skribbl {
 
