@@ -11,7 +11,7 @@ Play::Play(QWidget* parent, int userID)
 {
 	ui.setupUi(this);
 	ui.lineEdit_roomCode->setPlaceholderText("Enter lobby code");
-
+    
 	connect(ui.pushButton_joinGame, &QPushButton::clicked, this, &Play::on_pushButton_joinGame_clicked);
 }
 
@@ -43,9 +43,7 @@ void Play::on_pushButton_joinGame_clicked()
 void Play::handleJoinLobbyResponse()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    createPrivateRoomWindow = new CreatePrivateRoom();
-    ui.setupUi(createPrivateRoomWindow);
-    
+
     if (!reply) {
         QMessageBox::critical(this, "Error", "An unexpected error occurred.");
         return;
@@ -68,19 +66,17 @@ void Play::handleJoinLobbyResponse()
     QJsonObject responseObject = jsonResponse.object();
     QString message = responseObject.value("message").toString();
     bool success = responseObject.value("success").toBool();
-    QString lobbyCode; 
 
     if (success) {
-        lobbyCode = responseObject.value("lobbyCode").toString(); 
-
-        QMessageBox::information(this, "Lobby", "Successfully joined the lobby!");
+        QString lobbyCode = responseObject.value("lobbyCode").toString();
 
         if (createPrivateRoomWindow) {
-            createPrivateRoomWindow->setRoomCode(lobbyCode);
-            createPrivateRoomWindow->show();
+            delete createPrivateRoomWindow;
         }
-        this->hide();
-        this->deleteLater();
+        createPrivateRoomWindow = new CreatePrivateRoom(this, m_userID);
+        createPrivateRoomWindow->setRoomCode(lobbyCode);
+        createPrivateRoomWindow->show();
+        this->hide();  
 
     }
     else {

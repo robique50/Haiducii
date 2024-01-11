@@ -40,7 +40,7 @@ void CreatePrivateRoom::setRoomCode(const QString & code)
 
 void CreatePrivateRoom::fetchPlayerData() {
     if (roomCode.isEmpty()) {
-        return; 
+        return;
     }
     QNetworkRequest request(QUrl(QString("http://localhost:18080/getConnected/%1").arg(roomCode)));
     networkManager->get(request);
@@ -74,12 +74,11 @@ void CreatePrivateRoom::onHttpReply(QNetworkReply* reply) {
         if (jsonObj.contains("roomCode")) {
             QString roomCode = jsonObj["roomCode"].toString();
             setRoomCode(roomCode);
-            fetchPlayerData(); // Start fetching player data for the new room
+            fetchPlayerData(); 
         }
-        else {
-            updatePlayerModel(jsonObj);
-        }
+        updatePlayerModel(jsonObj);
     }
+
 }
 
 void CreatePrivateRoom::updatePlayerModel(const QJsonObject& json) {

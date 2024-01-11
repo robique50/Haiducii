@@ -22,7 +22,7 @@ private slots:
 
 
 private:
-	CreatePrivateRoom* createPrivateRoomWindow=nullptr;
+	CreatePrivateRoom* createPrivateRoomWindow= new CreatePrivateRoom();
 	Ui::PlayClass ui;
 	QNetworkAccessManager* networkManager;
 	int m_userID;
