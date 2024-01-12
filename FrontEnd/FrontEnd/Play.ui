@@ -43,7 +43,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_joinGame">
+   <widget class="QPushButton" name="joinGame">
     <property name="geometry">
      <rect>
       <x>390</x>

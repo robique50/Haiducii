@@ -8,6 +8,7 @@
 #include "routing.h"
 #include "Words.h"
 #include "client.h"
+#include "../ProiectDLL/Score.h"
 
 namespace sql = sqlite_orm;
 
@@ -21,6 +22,8 @@ using skribbl::Round;
 int main()
 {
 	DataBase db;
+	Score::addScore();
+	
 	if (!db.Initialize())
 	{
 		std::cout << "Error: Database not found" << std::endl;
@@ -30,6 +33,7 @@ int main()
 	Routing r;
 	std::cout << "\n";
 	r.Run(db);
+
 	/*Client client("http://localhost:18080");
 	std::unordered_set<std::string> words = client.loadWordsFromServer();
 
