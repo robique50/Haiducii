@@ -14,6 +14,8 @@
 namespace sql = sqlite_orm;
 
 import user;
+import round;
+import game;
 
 namespace skribbl
 {
@@ -32,6 +34,27 @@ namespace skribbl
 				sql::make_column("fullname", &User::setFullname, &User::getFullname),
 				sql::make_column("username", &User::setUsername, &User::getUsername),
 				sql::make_column("password", &User::setPassword, &User::getPassword)
+			),
+			sql::make_table(
+				"Rounds",
+				sql::make_column("id", &Round::SetId, &Round::GetId, sql::primary_key().autoincrement()),
+				sql::make_column("gameid", &Round::SetGameId, &Round::GetGameId),
+				sql::make_column("word", &Round::SetCurrentWord, &Round::GetCurrentWord),
+				sql::make_column("drawingplayer", &Round::SetDrawingPlayer, &Round::GetDrawingPlayer),
+				sql::make_column("roundnumber", &Round::SetRoundNumber, &Round::GetRoundNumber),
+				sql::make_column("words", &Round::SerializeWords, &Round::DeserializeWords),
+				sql::make_column("timeleft", &Round::SetTimeLeft, &Round::GetTimeLeft)
+			),
+			sql::make_table(
+				"Games",
+				sql::make_column("id", &Game::SetId, &Game::GetId, sql::primary_key().autoincrement()),
+				sql::make_column("players", &Game::SerializePlayers, &Game::DeserializePlayers),
+				sql::make_column("gamecode", &Game::SetGameCode, &Game::GetGameCode),
+				sql::make_column("currentplayers", &Game::SetCurrentPlayers, &Game::GetCurrentPlayers),
+				sql::make_column("status", &Game::SetGameStatusInt, &Game::GetGameStatusAsInt),
+				sql::make_column("chat", &Game::SetChat, &Game::GetChat),
+				// foreign key for round table to reference the round with the same gameid
+				sql::foreign_key(&Game::GetId).references(&Round::GetGameId)
 			)
 		);
 	}

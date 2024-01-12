@@ -66,7 +66,7 @@ namespace skribbl
 		auto allUsers = m_db.get_all<User>();
 		return std::any_of(allUsers.begin(), allUsers.end(), [&user]
 		(const auto& user1) {
-				return user.isEqual(user1);
+				return user==user1;
 			});
 	}
 
@@ -147,16 +147,7 @@ namespace skribbl
 		}
 	}
 
-	void DataBase::showUsersWithScoreGreaterThan(int score)
-	{
-
-		auto users = m_db.get_all<User>(sql::where(sql::c(&User::getScore) > score));
-
-		for (const auto& user : users)
-		{
-			std::cout << "ID: " << user.getID() << ", Username: " << user.getUsername() << ", Score: " << user.getScore() << std::endl;
-		}
-	}
+	
 
 	User DataBase::getUserById(const int& id)
 	{

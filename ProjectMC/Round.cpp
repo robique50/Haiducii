@@ -1,145 +1,123 @@
-import round;
-import <iostream>;
-import <random>;
-import <thread>;
-import <chrono>;
+module round;
 
-using skribbl::Round;
+using namespace skribbl;
 
-Round::Round(const std::string& currentWord)
-	: m_currentWord{ currentWord }
+
+Round::Round(int id, const std::string& gameId)
+	:
+	m_id{ id },
+	m_gameId{ gameId },
+	m_drawingPlayerName{ "" },
+	m_currentWord{ "" },
+	m_roundNumber{ 1 },
+	m_timeLeft{ 60 }
 {
+	// Empty
 }
 
-bool Round::CorrectGuess(const std::string& guess)
+Round::Round(int id, const std::string& gameId, const std::string& drawingPlayerName, const std::string& currentWord, const std::set<std::string>& words, uint8_t roundNumber)
+	:
+	m_id{ id },
+	m_gameId{ gameId },
+	m_drawingPlayerName{ drawingPlayerName },
+	m_currentWord{ currentWord },
+	m_words{ words },
+	m_roundNumber{ roundNumber },
+	m_timeLeft{ 60 }
 {
-	if (guess.size() != m_currentWord.size())
-		return false;
-
-	return std::equal(guess.begin(), guess.end(), m_currentWord.begin(),
-		[](char a, char b) {
-			return std::tolower(a) == std::tolower(b);
-		});
+	// Empty
 }
-std::string Round::getCurrentWord()
+
+void Round::SetId(int id)
+{
+	m_id = id;
+}
+
+void Round::SetGameId(std::string gameId)
+{
+	m_gameId = gameId;
+}
+
+void Round::SetDrawingPlayer(const std::string& drawingPlayerName)
+{
+	m_drawingPlayerName = drawingPlayerName;
+}
+
+void Round::SetCurrentWord(const std::string& currentWord)
+{
+	m_currentWord = currentWord;
+}
+
+void Round::SetWords(const std::set<std::string>& words)
+{
+	m_words = words;
+}
+
+void Round::SetRoundNumber(uint8_t roundNumber)
+{
+	m_roundNumber = roundNumber;
+}
+
+int Round::GetId() const noexcept
+{
+	return m_id;
+}
+
+std::string Round::GetGameId() const noexcept
+{
+	return m_gameId;
+}
+
+std::string Round::GetDrawingPlayer() const noexcept
+{
+	return m_drawingPlayerName;
+}
+
+std::string Round::GetCurrentWord() const noexcept
 {
 	return m_currentWord;
 }
 
-void Round::ShowLetters()
+uint8_t Round::GetRoundNumber() const noexcept
 {
-	int interval = 2;
-	size_t n = m_currentWord.size();
-	int numToDisplay = n / 2;
-	if (numToDisplay < 1)
-	{
-		numToDisplay = 1;
-	}
-	std::string displayedWord(n, '_');
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	int displayedIndex = 0;
-	while (numToDisplay > 0)
-	{
-		int randomIndex;
-		do
-		{
-			randomIndex = std::uniform_int_distribution<int>(0, n - 1)(gen);
-		} while (displayedWord[randomIndex] != '_');
-		displayedWord[randomIndex] = m_currentWord[randomIndex];
-		std::cout << displayedWord << std::endl;
-		std::this_thread::sleep_for(std::chrono::seconds(interval));
-		displayedIndex = randomIndex;
-		numToDisplay--;
-	}
+	return m_roundNumber;
 }
 
-void Round::SetState(const RoundState& state)
+std::string Round::SerializeWords() const noexcept
 {
-	m_state = state;
+	std::string serializedWords;
+	for (const auto& word : m_words)
+		serializedWords += word + ",";
+
+	if (!serializedWords.empty())
+		serializedWords.pop_back();
+
+	return serializedWords;
 }
 
-void Round::updateTimer()
+void Round::DeserializeWords(const std::string& serializedWords)
 {
-	while (m_time > 0)
+	std::stringstream ss{ serializedWords };
+	std::string word;
+	while (std::getline(ss, word, ','))
+		m_words.insert(word);
+}
+
+void Round::SetTimeLeft(int timeLeft)
+{
+	m_timeLeft = timeLeft;
+}
+
+int Round::GetTimeLeft() const noexcept
+{
+	return m_timeLeft;
+}
+
+void Round::StartTimer()
+{
+	while (m_timeLeft > 0)
 	{
 		std::this_thread::sleep_for(std::chrono::seconds(1));
-		m_time--;
-	}
-}
-
-bool Round::isTimeUp() const
-{
-	return m_time <= 0;
-}
-
-void Round::prepareNextRound()
-{
-	SetState(RoundState::Waiting);
-	m_guesses.clear();
-	//m_currentWord = getNextWord();
-	m_time = m_initialDuration;
-}
-
-std::string Round::getNextWord()
-{
-	static std::mt19937 gen(std::random_device{}());
-	std::uniform_int_distribution<> dist(0, m_wordsList.size() - 1);
-
-	auto it = m_wordsList.begin();
-	std::advance(it, dist(gen));
-
-	std::string word = *it;
-	m_wordsList.erase(it);
-
-	return word;
-}
-
-void Round::startRound(const int& duration)
-{
-	SetState(RoundState::Playing);
-	m_time = duration;
-
-	std::thread timerThread(&Round::updateTimer, this);
-	timerThread.detach();
-
-	while (!isTimeUp()) {
-		//checkAndProcessGuesses(); //TO DO
-		if (m_time == duration / 2) {
-			ShowLetters();
-		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
-
-	//TO DO : calculate score for all players
-	SetState(RoundState::Finished);
-	prepareNextRound();
-}
-
-void Round::AddGuess(const std::string& guess, int responseTime)
-{
-	m_guesses.insert(std::make_pair(responseTime, guess));
-}
-
-int Round::CalculateScore() {
-	if (m_guesses.empty()) {
-		return -100;
-	}
-	double totalResponseTime = 0;
-	int numCorrectGuesses = 0;
-	for (const auto& [responseTime, guess] : m_guesses) {
-		if (guess == m_currentWord) {
-			totalResponseTime += responseTime;
-			numCorrectGuesses++;
-		}
-	}
-
-	if (numCorrectGuesses > 0) {
-		double averageResponseTime = totalResponseTime / numCorrectGuesses;
-		int drawerScore = static_cast<int>((60 - averageResponseTime) / 60.0 * 100);
-		return drawerScore;
-	}
-	else {
-		return -100;
+		m_timeLeft--;
 	}
 }

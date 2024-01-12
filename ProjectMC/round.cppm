@@ -1,52 +1,50 @@
 export module round;
 
-import <iostream>;
-import <ctime>;
-import <time.h>;
-import <algorithm>;
-import <cctype>;
-import <string>;
-import <vector>;
-import <unordered_map>;
-import <chrono>;
-import <random>;
-import <thread>;
-import <atomic>;
-import <unordered_set>;
+import user;
 
-export enum class RoundState
-{
-	Waiting,
-	Playing,
-	Finished
-};
+import <vector>;
+import <string>;
+import <set>;
+import <chrono>;
+import <thread>;
+import <sstream>;
 
 namespace skribbl
 {
-	export class Round
-	{
+	export class Round {
 	public:
-		Round(const std::string& currentWord);
-		bool CorrectGuess(const std::string& guess);
-		std::string getCurrentWord();
-		void AddGuess(const std::string& guess, int responseTime);
-		int CalculateScore();
-		void ShowLetters();
-		void SetState(const RoundState& state);
-		void startRound(const int& duration);
-		void updateTimer();
-		bool isTimeUp() const;
-		void prepareNextRound();
-		std::string getNextWord();
+
+		Round() = default;
+		Round(int id, const std::string& gameId);
+		Round(int id, const std::string& gameId, const std::string& drawingPlayerName, const std::string& currentWord, const std::set<std::string>& words, uint8_t roundNumber);
+
+		void SetId(int id);
+		void SetGameId(std::string gameId);
+		void SetDrawingPlayer(const std::string& drawingPlayerName);
+		void SetCurrentWord(const std::string& currentWord);
+		void SetWords(const std::set<std::string>& words);
+		void SetRoundNumber(uint8_t roundNumber);
+
+		int GetId() const noexcept;
+		std::string GetGameId() const noexcept;
+		std::string GetDrawingPlayer() const noexcept;
+		std::string GetCurrentWord() const noexcept;
+		uint8_t GetRoundNumber() const noexcept;
+		std::string SerializeWords() const noexcept;
+		void DeserializeWords(const std::string& serializedWords);
+
+		void SetTimeLeft(int timeLeft);
+		int GetTimeLeft() const noexcept;
+
+		void StartTimer();
+
 	private:
-		const std::string m_currentWord;
-		std::atomic<uint16_t>m_time;
-		std::unordered_map<uint16_t, std::string>m_guesses;
-		RoundState m_state;
-		std::unordered_set<std::string> m_wordsList;
-		size_t m_nextWordIndex;
-		static const uint16_t m_initialDuration{ 60 };
+		int m_id;
+		std::string m_gameId;
+		std::string m_drawingPlayerName;
+		std::string m_currentWord;
+		std::set<std::string> m_words;
+		uint8_t m_roundNumber;
+		int m_timeLeft;
 	};
-
-
 }

@@ -164,8 +164,6 @@
     <ClCompile Include="difficultyLevel.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
-    <ClCompile Include="leaderboard.cpp" />
-    <ClCompile Include="leaderboard.cppm" />
     <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="PlayerManagement.cpp" />
     <ClCompile Include="Round.cpp" />
