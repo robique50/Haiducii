@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
-
-
+#include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
 
 Game::Game(QWidget* parent, int userID, const QString& username)
 	: QMainWindow(parent), m_userID(userID), m_username(username)

@@ -213,3 +213,12 @@ void Game::SetPlayerScore(const std::string& username, int score)
 		if (player.getUsername() == username)
 			player.SetPoints(score);
 }
+
+std::vector<std::string> skribbl::Game::GetPlayerNames() const
+{
+	std::vector<std::string> playerNames;
+	for (const auto& player : m_players) {
+		playerNames.push_back(player.getUsername()); // Replace getUsername with your method to get the player's name
+	}
+	return playerNames;
+}

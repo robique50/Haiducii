@@ -19,6 +19,9 @@ CreatePrivateRoom::CreatePrivateRoom(QWidget *parent,int userID)
 CreatePrivateRoom::~CreatePrivateRoom()
 {}
 
+
+
+
 void CreatePrivateRoom::showEvent(QShowEvent* event) {
     QMainWindow::showEvent(event);
     timer->start(2000); 
@@ -42,9 +45,11 @@ void CreatePrivateRoom::fetchPlayerData() {
     if (roomCode.isEmpty()) {
         return;
     }
-    QNetworkRequest request(QUrl(QString("http://localhost:18080/getConnected/%1").arg(roomCode)));
+
+    QNetworkRequest request(QUrl(QString("http://localhost:18080/getLobbyInfo?lobbyCode=%1").arg(roomCode)));
     networkManager->get(request);
 }
+
 
 void CreatePrivateRoom::fetchRoomCode() {
     QNetworkRequest request(QUrl("http://localhost:18080/createLobby"));
@@ -71,29 +76,24 @@ void CreatePrivateRoom::onHttpReply(QNetworkReply* reply) {
 
     if (jsonDoc.isObject()) {
         QJsonObject jsonObj = jsonDoc.object();
-        if (jsonObj.contains("roomCode")) {
-            QString roomCode = jsonObj["roomCode"].toString();
-            setRoomCode(roomCode);
-            fetchPlayerData(); 
+        if (jsonObj.contains("players")) {
+            updatePlayerModel(jsonObj);
         }
-        updatePlayerModel(jsonObj);
     }
-
 }
+
 
 void CreatePrivateRoom::updatePlayerModel(const QJsonObject& json) {
-    playerModel->clear(); 
-    playerModel->setHorizontalHeaderLabels({ "Player ID", "Player Name" }); 
+    playerModel->clear();
+    playerModel->setHorizontalHeaderLabels({ "Player Name" });
 
-    const QJsonObject& players = json["players"].toObject();
-    for (const auto& id : players.keys()) {
-        const QJsonObject& playerData = players[id].toObject();
-        QStandardItem* idItem = new QStandardItem(id);
-        QStandardItem* nameItem = new QStandardItem(playerData["name"].toString());
-
-        playerModel->appendRow({ idItem, nameItem });
+    const QJsonArray& players = json["players"].toArray();
+    for (const QJsonValue& playerVal : players) {
+        QStandardItem* nameItem = new QStandardItem(playerVal.toString());
+        playerModel->appendRow({ nameItem });
     }
 }
+
 
 void CreatePrivateRoom::on_pushButton_Start()
 {

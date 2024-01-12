@@ -28,7 +28,7 @@ private slots:
 	void onHttpReply(QNetworkReply* reply);
 	void showEvent(QShowEvent* event);
 	void hideEvent(QHideEvent* event);
-		
+
 
 signals:
 	void createPrivateRoomSignal();

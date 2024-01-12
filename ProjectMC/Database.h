@@ -52,9 +52,8 @@ namespace skribbl
 				sql::make_column("gamecode", &Game::SetGameCode, &Game::GetGameCode),
 				sql::make_column("currentplayers", &Game::SetCurrentPlayers, &Game::GetCurrentPlayers),
 				sql::make_column("status", &Game::SetGameStatusInt, &Game::GetGameStatusAsInt),
-				sql::make_column("chat", &Game::SetChat, &Game::GetChat),
-				// foreign key for round table to reference the round with the same gameid
-				sql::foreign_key(&Game::GetId).references(&Round::GetGameId)
+				sql::make_column("chat", &Game::SetChat, &Game::GetChat)
+				
 			)
 		);
 	}
@@ -88,9 +87,15 @@ namespace skribbl
 
 		void removeUser(const User& user);
 
-		void showUsersWithScoreGreaterThan(int score);
-
 		User getUserById(const int& id);
+
+		bool addGame(const User& user, const std::string& gameCode);
+
+		int addRound(const Round& round);
+
+		Game getGameByCode(const std::string& gameCode);
+
+		bool addPlayerToGame(const User& user, const std::string& gameCode);
 
 	private:
 		const std::string db_file{ "cuvinte.sqlite" };

@@ -66,7 +66,7 @@ namespace skribbl
 		auto allUsers = m_db.get_all<User>();
 		return std::any_of(allUsers.begin(), allUsers.end(), [&user]
 		(const auto& user1) {
-				return user==user1;
+				return user == user1;
 			});
 	}
 
@@ -147,7 +147,7 @@ namespace skribbl
 		}
 	}
 
-	
+
 
 	User DataBase::getUserById(const int& id)
 	{
@@ -164,6 +164,86 @@ namespace skribbl
 		}
 		return User(-1, "", "");
 	}
+
+	bool DataBase::addGame(const User& user, const std::string& gameCode) {
+		try {
+			Game newGame{ -1, user, gameCode, 1 };
+
+
+			m_db.insert(newGame);
+
+
+			Round newRound{ -1, gameCode };
+			m_db.insert(newRound);
+
+			return true;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred while adding game: " << e.what() << "\n";
+			return false;
+		}
+	}
+
+	int DataBase::addRound(const Round& round)
+	{
+		try {
+			m_db.insert(round);
+			return m_db.last_insert_rowid(); // Presupunând că returnează ID-ul round-ului inserat
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred while adding round: " << e.what() << "\n";
+			return -1; // Indică o eroare
+		}
+	}
+
+	Game DataBase::getGameByCode(const std::string& gameCode)
+	{
+		try {
+			// Assuming you have a method in the storage to find a game by code
+			auto games = m_db.get_all<Game>(sqlite_orm::where(sqlite_orm::c(&Game::GetGameCode) == gameCode));
+			if (!games.empty()) {
+				return games.front();
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred while retrieving game by code: " << e.what() << "\n";
+		}
+		return Game();
+	}
+
+	bool DataBase::addPlayerToGame(const User& user, const std::string& gameCode) {
+		try {
+			auto games = m_db.get_all<Game>(sqlite_orm::where(sqlite_orm::c(&Game::GetGameCode) == gameCode));
+			if (!games.empty()) {
+				Game& game = games.front();
+
+				// Check if the user is already in the game
+				auto existingPlayers = game.GetPlayers(); // Assuming GetPlayers returns a vector of Users
+				if (std::find_if(existingPlayers.begin(), existingPlayers.end(),
+					[&user](const User& u) { return u.getID() == user.getID(); }) != existingPlayers.end()) {
+					// User already in the game, return true
+					return true;
+				}
+
+				// Add the user to the game
+				game.AddPlayer(user);
+
+				// Serialize the updated players list
+				std::string serializedPlayers = game.SerializePlayers();
+
+				// Update the game record in the database
+				m_db.update_all(sqlite_orm::set(sqlite_orm::c(&Game::SerializePlayers) = serializedPlayers),
+					sqlite_orm::where(sqlite_orm::c(&Game::GetId) == game.GetId()));
+
+				return true;
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred while adding player to game: " << e.what() << "\n";
+		}
+		return false; // Return false if the operation was unsuccessful
+	}
+
 
 
 

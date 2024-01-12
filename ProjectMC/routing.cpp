@@ -62,7 +62,6 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		});
 
 	
-
 	CROW_ROUTE(m_app, "/getwords")([&db]() {
 		std::vector<crow::json::wvalue> words_json;
 		auto words = db.getRandomWords(numberOfWords);
@@ -76,43 +75,33 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::json::wvalue{ words_json };
 		});
 
-
-	CROW_ROUTE(m_app, "/getConnected/<string>").methods(crow::HTTPMethod::GET)
-([this](const crow::request& req, std::string lobbyCode) {
-    crow::json::wvalue response;
-
-    if (!lobbyManager.doesLobbyExist(lobbyCode)) {
-        response["error"] = "Lobby not found";
-        return crow::response(404, response);
-    }
-
-    const auto& lobby = lobbyManager.getLobby(lobbyCode);
-    const auto& allPlayers = lobby.getPlayers();
-
-    for (const auto& player : allPlayers) {
-        std::string id = std::to_string(player.getID());
-        std::string name = player.getUsername();
-
-        response["players"][id] = {{"name", name}};
-    }
-    return crow::response{ response };
-});
-	CROW_ROUTE(m_app, "/joinLobby/<string>/<int>").methods(crow::HTTPMethod::GET)
-		([this,&db](const crow::request& req, std::string lobbyCode, int userID) {
-		crow::json::wvalue response;
-
-		if (!lobbyManager.doesLobbyExist(lobbyCode)) {
-			response["error"] = "Lobby not found";
-			return crow::response(404, response);
+	CROW_ROUTE(m_app, "/joinLobby").methods("POST"_method)([&db, this](const crow::request& req) {
+		auto jsonBody = crow::json::load(req.body);
+		if (!jsonBody || !jsonBody.has("userID") || !jsonBody.has("lobbyCode")) {
+			return crow::response(400, "Invalid request");
 		}
-		
-		User newUser{db.getUserById(userID)};
-		lobbyManager.addPlayerToLobby(lobbyCode, newUser);
+		int userID = jsonBody["userID"].i();
+		std::string lobbyCode = jsonBody["lobbyCode"].s();
 
-		response["success"] = true;
-		response["message"] = "Successfully joined the lobby";
-		return crow::response{ response };
-			});
+		User newUser = db.getUserById(userID);
+		if (newUser.getID() == -1) {
+			return crow::response(400, "User not found");
+		}
+
+		Game lobby = db.getGameByCode(lobbyCode);
+		if (lobby.GetId() == -1) {
+			return crow::response(404, "Lobby not found");
+		}
+
+		if (!db.addPlayerToGame(newUser, lobbyCode)) {
+			return crow::response(500, "Failed to join lobby");
+		}
+
+		crow::json::wvalue response;
+		response["message"] = "Joined lobby successfully";
+		return crow::response(200, response);
+		});
+
 
 	CROW_ROUTE(m_app, "/createLobby").methods("POST"_method)([&db, this](const crow::request& req) {
 		auto jsonBody = crow::json::load(req.body);
@@ -121,10 +110,14 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		}
 		int userID = jsonBody["userID"].i();
 
-		auto code = lobbyManager.generateUniqueCode();
-		lobbyManager.createLobby(code);
-		User newUser{ db.getUserById(userID) };
-		lobbyManager.addPlayerToLobby(code, newUser);
+		auto code = Game::generateUniqueCode();
+
+		User newUser = db.getUserById(userID);
+
+		if (!db.addGame(newUser, code)) {
+			return crow::response(500, "Failed to create game");
+		}
+
 		crow::json::wvalue response;
 		response["roomCode"] = code;
 		std::cout << "Generated room code: " << code << std::endl;
@@ -132,47 +125,19 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::response(200, response);
 		});
 
-
-	/*
-	CROW_ROUTE(m_app, "/createLobby").methods("POST"_method)([&db](const crow::request& req) {
-		db.addMeetingRoom(newRoom);  
-
-		crow::json::wvalue response;
-		response["roomCode"] = newRoom.getRoomCode();
-		std::cout << "Generated room code: " << newRoom.getRoomCode() << std::endl;
-
-		return crow::response(200, response);
-		});
-
-
-	CROW_ROUTE(m_app, "/getRoomCode").methods("GET"_method)([&db]() {
-		try {
-			auto room = db.getMeetingRoomByCode("cod_unic"); 
-			return crow::response(200, room.getRoomCode());
-		}
-		catch (const std::exception& e) {
-			return crow::response(500, "Error retrieving lobby code: " + std::string(e.what()));
-		}
-		});
-
-	CROW_ROUTE(m_app, "/joinLobby/<string>/<int>").methods(crow::HTTPMethod::GET)
-		([this](std::string lobbyCode, int userID) {
-		MeetingRoom* lobby = lobbyManager.getLobbyByCode(lobbyCode);
-		if (!lobby) {
+	CROW_ROUTE(m_app, "/getLobbyInfo").methods("GET"_method)([&db](const crow::request& req) {
+		std::string lobbyCode = req.url_params.get("lobbyCode");
+		Game lobby = db.getGameByCode(lobbyCode);
+		if (lobby.GetId() == -1) {
 			return crow::response(404, "Lobby not found");
 		}
 
-		User user = playerManager.getUserById(userID);
-		if (!user.isValid()) { 
-			return crow::response(404, "User not found");
-		}
+		std::vector<std::string> playerNames = lobby.GetPlayerNames();
 
-		lobby->addPlayer(user);
-
-
-		return crow::response(200, "Joined lobby successfully");
-			});
-	*/
+		crow::json::wvalue response;
+		response["players"] = playerNames;
+		return crow::response(200, response);
+		});
 
 
 	m_app.port(18080).multithreaded().run();

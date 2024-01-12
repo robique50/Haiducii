@@ -14,17 +14,18 @@ public:
 	~Play();
 
 signals:
-	void joinGame(const QString& roomCode);
+	
 
 private slots:
 	void on_pushButton_joinGame_clicked();
-	void handleJoinLobbyResponse();
+	
 
 
 private:
-	CreatePrivateRoom* createPrivateRoomWindow= new CreatePrivateRoom();
 	Ui::PlayClass ui;
 	QNetworkAccessManager* networkManager;
 	int m_userID;
+	
+	
 
 };

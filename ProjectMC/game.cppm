@@ -1,4 +1,4 @@
-export module game;
+﻿export module game;
 
 import <vector>;
 import <string>;
@@ -6,7 +6,7 @@ import <array>;
 import <sstream>;
 import <algorithm>;
 import <set>;
-
+import <random>;
 import user;  
 import round;
 
@@ -61,6 +61,29 @@ namespace skribbl
 		void SubstractPointsForTheDrawer(User& player);
 		void AverageTime(const int& timeLeft);
 		void SetPlayerScore(const std::string& username, int score);
+
+		static std::string generateUniqueCode() {
+			static const char alphanum[] =
+				"0123456789"
+				"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+				"abcdefghijklmnopqrstuvwxyz";
+			static const size_t length = 8; // Lungimea dorită pentru codul unic
+
+			std::string code;
+			code.reserve(length);
+
+			std::random_device rd;
+			std::mt19937 generator(rd());
+			std::uniform_int_distribution<> distribution(0, sizeof(alphanum) - 2);
+
+			for (size_t i = 0; i < length; ++i) {
+				code += alphanum[distribution(generator)];
+			}
+
+			return code;
+		}
+
+		std::vector<std::string> GetPlayerNames() const;
 
 	private:
 		int m_id;

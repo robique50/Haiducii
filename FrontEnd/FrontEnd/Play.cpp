@@ -11,80 +11,72 @@ Play::Play(QWidget* parent, int userID)
 {
 	ui.setupUi(this);
 	ui.lineEdit_roomCode->setPlaceholderText("Enter lobby code");
-    
-	connect(ui.pushButton_joinGame, &QPushButton::clicked, this, &Play::on_pushButton_joinGame_clicked);
+
+   
+    disconnect(ui.pushButton_joinGame, &QPushButton::clicked, this, &Play::on_pushButton_joinGame_clicked);
+    connect(ui.pushButton_joinGame, &QPushButton::clicked, this, &Play::on_pushButton_joinGame_clicked);
 }
+
 
 
 Play::~Play()
 {
+    disconnect(ui.pushButton_joinGame, &QPushButton::clicked, this, &Play::on_pushButton_joinGame_clicked);
 }
 
-void Play::on_pushButton_joinGame_clicked()
-{
-    QString lobbyCode = ui.lineEdit_roomCode->text();
+
+void Play::on_pushButton_joinGame_clicked() {
+    ui.pushButton_joinGame->setEnabled(false);
+    QString lobbyCode = ui.lineEdit_roomCode->text().trimmed();
     if (lobbyCode.isEmpty()) {
-        QMessageBox::warning(this, "Warning", "Please enter a lobby code.");
+        QMessageBox::warning(this, "Warning", "Please enter a lobby code");
         return;
     }
 
-    QUrl url(QString("http://localhost:18080/joinLobby/%1/%2").arg(lobbyCode).arg(m_userID));
-    QNetworkRequest request(url);
+    // Prepare the JSON object
+    QJsonObject json;
+    json["userID"] = m_userID;
+    json["lobbyCode"] = lobbyCode;
 
-    if (!networkManager) {
-        networkManager = new QNetworkAccessManager(this);
-    }
+    // Convert JSON object to byte array
+    QJsonDocument doc(json);
+    QByteArray data = doc.toJson();
 
-    QNetworkReply* reply = networkManager->get(request);
+    // Create the network request
+    QNetworkRequest request(QUrl("http://localhost:18080/joinLobby"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    connect(reply, &QNetworkReply::finished, this, &Play::handleJoinLobbyResponse);
-}
+    // Send POST request
+    QNetworkReply* reply = networkManager->post(request, data);
 
-void Play::handleJoinLobbyResponse()
-{
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    // Handle the response
+    connect(reply, &QNetworkReply::finished, [this, reply, lobbyCode]() {
+        ui.pushButton_joinGame->setEnabled(true);
+        if (reply->error() == QNetworkReply::NoError) {
+            QByteArray responseBytes = reply->readAll();
+            QJsonDocument jsonResponse = QJsonDocument::fromJson(responseBytes);
+            QJsonObject responseObject = jsonResponse.object();
 
-    if (!reply) {
-        QMessageBox::critical(this, "Error", "An unexpected error occurred.");
-        return;
-    }
+            QString message = responseObject["message"].toString();
+            QMessageBox::information(this, "Info", message);
 
-    if (reply->error()) {
-        QMessageBox::critical(this, "Error", "Failed to join the lobby: " + reply->errorString());
-        reply->deleteLater();
-        return;
-    }
-
-    QByteArray responseBytes = reply->readAll();
-    QJsonDocument jsonResponse = QJsonDocument::fromJson(responseBytes);
-    if (!jsonResponse.isObject()) {
-        QMessageBox::critical(this, "Error", "Invalid response from server.");
-        reply->deleteLater();
-        return;
-    }
-
-    QJsonObject responseObject = jsonResponse.object();
-    QString message = responseObject.value("message").toString();
-    bool success = responseObject.value("success").toBool();
-
-    if (success) {
-        QString lobbyCode = responseObject.value("lobbyCode").toString();
-
-        if (createPrivateRoomWindow) {
-            delete createPrivateRoomWindow;
+            // Show the create private room window
+            CreatePrivateRoom* createPrivateRoomWindow = new CreatePrivateRoom(this, m_userID);
+            createPrivateRoomWindow->setRoomCode(lobbyCode);
+            createPrivateRoomWindow->show();
+            this->hide(); // Optionally hide the current window
         }
-        createPrivateRoomWindow = new CreatePrivateRoom(this, m_userID);
-        createPrivateRoomWindow->setRoomCode(lobbyCode);
-        createPrivateRoomWindow->show();
-        this->hide();  
-
-    }
-    else {
-        QMessageBox::warning(this, "Failed", message);
-    }
-
-    reply->deleteLater();
+        else {
+            QMessageBox::critical(this, "Error", reply->errorString());
+        }
+        reply->deleteLater();
+        });
 }
+
+
+
+
+
 
 
 
