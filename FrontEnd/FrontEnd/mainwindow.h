@@ -21,6 +21,7 @@ public:
 	MainWindow();
     void setUsername(const QString& username);
     void setRoomID(const QString& roomID);
+    void setUserID(const int& userID);
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -45,6 +46,7 @@ private:
     void startNewRound();
 
     QString m_username;
+    int m_userID;
     QString m_roomID;
 
     std::unique_ptr<QAction> eraseAct;

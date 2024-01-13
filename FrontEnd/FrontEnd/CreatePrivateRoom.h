@@ -21,7 +21,7 @@ class CreatePrivateRoom : public QMainWindow
 	Q_OBJECT
 
 public:
-	CreatePrivateRoom(QWidget *parent = nullptr,int userID=0);
+	CreatePrivateRoom(QWidget *parent = nullptr,int userID=0, const QString& username="");
 	~CreatePrivateRoom();
 	void setRoomCode(const QString& code);
 private slots:
@@ -36,6 +36,7 @@ signals:
 private:
 	Ui::CreatePrivateRoomClass ui;
 	int userID;
+	QString username;
 	QTimer* timer;
 	QString roomCode;
 

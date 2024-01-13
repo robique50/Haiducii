@@ -7,7 +7,7 @@ Game::Game(QWidget* parent, int userID, const QString& username)
 {
 	ui.setupUi(this);
 	ui.label_username->setText("Hello " + m_username);
-	createPrivateRoomWindow = new CreatePrivateRoom(this, userID);
+	createPrivateRoomWindow = new CreatePrivateRoom(this, userID,m_username);
 	connect(createPrivateRoomWindow, &CreatePrivateRoom::createPrivateRoomSignal, this, &Game::show);
 	connect(ui.pushButton_Play, &QPushButton::clicked, this, &Game::on_pushButton_Play_clicked);
 	//connect(ui.pushButton_exit, &QPushButton::clicked, this, &Game::backToLoginScreen);
@@ -91,6 +91,7 @@ void Game::on_pushButton_create_private_room_clicked()
 
 		if (createPrivateRoomWindow) {
 			createPrivateRoomWindow->setRoomCode(roomCode);
+			//createPrivateRoomWindow->setUsername(m_username);
 			createPrivateRoomWindow->show();
 		}
 

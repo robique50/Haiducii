@@ -51,6 +51,11 @@ void MainWindow::setRoomID(const QString& roomID)
 	m_roomID = roomID;
 }
 
+void MainWindow::setUserID(const int& userID)
+{
+	m_userID = userID;
+}
+
 void MainWindow::closeEvent(QCloseEvent* event)
 {
 	QMessageBox::StandardButton answer;

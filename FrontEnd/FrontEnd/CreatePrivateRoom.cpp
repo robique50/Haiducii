@@ -1,7 +1,7 @@
 #include "CreatePrivateRoom.h"
 
-CreatePrivateRoom::CreatePrivateRoom(QWidget *parent,int userID)
-	: QMainWindow(parent),userID(userID)
+CreatePrivateRoom::CreatePrivateRoom(QWidget* parent, int userID, const QString& username)
+    : QMainWindow(parent), userID(userID), username(username)
 {
 	ui.setupUi(this);
     networkManager = new QNetworkAccessManager(this);
@@ -35,6 +35,11 @@ void CreatePrivateRoom::startButtonClicked()
 {
     MainWindow* mainWindow = new MainWindow();
     mainWindow->setAttribute(Qt::WA_DeleteOnClose);
+    QString roomID = ui.lineEdit_roomCode->text();
+    //QString username = ui.lineEdit_roomCode->text();
+
+
+    mainWindow->setRoomID(roomCode);
     mainWindow->show();
     this->close();
 }
