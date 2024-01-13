@@ -6,47 +6,6 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-
-MainWindow::MainWindow()
-{
-	uiMain.setupUi(this);
-	drawingBoard = new DrawingBoard;
-	timer = std::make_unique<QTimer>(this);
-	connect(timer.get(), &QTimer::timeout, this, &MainWindow::updateTimer);
-
-	uiMain.progressBar_timer = findChild<QProgressBar*>("progressBar_timer");
-	uiMain.label_timer = findChild<QLabel*>("label_timer");
-
-	timeLeft = 120;
-	uiMain.progressBar_timer->setMaximum(timeLeft);
-	uiMain.progressBar_timer->setValue(timeLeft);
-	timer->start(1000);
-
-	createActions();
-	setWindowTitle(tr("Skribbl"));
-	uiMain.verticalLayout_drawingBoard->addWidget(drawingBoard);
-	connect(uiMain.pushButton_leave, &QPushButton::clicked, this, &MainWindow::onLeaveGameButtonClicked);
-	connectPenColor();
-	connect(uiMain.pushButton_ClearDrawing, &QPushButton::clicked, this, [this]() {
-		drawingBoard->clearImage();
-		});
-	connect(uiMain.hSliderPenWidth, &QSlider::valueChanged, this, [this](int newValue) {
-		drawingBoard->setPenWidth(newValue);
-		});
-	connect(uiMain.pushButton_FillDrawing, &QPushButton::clicked, this, [this]() {
-		drawingBoard->setFillMode(true);
-		});
-	connect(uiMain.sendMessage, &QPushButton::clicked, this, &MainWindow::sendButtonClicked);
-	
-	playersListWidget = uiMain.listPlayers;
-	networkManager = new QNetworkAccessManager(this);
-	fetchAndDisplayPlayers();
-	connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onPlayersFetched);
-
-	resize(1000, 800);
-	//connect(uiMain.lineEdit_chatInput, &QLineEdit::returnPressed, this, &MainWindow::onChatInputReturnPressed);
-}
-
 MainWindow::MainWindow(QWidget* parent, QString username, QString roomID) : QMainWindow(parent), m_username(username),m_roomID(roomID)
 {
 	uiMain.setupUi(this);

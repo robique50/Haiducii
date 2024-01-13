@@ -22,6 +22,9 @@ private:
 	Ui::RegisterClass ui;
 	QNetworkAccessManager* networkManager;
 	void sendRegistrationRequest(const QJsonObject& userData);
+	bool validateUsername(const QString& username);
+	bool validatePassword(const QString& password);
+	bool validateFullName(const QString& fullName);
 signals:
 	void loginWindow();
 };

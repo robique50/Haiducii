@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	MainWindow();
+	MainWindow()=default;
     MainWindow(QWidget* parent, QString username,QString roomID);
     void setUsername(const QString& username);
     void setRoomID(const QString& roomID);
@@ -43,8 +43,6 @@ private slots:
     void onChatUpdated(QNetworkReply* reply);
 signals:
     void leaveGame();
-    
-
 private:
     void createActions();
     void endRound();

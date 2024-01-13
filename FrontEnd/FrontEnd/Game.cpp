@@ -3,15 +3,17 @@
 #include <nlohmann/json.hpp>
 
 Game::Game(QWidget* parent, int userID, const QString& username)
-	: QMainWindow(parent), m_userID(userID), m_username(username)
+	: QMainWindow{ parent }, 
+	m_userID{ userID }, 
+	m_username{ username }
 {
 	ui.setupUi(this);
 	ui.label_username->setText("Hello " + m_username);
-	createPrivateRoomWindow = new CreatePrivateRoom(this, userID,m_username);
+	createPrivateRoomWindow = new CreatePrivateRoom(this, userID, m_username);
 	connect(createPrivateRoomWindow, &CreatePrivateRoom::createPrivateRoomSignal, this, &Game::show);
 	connect(ui.pushButton_Play, &QPushButton::clicked, this, &Game::on_pushButton_Play_clicked);
 	//connect(ui.pushButton_exit, &QPushButton::clicked, this, &Game::backToLoginScreen);
-	
+
 }
 
 Game::~Game()
@@ -35,7 +37,7 @@ void Game::on_pushButton_Play_clicked()
 		delete playWindow;
 	}
 
-	playWindow = new Play(this, m_userID,m_username);
+	playWindow = new Play(this, m_userID, m_username);
 	playWindow->show();
 	this->hide();
 }
