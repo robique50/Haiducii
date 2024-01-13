@@ -82,8 +82,6 @@ namespace skribbl
 
 		void showWordsFromDatabase();
 
-		const std::vector<Words>& getRandomWords(const int& numberOfWords);
-
 		User getUserByUsername(const std::string& username);
 
 		void removeWord(const Words& word);
@@ -105,6 +103,10 @@ namespace skribbl
 		Game getGame(const std::string& gameCode);
 
 		bool setGameChat(const std::string& gameCode, const std::string& chat);
+
+		int generateRandomNumber(const int& min, const int& max);
+
+		std::string getRandomWord();
 
 	private:
 		const std::string db_file{ "cuvinte.sqlite" };

@@ -90,25 +90,6 @@ namespace skribbl
 		}
 	}
 
-	const std::vector<Words>& DataBase::getRandomWords(const int& numberOfWords)
-	{
-		auto allWords = m_db.get_all<Words>();
-
-		std::random_device rd;
-		std::mt19937 rng(rd());
-		std::shuffle(allWords.begin(), allWords.end(), rng);
-
-		std::vector<Words> selectedWords;
-		for (const auto& word : allWords) {
-			selectedWords.push_back(word);
-			if (selectedWords.size() == static_cast<size_t>(numberOfWords)) {
-				break;
-			}
-		}
-
-		return selectedWords;
-	}
-
 	User DataBase::getUserByUsername(const std::string& username)
 	{
 		try {
@@ -274,5 +255,19 @@ namespace skribbl
 			std::cerr << "Exception occurred while setting game chat: " << exception.what() << "\n";
 		}
 		return false;
+	}
+	int DataBase::generateRandomNumber(const int& min, const int& max)
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> distribution(min, max);
+		return distribution(gen);
+	}
+	std::string DataBase::getRandomWord()
+	{
+		auto wordCount = m_db.count<Words>();
+		auto randomWordIndex = generateRandomNumber(1, wordCount);
+		auto word = m_db.get<Words>(randomWordIndex);
+		return word.getWord();
 	}
 }

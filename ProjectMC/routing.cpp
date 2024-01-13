@@ -62,17 +62,8 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		});
 
 
-	CROW_ROUTE(m_app, "/getwords")([&db]() {
-		std::vector<crow::json::wvalue> words_json;
-		auto words = db.getRandomWords(numberOfWords);
-		for (const auto& word : words)
-		{
-			words_json.push_back(crow::json::wvalue{
-				{"id", word.getId()},
-				{"word", word.getWord()}
-				});
-		}
-		return crow::json::wvalue{ words_json };
+	CROW_ROUTE(m_app, "/getWord")([&db]() {
+		return crow::response{ db.getRandomWord()};
 		});
 
 	CROW_ROUTE(m_app, "/joinLobby").methods("POST"_method)([&db, this](const crow::request& req) {
