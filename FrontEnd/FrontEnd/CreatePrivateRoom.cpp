@@ -38,7 +38,7 @@ void CreatePrivateRoom::startButtonClicked()
     QString roomID = ui.lineEdit_roomCode->text();
     //QString username = ui.lineEdit_roomCode->text();
 
-
+    mainWindow->setUsername(username);
     mainWindow->setRoomID(roomCode);
     mainWindow->show();
     this->close();
@@ -51,6 +51,11 @@ void CreatePrivateRoom::setRoomCode(const QString & code)
     {
         ui.lineEdit_roomCode->setText(roomCode);
     }
+}
+
+void CreatePrivateRoom::setUsername(const QString& username)
+{
+    this->username = username;
 }
 
 void CreatePrivateRoom::fetchPlayerData() {

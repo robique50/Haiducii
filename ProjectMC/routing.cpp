@@ -159,7 +159,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 			return crow::response{ 409, "Error adding the chat." };
 
 		return crow::response{ 200 };
-});
+		});
 
 
 	CROW_ROUTE(m_app, "/getChat").methods("GET"_method, "POST"_method)([&](const crow::request& req) {
@@ -171,7 +171,26 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		std::string chat = db.getGame(roomID).GetChat();
 
 		return crow::response{ chat };
-			});
+		});
+
+	CROW_ROUTE(m_app, "/clearChat").methods("POST"_method)([&db](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+		if (!x) return crow::response{ 400, "Invalid request" };
+
+		std::string roomID = x["roomID"].s();
+
+		auto game = db.getGame(roomID);
+		if (game.GetId() < 0)
+		{
+			return crow::response{ 404, "Game not found" };
+		}
+
+		if (!db.setGameChat(roomID, "Welcome to skribbl!")) {
+			return crow::response{ 409, "Error clearing the chat." };
+		}
+
+		return crow::response{ 200 };
+		});
 
 	m_app.port(18080).multithreaded().run();
 }

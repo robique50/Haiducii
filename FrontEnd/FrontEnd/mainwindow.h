@@ -22,6 +22,7 @@ public:
     void setUsername(const QString& username);
     void setRoomID(const QString& roomID);
     void setUserID(const int& userID);
+    void clearChat();
 
 protected:
     void closeEvent(QCloseEvent* event) override;

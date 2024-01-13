@@ -56,6 +56,18 @@ void MainWindow::setUserID(const int& userID)
 	m_userID = userID;
 }
 
+void MainWindow::clearChat()
+{
+	QNetworkRequest request(QUrl("http://localhost:18080/clearChat"));
+	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+	QJsonObject json;
+	json["roomID"] = m_roomID;
+
+	QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+	manager->post(request, QJsonDocument(json).toJson());
+}
+
 void MainWindow::closeEvent(QCloseEvent* event)
 {
 	QMessageBox::StandardButton answer;
@@ -63,6 +75,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 		tr("Are you sure you want to leave?"),
 		QMessageBox::Yes | QMessageBox::No);
 	if (answer == QMessageBox::Yes) {
+		clearChat();
 		event->accept();
 	}
 	else {
@@ -161,10 +174,12 @@ void MainWindow::updateChat()
 	QNetworkRequest request(QUrl("http://localhost:18080/getChat"));
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
+	QJsonObject json;
+	json["roomID"] = m_roomID;
+
 	QNetworkAccessManager* manager = new QNetworkAccessManager(this);
 	connect(manager, &QNetworkAccessManager::finished, this, &MainWindow::onChatUpdated);
-
-	manager->get(request);
+	manager->post(request, QJsonDocument(json).toJson());
 }
 
 void MainWindow::onChatPosted(QNetworkReply* reply)
@@ -181,14 +196,11 @@ void MainWindow::onChatPosted(QNetworkReply* reply)
 void MainWindow::onChatUpdated(QNetworkReply* reply)
 {
 	if (reply->error() != QNetworkReply::NoError) {
-		qDebug() << "Error updating chat: " << reply->errorString();
+		qDebug() << "Error updating chat:" << reply->errorString();
 	}
 	else {
-		QString chat = QString::fromUtf8(reply->readAll());
-		chat.replace("%20", " ");
-		chat.replace("%0A", "\n");
-		uiMain.chat->setPlainText(chat);
-		uiMain.chat->verticalScrollBar()->setValue(uiMain.chat->verticalScrollBar()->maximum());
+		QString chatText = QString::fromUtf8(reply->readAll());
+		uiMain.chat->setPlainText(chatText);
 	}
 	reply->deleteLater();
 }

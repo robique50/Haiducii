@@ -24,6 +24,7 @@ public:
 	CreatePrivateRoom(QWidget *parent = nullptr,int userID=0, const QString& username="");
 	~CreatePrivateRoom();
 	void setRoomCode(const QString& code);
+	void setUsername(const QString& username);
 private slots:
 	void onHttpReply(QNetworkReply* reply);
 	void showEvent(QShowEvent* event);

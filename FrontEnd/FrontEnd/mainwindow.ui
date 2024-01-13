@@ -502,6 +502,12 @@ background-color: rgb(193, 6, 255);</string>
       <height>411</height>
      </rect>
     </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNoEditMenu|Qt::ImhNoTextHandles</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <zorder>label_background</zorder>
    <zorder>verticalLayoutWidget</zorder>

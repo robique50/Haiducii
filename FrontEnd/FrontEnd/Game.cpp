@@ -52,7 +52,6 @@ void Game::showAndHandleLeave()
 void Game::on_pushButton_exit_clicked()
 {
 	this->close();
-
 }
 
 void Game::on_pushButton_start_clicked()
@@ -91,7 +90,7 @@ void Game::on_pushButton_create_private_room_clicked()
 
 		if (createPrivateRoomWindow) {
 			createPrivateRoomWindow->setRoomCode(roomCode);
-			//createPrivateRoomWindow->setUsername(m_username);
+			createPrivateRoomWindow->setUsername(m_username);
 			createPrivateRoomWindow->show();
 		}
 
