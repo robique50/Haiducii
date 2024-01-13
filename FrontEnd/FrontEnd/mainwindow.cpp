@@ -1,4 +1,4 @@
-#include <QtWidgets>
+﻿#include <QtWidgets>
 #include "mainwindow.h"
 #include "drawingboard.h"
 #include <QMessageBox>
@@ -36,11 +36,15 @@ MainWindow::MainWindow(QWidget* parent, QString username, QString roomID) : QMai
 		drawingBoard->setFillMode(true);
 		});
 	connect(uiMain.sendMessage, &QPushButton::clicked, this, &MainWindow::sendButtonClicked);
-
+	//Afisare playeri
 	playersListWidget = uiMain.listPlayers;
 	networkManager = new QNetworkAccessManager(this);
 	fetchAndDisplayPlayers();
 	connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onPlayersFetched);
+	//Afisare cuvant
+	networkManager = new QNetworkAccessManager(this);
+	connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onWordFetched);
+	fetchWord();
 
 	resize(1000, 800);
 }
@@ -293,6 +297,28 @@ void MainWindow::onPlayersFetched(QNetworkReply* reply) {
 		QString playerName = value.toString();
 		playersListWidget->addItem(new QListWidgetItem(playerName));
 	}
+
+	reply->deleteLater();
+}
+
+void MainWindow::displayWord(const QString& word) {
+	uiMain.label_word->setText(word);  
+}
+
+void MainWindow::fetchWord() {
+	QNetworkRequest request(QUrl("http://localhost:18080/getWord")); 
+	networkManager->get(request);
+}
+
+void MainWindow::onWordFetched(QNetworkReply* reply) {
+	if (reply->error()) {
+		qDebug() << "Eroare la cererea de rețea:" << reply->errorString();
+		reply->deleteLater();
+		return;
+	}
+
+	QString word = QString::fromUtf8(reply->readAll());
+	displayWord(word);
 
 	reply->deleteLater();
 }

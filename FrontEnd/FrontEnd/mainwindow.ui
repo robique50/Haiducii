@@ -175,7 +175,7 @@ QProgressBar::chunk {
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="label_word">
      <property name="geometry">
       <rect>
        <x>170</x>
@@ -183,6 +183,9 @@ QProgressBar::chunk {
        <width>151</width>
        <height>21</height>
       </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
      </property>
      <property name="text">
       <string/>

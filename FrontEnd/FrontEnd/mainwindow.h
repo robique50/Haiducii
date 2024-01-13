@@ -41,6 +41,11 @@ private slots:
     void updateChat();
     void onChatPosted(QNetworkReply* reply);
     void onChatUpdated(QNetworkReply* reply);
+
+    void fetchWord();
+    void onWordFetched(QNetworkReply* reply);
+    void displayWord(const QString& word);
+
 signals:
     void leaveGame();
 private:
