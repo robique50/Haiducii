@@ -10,7 +10,7 @@ class Play : public QMainWindow
 	Q_OBJECT
 
 public:
-	Play(QWidget* parent = nullptr, int userID = 0);
+	Play(QWidget* parent = nullptr, int userID = 0,const QString& username="");
 	~Play();
 
 signals:
@@ -25,7 +25,7 @@ private:
 	Ui::PlayClass ui;
 	QNetworkAccessManager* networkManager;
 	int m_userID;
-	
+	QString m_username;
 	
 
 };

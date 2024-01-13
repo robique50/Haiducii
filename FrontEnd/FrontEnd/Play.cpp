@@ -6,8 +6,8 @@
 #include <QJsonDocument>
 #include <QMessageBox>
 
-Play::Play(QWidget* parent, int userID)
-	: QMainWindow(parent), networkManager(new QNetworkAccessManager(this)), m_userID(userID)
+Play::Play(QWidget* parent, int userID, const QString& username)
+	: QMainWindow(parent), networkManager(new QNetworkAccessManager(this)), m_userID(userID), m_username(username)
 {
 	ui.setupUi(this);
 	ui.lineEdit_roomCode->setPlaceholderText("Enter lobby code");
@@ -60,7 +60,7 @@ void Play::on_pushButton_joinGame_clicked() {
             QMessageBox::information(this, "Info", message);
 
             
-            CreatePrivateRoom* createPrivateRoomWindow = new CreatePrivateRoom(this, m_userID);
+            CreatePrivateRoom* createPrivateRoomWindow = new CreatePrivateRoom(this, m_userID,m_username);
             createPrivateRoomWindow->setRoomCode(lobbyCode);
             createPrivateRoomWindow->show();
             this->hide(); 

@@ -5,6 +5,7 @@
 
 #include <QList>
 #include <QTimer>
+#include <QListWidget>
 #include <QMainWindow>
 #include "ui_Game.h"
 #include "ui_mainwindow.h"
@@ -19,6 +20,7 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow();
+    MainWindow(QWidget* parent, QString username,QString roomID);
     void setUsername(const QString& username);
     void setRoomID(const QString& roomID);
     void setUserID(const int& userID);
@@ -28,6 +30,8 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
+    void fetchAndDisplayPlayers();
+    void onPlayersFetched(QNetworkReply* reply);
     void penWidth();
     void penColor();
     void onLeaveGameButtonClicked();
@@ -49,6 +53,9 @@ private:
     QString m_username;
     int m_userID;
     QString m_roomID;
+
+    QListWidget* playersListWidget;
+    QNetworkAccessManager* networkManager;
 
     std::unique_ptr<QAction> eraseAct;
     std::unique_ptr<QAction> exitAct;

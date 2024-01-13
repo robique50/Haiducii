@@ -33,13 +33,13 @@ void CreatePrivateRoom::hideEvent(QHideEvent* event) {
 
 void CreatePrivateRoom::startButtonClicked()
 {
-    MainWindow* mainWindow = new MainWindow();
-    mainWindow->setAttribute(Qt::WA_DeleteOnClose);
     QString roomID = ui.lineEdit_roomCode->text();
+    MainWindow* mainWindow = new MainWindow(this,username,roomID);
+    mainWindow->setAttribute(Qt::WA_DeleteOnClose);
     //QString username = ui.lineEdit_roomCode->text();
 
-    mainWindow->setUsername(username);
-    mainWindow->setRoomID(roomCode);
+   // mainWindow->setUsername(username);
+    mainWindow->setRoomID(roomID);
     mainWindow->show();
     this->close();
 }

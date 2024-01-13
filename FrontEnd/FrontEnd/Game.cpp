@@ -35,7 +35,7 @@ void Game::on_pushButton_Play_clicked()
 		delete playWindow;
 	}
 
-	playWindow = new Play(this, m_userID);
+	playWindow = new Play(this, m_userID,m_username);
 	playWindow->show();
 	this->hide();
 }
