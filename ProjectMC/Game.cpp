@@ -222,3 +222,8 @@ std::vector<std::string> skribbl::Game::GetPlayerNames() const
 	}
 	return playerNames;
 }
+
+std::string Game::getChat() const
+{
+	return m_chat;
+}

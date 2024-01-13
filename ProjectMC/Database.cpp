@@ -188,18 +188,17 @@ namespace skribbl
 	{
 		try {
 			m_db.insert(round);
-			return m_db.last_insert_rowid(); // Presupunând că returnează ID-ul round-ului inserat
+			return m_db.last_insert_rowid();
 		}
 		catch (const std::exception& e) {
 			std::cerr << "Exception occurred while adding round: " << e.what() << "\n";
-			return -1; // Indică o eroare
+			return -1;
 		}
 	}
 
 	Game DataBase::getGameByCode(const std::string& gameCode)
 	{
 		try {
-			// Assuming you have a method in the storage to find a game by code
 			auto games = m_db.get_all<Game>(sqlite_orm::where(sqlite_orm::c(&Game::GetGameCode) == gameCode));
 			if (!games.empty()) {
 				return games.front();
@@ -216,22 +215,15 @@ namespace skribbl
 			auto games = m_db.get_all<Game>(sqlite_orm::where(sqlite_orm::c(&Game::GetGameCode) == gameCode));
 			if (!games.empty()) {
 				Game& game = games.front();
-
-				// Check if the user is already in the game
-				auto existingPlayers = game.GetPlayers(); // Assuming GetPlayers returns a vector of Users
+				auto existingPlayers = game.GetPlayers();
 				if (std::find_if(existingPlayers.begin(), existingPlayers.end(),
 					[&user](const User& u) { return u.getID() == user.getID(); }) != existingPlayers.end()) {
-					// User already in the game, return true
 					return true;
 				}
-
-				// Add the user to the game
 				game.AddPlayer(user);
 
-				// Serialize the updated players list
 				std::string serializedPlayers = game.SerializePlayers();
 
-				// Update the game record in the database
 				m_db.update_all(sqlite_orm::set(sqlite_orm::c(&Game::SerializePlayers) = serializedPlayers),
 					sqlite_orm::where(sqlite_orm::c(&Game::GetId) == game.GetId()));
 
@@ -241,10 +233,54 @@ namespace skribbl
 		catch (const std::exception& e) {
 			std::cerr << "Exception occurred while adding player to game: " << e.what() << "\n";
 		}
-		return false; // Return false if the operation was unsuccessful
+		return false;
 	}
 
+	std::optional<Round> DataBase::getRound(const std::string& gameCode)
+	{
+		auto existingRounds = m_db.get_all<Round>(
+			sql::where(sql::c(&Round::GetGameId) == gameCode)
+		);
 
+		if (existingRounds.empty()) {
+			return std::nullopt;  
+		}
 
+		return existingRounds[0];
+	}
 
+	std::optional<Game> DataBase::getGame(const std::string& gameCode)
+	{
+		auto existingGames = m_db.get_all<Game>(
+			sql::where(sql::c(&Game::GetGameCode) == gameCode)
+		);
+
+		if (existingGames.empty()) {
+			return std::nullopt;  
+		}
+
+		return existingGames[0];
+	}
+
+	bool DataBase::setGameChat(const std::string& gameCode, const std::string& chat)
+	{
+		try {
+			auto game = m_db.get_optional<Game>(
+				sql::where(sql::c(&Game::GetGameCode) == gameCode)
+			);
+
+			if (!game) {
+				std::cerr << "Game not found for roomID: " << gameCode << "\n";
+				return false;
+			}
+
+			game->SetChat(chat);
+			m_db.update(*game);
+			return true;
+		}
+		catch (const std::exception& exception) {
+			std::cerr << "Exception occurred while setting game chat: " << exception.what() << "\n";
+		}
+		return false;
+	}
 }

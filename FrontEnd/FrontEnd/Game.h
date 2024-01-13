@@ -27,9 +27,9 @@ signals:
 	void backToLoginScreen();
 private:
 	Ui::GameClass ui;
-	CreatePrivateRoom* createPrivateRoomWindow = nullptr;
 	Play* playWindow = nullptr;
 	MainWindow* mainWindow = nullptr;
+	CreatePrivateRoom* createPrivateRoomWindow = nullptr;
 	int m_userID;
 	QString m_username;
 };

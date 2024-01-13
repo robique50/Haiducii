@@ -11,6 +11,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <optional>
+#include <vector>
+
 namespace sql = sqlite_orm;
 
 import user;
@@ -96,6 +99,12 @@ namespace skribbl
 		Game getGameByCode(const std::string& gameCode);
 
 		bool addPlayerToGame(const User& user, const std::string& gameCode);
+
+		std::optional<Round> getRound(const std::string& gameCode);
+
+		std::optional<Game> getGame(const std::string& gameCode);
+
+		bool setGameChat(const std::string& gameCode, const std::string& chat);
 
 	private:
 		const std::string db_file{ "cuvinte.sqlite" };

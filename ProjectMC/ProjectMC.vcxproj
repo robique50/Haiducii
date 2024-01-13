@@ -158,9 +158,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="chatinput.cpp" />
-    <ClCompile Include="chatinput.cppm" />
-    <ClCompile Include="client.cpp" />
     <ClCompile Include="difficultyLevel.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
@@ -184,7 +181,6 @@
     <Text Include="listOfWords.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="client.h" />
     <ClInclude Include="difficultyLevel.h" />
     <ClInclude Include="Lobby.h" />
     <ClInclude Include="PlayerManagement.h" />

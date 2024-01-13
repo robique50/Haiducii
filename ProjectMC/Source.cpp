@@ -7,7 +7,6 @@
 #include "Database.h"
 #include "routing.h"
 #include "Words.h"
-#include "client.h"
 #include "../ProiectDLL/Score.h"
 
 namespace sql = sqlite_orm;
@@ -33,13 +32,5 @@ int main()
 	Routing r;
 	std::cout << "\n";
 	r.Run(db);
-
-	/*Client client("http://localhost:18080");
-	std::unordered_set<std::string> words = client.loadWordsFromServer();
-
-	std::cout << "Words:\n";
-	for (const auto& word : words) {
-		std::cout << word << std::endl;
-	}*/
 	return 0;
 }

@@ -29,31 +29,13 @@ void Game::setUserID(int userID)
 	this->m_userID = userID;
 }
 
-
-
-//void Game::playButtonClicked()
-//{
-//	/*mainWindow = new MainWindow;
-//	connect(mainWindow, &MainWindow::leaveGame, this, &Game::showAndHandleLeave);
-//	mainWindow->show();
-//	this->hide();*/
-//
-//	//if (playWindow) {
-//	//	delete playWindow;
-//	//}
-//
-//	//playWindow = new Play(this, m_userID); // Transmiteți m_userID aici
-//	//playWindow->show();
-//	//this->hide();
-//}
-
 void Game::on_pushButton_Play_clicked()
 {
 	if (playWindow) {
 		delete playWindow;
 	}
 
-	playWindow = new Play(this, m_userID); // Transmiteți m_userID aici
+	playWindow = new Play(this, m_userID);
 	playWindow->show();
 	this->hide();
 }

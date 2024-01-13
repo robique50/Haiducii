@@ -62,12 +62,13 @@ namespace skribbl
 		void AverageTime(const int& timeLeft);
 		void SetPlayerScore(const std::string& username, int score);
 
+
 		static std::string generateUniqueCode() {
 			static const char alphanum[] =
 				"0123456789"
 				"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				"abcdefghijklmnopqrstuvwxyz";
-			static const size_t length = 8; // Lungimea dorită pentru codul unic
+			static const size_t length = 8;
 
 			std::string code;
 			code.reserve(length);
@@ -84,6 +85,7 @@ namespace skribbl
 		}
 
 		std::vector<std::string> GetPlayerNames() const;
+		std::string getChat() const;
 
 	private:
 		int m_id;

@@ -61,7 +61,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 			}
 		});
 
-	
+
 	CROW_ROUTE(m_app, "/getwords")([&db]() {
 		std::vector<crow::json::wvalue> words_json;
 		auto words = db.getRandomWords(numberOfWords);
@@ -139,14 +139,53 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::response(200, response);
 		});
 
+	CROW_ROUTE(m_app, "/addChat").methods("GET"_method, "POST"_method)([&db](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+		if (!x) return crow::response{ 400, "Invalid request" };
+
+		std::string roomID = x["roomID"].s();
+		std::string username = x["username"].s();
+		std::string text = x["text"].s();
+
+		auto gameOpt = db.getGame(roomID);
+		if (!gameOpt) {
+			return crow::response{ 404, "Game not found" };
+		}
+
+		auto roundOpt = db.getRound(roomID);
+		std::string currentWord;
+		if (roundOpt.has_value()) {
+			currentWord = roundOpt->GetCurrentWord();
+			std::transform(currentWord.begin(), currentWord.end(), currentWord.begin(), ::tolower);
+		}
+
+		std::string currentChat = gameOpt->getChat();
+		std::transform(text.begin(), text.end(), text.begin(), ::tolower);
+
+		currentChat += username + ": " + text + "\n";
+
+		if (!db.setGameChat(roomID, currentChat))
+			return crow::response{ 409, "Error adding the chat." };
+
+		return crow::response{ 200 };
+		});
+
+
+	CROW_ROUTE(m_app, "/getChat").methods("POST"_method)([&](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+		if (!x) return crow::response{ 400, "Invalid request" };
+
+		std::string roomID = x["roomID"].s();
+
+		auto gameOpt = db.getGame(roomID);
+		if (!gameOpt) {
+			return crow::response{ 404, "Game not found" };
+		}
+
+		std::string chat = gameOpt->getChat();
+
+		return crow::response{ chat };
+});
 
 	m_app.port(18080).multithreaded().run();
 }
-
-
-
-
-
-
-
-
