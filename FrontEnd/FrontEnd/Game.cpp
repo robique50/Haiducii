@@ -55,6 +55,13 @@ void Game::on_pushButton_exit_clicked()
 
 }
 
+void Game::on_pushButton_start_clicked()
+{
+	MainWindow* mainWindow = new MainWindow();
+	mainWindow->show();
+	this->close();
+}
+
 void Game::on_pushButton_create_private_room_clicked()
 {
 	QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);

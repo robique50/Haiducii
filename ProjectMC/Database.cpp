@@ -236,46 +236,38 @@ namespace skribbl
 		return false;
 	}
 
-	std::optional<Round> DataBase::getRound(const std::string& gameCode)
+	Round DataBase::getRound(const std::string& gameCode)
 	{
 		auto existingRounds = m_db.get_all<Round>(
 			sql::where(sql::c(&Round::GetGameId) == gameCode)
 		);
-
-		if (existingRounds.empty()) {
-			return std::nullopt;  
-		}
-
 		return existingRounds[0];
 	}
 
-	std::optional<Game> DataBase::getGame(const std::string& gameCode)
+	Game DataBase::getGame(const std::string& gameCode)
 	{
 		auto existingGames = m_db.get_all<Game>(
 			sql::where(sql::c(&Game::GetGameCode) == gameCode)
 		);
-
-		if (existingGames.empty()) {
-			return std::nullopt;  
-		}
-
 		return existingGames[0];
 	}
 
+	
+
 	bool DataBase::setGameChat(const std::string& gameCode, const std::string& chat)
 	{
-		try {
-			auto game = m_db.get_optional<Game>(
+		try
+		{
+			auto games = m_db.get_all<Game>(
 				sql::where(sql::c(&Game::GetGameCode) == gameCode)
 			);
 
-			if (!game) {
-				std::cerr << "Game not found for roomID: " << gameCode << "\n";
+			if (games.empty())
 				return false;
-			}
 
-			game->SetChat(chat);
-			m_db.update(*game);
+			auto& game = games[0];
+			game.SetChat(chat);
+			m_db.update(game);
 			return true;
 		}
 		catch (const std::exception& exception) {

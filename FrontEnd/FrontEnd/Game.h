@@ -22,6 +22,7 @@ private slots:
 	//void playButtonClicked();
 	void showAndHandleLeave();
 	void on_pushButton_exit_clicked();
+	void on_pushButton_start_clicked();
 
 signals:
 	void backToLoginScreen();

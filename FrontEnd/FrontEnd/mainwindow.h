@@ -10,6 +10,8 @@
 #include "ui_mainwindow.h"
 #include "drawingboard.h"
 #include <memory>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 class MainWindow : public QMainWindow
 {
@@ -17,6 +19,8 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow();
+    void setUsername(const QString& username);
+    void setRoomID(const QString& roomID);
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -24,10 +28,13 @@ protected:
 private slots:
     void penWidth();
     void penColor();
-    void onChatInputReturnPressed();
     void onLeaveGameButtonClicked();
     void updateTimer();
     void connectPenColor();
+    void sendButtonClicked();
+    void updateChat();
+    void onChatPosted(QNetworkReply* reply);
+    void onChatUpdated(QNetworkReply* reply);
 signals:
     void leaveGame();
     
@@ -36,6 +43,9 @@ private:
     void createActions();
     void endRound();
     void startNewRound();
+
+    QString m_username;
+    QString m_roomID;
 
     std::unique_ptr<QAction> eraseAct;
     std::unique_ptr<QAction> exitAct;

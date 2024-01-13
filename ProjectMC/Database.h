@@ -100,9 +100,9 @@ namespace skribbl
 
 		bool addPlayerToGame(const User& user, const std::string& gameCode);
 
-		std::optional<Round> getRound(const std::string& gameCode);
+		Round getRound(const std::string& gameCode);
 
-		std::optional<Game> getGame(const std::string& gameCode);
+		Game getGame(const std::string& gameCode);
 
 		bool setGameChat(const std::string& gameCode, const std::string& chat);
 

@@ -1,6 +1,11 @@
 #include <QtWidgets>
 #include "mainwindow.h"
 #include "drawingboard.h"
+#include <QMessageBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+
 
 MainWindow::MainWindow()
 {
@@ -12,7 +17,7 @@ MainWindow::MainWindow()
 	uiMain.progressBar_timer = findChild<QProgressBar*>("progressBar_timer");
 	uiMain.label_timer = findChild<QLabel*>("label_timer");
 
-	timeLeft = 120; 
+	timeLeft = 120;
 	uiMain.progressBar_timer->setMaximum(timeLeft);
 	uiMain.progressBar_timer->setValue(timeLeft);
 	timer->start(1000);
@@ -20,7 +25,6 @@ MainWindow::MainWindow()
 	createActions();
 	setWindowTitle(tr("Skribbl"));
 	uiMain.verticalLayout_drawingBoard->addWidget(drawingBoard);
-	connect(uiMain.lineEdit_chatInput, &QLineEdit::returnPressed, this, &MainWindow::onChatInputReturnPressed);
 	connect(uiMain.pushButton_leave, &QPushButton::clicked, this, &MainWindow::onLeaveGameButtonClicked);
 	connectPenColor();
 	connect(uiMain.pushButton_ClearDrawing, &QPushButton::clicked, this, [this]() {
@@ -32,7 +36,19 @@ MainWindow::MainWindow()
 	connect(uiMain.pushButton_FillDrawing, &QPushButton::clicked, this, [this]() {
 		drawingBoard->setFillMode(true);
 		});
-		resize(1000, 800);
+	connect(uiMain.sendMessage, &QPushButton::clicked, this, &MainWindow::sendButtonClicked);
+	resize(1000, 800);
+	//connect(uiMain.lineEdit_chatInput, &QLineEdit::returnPressed, this, &MainWindow::onChatInputReturnPressed);
+}
+
+void MainWindow::setUsername(const QString& username)
+{
+	m_username = username;
+}
+
+void MainWindow::setRoomID(const QString& roomID)
+{
+	m_roomID = roomID;
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -57,15 +73,7 @@ void MainWindow::penColor()
 		drawingBoard->setPenColor(newColor);
 }
 
-void MainWindow::onChatInputReturnPressed()
-{
-	QString message = uiMain.lineEdit_chatInput->text();
-	if (!message.isEmpty())
-	{
-		uiMain.textEdit_chatDislay->append(message);
-		uiMain.lineEdit_chatInput->clear();
-	}
-}
+
 
 void MainWindow::onLeaveGameButtonClicked()
 {
@@ -120,6 +128,64 @@ void MainWindow::connectPenColor()
 	connect(uiMain.pushColorPurple, &QPushButton::clicked, this, [this]() {
 		drawingBoard->setPenColor(QColor(193, 6, 255));
 		});
+}
+
+void MainWindow::sendButtonClicked()
+{
+	QString text = uiMain.chatInput->toPlainText();
+    if (text.isEmpty() || text.size() < 3)
+        return;
+
+    QNetworkRequest request(QUrl("http://localhost:18080/addChat"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QJsonObject json;
+    json["roomID"] = m_roomID;
+    json["username"] = m_username;
+    json["text"] = text;
+
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    connect(manager, &QNetworkAccessManager::finished, this, &MainWindow::onChatPosted);
+
+    manager->post(request, QJsonDocument(json).toJson());
+    uiMain.chatInput->clear();
+}
+
+void MainWindow::updateChat()
+{
+	QNetworkRequest request(QUrl("http://localhost:18080/getChat"));
+	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+	QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+	connect(manager, &QNetworkAccessManager::finished, this, &MainWindow::onChatUpdated);
+
+	manager->get(request);
+}
+
+void MainWindow::onChatPosted(QNetworkReply* reply)
+{
+	if (reply->error() != QNetworkReply::NoError) {
+		qDebug() << "Error posting chat message: " << reply->errorString();
+	}
+	else {
+		updateChat();
+	}
+	reply->deleteLater();
+}
+
+void MainWindow::onChatUpdated(QNetworkReply* reply)
+{
+	if (reply->error() != QNetworkReply::NoError) {
+		qDebug() << "Error updating chat: " << reply->errorString();
+	}
+	else {
+		QString chat = QString::fromUtf8(reply->readAll());
+		chat.replace("%20", " ");
+		chat.replace("%0A", "\n");
+		uiMain.chat->setPlainText(chat);
+		uiMain.chat->verticalScrollBar()->setValue(uiMain.chat->verticalScrollBar()->maximum());
+	}
+	reply->deleteLater();
 }
 
 void MainWindow::createActions()

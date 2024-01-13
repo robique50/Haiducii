@@ -32,31 +32,6 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_drawingBoard"/>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>150</y>
-      <width>231</width>
-      <height>411</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2_chat">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QTextEdit" name="textEdit_chatDislay">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_chatInput"/>
-     </item>
-    </layout>
-   </widget>
    <widget class="QLabel" name="label_background">
     <property name="geometry">
      <rect>
@@ -495,9 +470,41 @@ background-color: rgb(193, 6, 255);</string>
      <string/>
     </property>
    </widget>
+   <widget class="QTextEdit" name="chatInput">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>580</y>
+      <width>151</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sendMessage">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>590</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Send</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="chat">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>150</y>
+      <width>201</width>
+      <height>411</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>label_background</zorder>
    <zorder>verticalLayoutWidget</zorder>
-   <zorder>verticalLayoutWidget_2</zorder>
    <zorder>verticalLayoutWidget_3</zorder>
    <zorder>groupBox</zorder>
    <zorder>pushColorWhite</zorder>
@@ -514,6 +521,9 @@ background-color: rgb(193, 6, 255);</string>
    <zorder>hSliderPenWidth</zorder>
    <zorder>pushButton_ClearDrawing</zorder>
    <zorder>pushButton_FillDrawing</zorder>
+   <zorder>chatInput</zorder>
+   <zorder>sendMessage</zorder>
+   <zorder>chat</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">

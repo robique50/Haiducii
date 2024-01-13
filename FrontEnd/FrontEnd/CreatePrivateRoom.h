@@ -14,6 +14,7 @@
 #include <tuple>
 #include <string>
 #include <vector>
+#include "mainwindow.h"
 
 class CreatePrivateRoom : public QMainWindow
 {
@@ -24,10 +25,10 @@ public:
 	~CreatePrivateRoom();
 	void setRoomCode(const QString& code);
 private slots:
-	void on_pushButton_Start();
 	void onHttpReply(QNetworkReply* reply);
 	void showEvent(QShowEvent* event);
 	void hideEvent(QHideEvent* event);
+	void startButtonClicked();
 
 
 signals:

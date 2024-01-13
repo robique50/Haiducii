@@ -13,14 +13,13 @@ CreatePrivateRoom::CreatePrivateRoom(QWidget *parent,int userID)
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &CreatePrivateRoom::fetchPlayerData);
     timer->start(2000);
+
+    connect(ui.pushButton_Start, &QPushButton::clicked, this, &CreatePrivateRoom::startButtonClicked);
     //fetchRoomCode();
 }
 
 CreatePrivateRoom::~CreatePrivateRoom()
 {}
-
-
-
 
 void CreatePrivateRoom::showEvent(QShowEvent* event) {
     QMainWindow::showEvent(event);
@@ -30,6 +29,14 @@ void CreatePrivateRoom::showEvent(QShowEvent* event) {
 void CreatePrivateRoom::hideEvent(QHideEvent* event) {
     QMainWindow::hideEvent(event);
     timer->stop(); 
+}
+
+void CreatePrivateRoom::startButtonClicked()
+{
+    MainWindow* mainWindow = new MainWindow();
+    mainWindow->setAttribute(Qt::WA_DeleteOnClose);
+    mainWindow->show();
+    this->close();
 }
 
 void CreatePrivateRoom::setRoomCode(const QString & code)
@@ -95,8 +102,4 @@ void CreatePrivateRoom::updatePlayerModel(const QJsonObject& json) {
 }
 
 
-void CreatePrivateRoom::on_pushButton_Start()
-{
-
-}
 
