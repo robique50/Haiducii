@@ -75,7 +75,7 @@ namespace skribbl
 		auto users = m_db.get_all<User>();
 		std::ranges::for_each(users, [](const User& user) {
 			std::cout << "ID: " << user.getID() << ", Username: "
-				<< user.getUsername() << ", Password: " << user.getPassword() << std::endl;
+				<< user.getUsername() << ", Password: " << user.getPassword() <<", Score:"<<user.GetPoints()<<std::endl;
 			});
 	}
 
@@ -211,12 +211,37 @@ namespace skribbl
 		return false;
 	}
 
+	bool DataBase::removePlayerFromGame(const User& user, const std::string& gameCode)
+	{
+		try
+		{
+			auto existingGames = m_db.get_all<Game>(
+				sql::where(sql::c(&Game::GetGameCode) == gameCode)
+			);
+
+			if (existingGames.empty()) {
+				std::cerr << "Game not found for room ID: " << gameCode<< "\n";
+				return false;
+			}
+
+			auto& game = existingGames.front();
+			game.RemovePlayer(user);
+
+			m_db.update(game);
+			return true;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred while removing player from game: " << e.what() << "\n";
+			return false;
+		}
+	}
+
 	Round DataBase::getRound(const std::string& gameCode)
 	{
 		auto existingRounds = m_db.get_all<Round>(
 			sql::where(sql::c(&Round::GetGameId) == gameCode)
 		);
-		return existingRounds[0];
+		return existingRounds.front();
 	}
 
 	Game DataBase::getGame(const std::string& gameCode)
@@ -224,7 +249,19 @@ namespace skribbl
 		auto existingGames = m_db.get_all<Game>(
 			sql::where(sql::c(&Game::GetGameCode) == gameCode)
 		);
-		return existingGames[0];
+		return existingGames.front();
+	}
+
+	int DataBase::getPlayerScore(const std::string& username)
+	{
+		auto existingPlayers = m_db.get_all<User>(
+			sql::where(sql::c(&User::getUsername) == username)
+		);
+
+		if (existingPlayers.empty())
+			return 0;
+
+		return existingPlayers.front().GetPoints();
 	}
 
 	bool DataBase::setGameChat(const std::string& gameCode, const std::string& chat)
@@ -248,6 +285,48 @@ namespace skribbl
 		}
 		return false;
 	}
+	bool DataBase::setGameStatus(const std::string& gameCode, const int& status)
+	{
+		try
+		{
+			auto existingGames = m_db.get_all<Game>(
+				sql::where(sql::c(&Game::GetGameCode) == gameCode)
+			);
+
+			if (existingGames.empty())
+				return false;
+
+			auto& game = existingGames.front();
+			game.SetGameStatusInt(status);
+			m_db.update(game);
+			return true;
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred while setting game status: " << e.what() << "\n";
+			return false;
+		}
+	}
+
+	void DataBase::setPlayerScore(const int& username, const int& score)
+	{
+		try
+		{
+			auto existingPlayers = m_db.get_all<User>(
+				sql::where(sql::c(&User::getUsername) == username)
+			);
+
+			if (existingPlayers.empty())
+				return;
+
+			auto& player = existingPlayers.front();
+			player.SetPoints(score);
+			m_db.update(player);
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred while setting player score: " << e.what() << "\n";
+		}
+	}
+
 	int DataBase::generateRandomNumber(const int& min, const int& max)
 	{
 		std::random_device rd;

@@ -161,8 +161,6 @@
     <ClCompile Include="difficultyLevel.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
-    <ClCompile Include="Lobby.cpp" />
-    <ClCompile Include="PlayerManagement.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="round.cppm" />
     <ClCompile Include="routing.cpp" />
@@ -182,8 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="difficultyLevel.h" />
-    <ClInclude Include="Lobby.h" />
-    <ClInclude Include="PlayerManagement.h" />
     <ClInclude Include="routing.h" />
     <ClInclude Include="words.h" />
     <ClInclude Include="Database.h" />

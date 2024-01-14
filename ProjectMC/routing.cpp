@@ -63,7 +63,7 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 
 
 	CROW_ROUTE(m_app, "/getWord")([&db]() {
-		return crow::response{ db.getRandomWord()};
+		return crow::response{ db.getRandomWord() };
 		});
 
 	CROW_ROUTE(m_app, "/joinLobby").methods("POST"_method)([&db, this](const crow::request& req) {
@@ -183,5 +183,29 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 		return crow::response{ 200 };
 		});
 
-	m_app.port(18080).multithreaded().run();
+	CROW_ROUTE(m_app, "/leaveRoom")
+		.methods("GET"_method, "POST"_method)([&db](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+		std::string roomID = x["roomID"].s();
+		std::string username = x["username"].s();
+
+		std::transform(username.begin(), username.end(), username.begin(), ::tolower);
+		auto player = db.getUserByUsername(username);
+
+		if (!db.removePlayerFromGame(player, roomID))
+			return crow::response{ 409, "Error leaving the game." };
+		return crow::response{ 200 };
+		});
+
+	CROW_ROUTE(m_app, "/gameStarted")
+		.methods("GET"_method, "POST"_method)([&](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+		std::string roomID = x["roomID"].s();
+
+		if (db.getGame(roomID).GetGameStatusAsInt() == 2)
+			return crow::response{ 200 };
+
+		return crow::response{ 409 };
+		});
+		m_app.port(18080).multithreaded().run();
 }

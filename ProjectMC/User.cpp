@@ -3,14 +3,20 @@ module user;
 using namespace skribbl;
 
 skribbl::User::User(const std::string& fullname, const std::string& username, const std::string& password)
-	: m_fullname{ fullname }, m_username{ username }, m_password{ password }, m_points{ 0 }
+	: m_fullname{ fullname },
+	m_username{ username },
+	m_password{ password },
+	m_points{ 0 }
 {
 	//Empty
 }
 
 
 skribbl::User::User(int id, const std::string& username, const std::string& password)
-	: m_id{ id }, m_username{ username }, m_password{ password }, m_points{ 0 }
+	: m_id{ id },
+	m_username{ username },
+	m_password{ password },
+	m_points{ 0 }
 {
 	//Empty
 

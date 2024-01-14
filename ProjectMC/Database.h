@@ -36,7 +36,8 @@ namespace skribbl
 				sql::make_column("id", &User::setID, &User::getID, sql::primary_key().autoincrement()),
 				sql::make_column("fullname", &User::setFullname, &User::getFullname),
 				sql::make_column("username", &User::setUsername, &User::getUsername),
-				sql::make_column("password", &User::setPassword, &User::getPassword)
+				sql::make_column("password", &User::setPassword, &User::getPassword),
+				sql::make_column("score", &User::SetPoints, &User::GetPoints)
 			),
 			sql::make_table(
 				"Rounds",
@@ -98,11 +99,19 @@ namespace skribbl
 
 		bool addPlayerToGame(const User& user, const std::string& gameCode);
 
+		bool removePlayerFromGame(const User& user, const std::string& gameCode);
+
 		Round getRound(const std::string& gameCode);
 
 		Game getGame(const std::string& gameCode);
 
+		int getPlayerScore(const std::string& username);
+
 		bool setGameChat(const std::string& gameCode, const std::string& chat);
+
+		bool setGameStatus(const std::string& gameCode, const int& status);
+
+		void setPlayerScore(const int& username, const int& score);
 
 		int generateRandomNumber(const int& min, const int& max);
 
