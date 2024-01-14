@@ -525,6 +525,22 @@ background-color: rgb(193, 6, 255);</string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="label_round">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>120</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>label_background</zorder>
    <zorder>verticalLayoutWidget</zorder>
    <zorder>verticalLayoutWidget_3</zorder>
@@ -546,6 +562,7 @@ background-color: rgb(193, 6, 255);</string>
    <zorder>chatInput</zorder>
    <zorder>sendMessage</zorder>
    <zorder>chat</zorder>
+   <zorder>label_round</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">

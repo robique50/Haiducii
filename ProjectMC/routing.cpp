@@ -186,26 +186,127 @@ void skribbl::Routing::Run(skribbl::DataBase& db)
 	CROW_ROUTE(m_app, "/leaveRoom")
 		.methods("GET"_method, "POST"_method)([&db](const crow::request& req) {
 		auto x = crow::json::load(req.body);
+
+		if (!x || !x.has("roomID") || !x.has("username")) {
+			return crow::response(400, "Invalid request data.");
+		}
+
 		std::string roomID = x["roomID"].s();
 		std::string username = x["username"].s();
 
-		std::transform(username.begin(), username.end(), username.begin(), ::tolower);
+		//std::transform(username.begin(), username.end(), username.begin(), ::tolower);
 		auto player = db.getUserByUsername(username);
 
-		if (!db.removePlayerFromGame(player, roomID))
-			return crow::response{ 409, "Error leaving the game." };
-		return crow::response{ 200 };
-		});
+
+		if (player.getID() == -1) {
+			return crow::response(404, "User not found.");
+		}
+
+		if (!db.removePlayerFromGame(player, roomID)) {
+			return crow::response(409, "Error leaving the game.");
+		}
+
+		return crow::response(200, "Successfully left the game.");
+			});
+
 
 	CROW_ROUTE(m_app, "/gameStarted")
+		.methods("GET"_method, "POST"_method)([&db](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+
+		
+		if (!x || !x.has("roomID")) {
+			return crow::response(400, "Invalid request data.");
+		}
+
+		std::string roomID = x["roomID"].s();
+
+	
+		Game game = db.getGame(roomID);
+
+		
+		if (game.GetId() == -1) { 
+			return crow::response(404, "Game not found.");
+		}
+
+		if (game.GetGameStatusAsInt() == 2) {
+			return crow::response(200, "Game has started.");
+		}
+
+		return crow::response(409, "Game has not started yet.");
+			});
+
+	CROW_ROUTE(m_app, "/startGame")
+		.methods("GET"_method, "POST"_method)([&db](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+
+		if (!x || !x.has("roomID")) {
+			return crow::response(400, "Invalid request data.");
+		}
+
+		std::string roomID = x["roomID"].s();
+
+		Game currentGame = db.getGame(roomID);
+
+		
+		if (currentGame.GetId() == -1) { 
+			return crow::response(404, "Game not found.");
+		}
+
+		std::vector<User> users = currentGame.GetPlayers();
+
+
+		for (auto& user : users) {
+			db.setPlayerScore(user.getUsername(), 0);
+		}
+
+		Round currentRound = db.getRound(roomID);
+		int noOfWords = users.size() * currentGame.GetNoOfRounds(); 
+
+		std::set<std::string> words;
+		while (words.size() < noOfWords) {
+			words.insert(db.getRandomWord());
+		}
+
+		
+		currentRound.SetCurrentWord(*words.begin());
+		words.erase(words.begin());
+		currentRound.SetWords(words);
+		currentRound.SetRoundNumber(1);
+		currentRound.SetDrawingPlayer(users[0].getUsername());
+		db.Update(currentRound);
+
+		
+		if (!db.setGameStatus(roomID, 2)) {
+			return crow::response(409, "Error starting the game.");
+		}
+
+		return crow::response(200, "Game started successfully.");
+			});
+
+	CROW_ROUTE(m_app, "/playerScore")
+		.methods("GET"_method)([&](const crow::request& req) {
+		auto x = crow::json::load(req.body);
+		std::string username = x["username"].s();
+		std::string roomID = x["roomID"].s();
+
+		//std::transform(username.begin(), username.end(), username.begin(), ::tolower);
+		std::string score = std::to_string(db.getPlayerScore(username));
+
+		return crow::response{ score };
+			});
+
+	CROW_ROUTE(m_app, "/currentNumberOfPlayers")
 		.methods("GET"_method, "POST"_method)([&](const crow::request& req) {
 		auto x = crow::json::load(req.body);
 		std::string roomID = x["roomID"].s();
 
-		if (db.getGame(roomID).GetGameStatusAsInt() == 2)
-			return crow::response{ 200 };
+		std::string currentNumberOfPlayers = std::to_string(db.getGame(roomID).GetCurrentPlayers());
 
-		return crow::response{ 409 };
-		});
-		m_app.port(18080).multithreaded().run();
+		return crow::response{ currentNumberOfPlayers };
+			});
+
+
+
+	m_app.port(18080).multithreaded().run();
 }

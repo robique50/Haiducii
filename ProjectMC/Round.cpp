@@ -58,6 +58,30 @@ void Round::SetRoundNumber(uint8_t roundNumber)
 	m_roundNumber = roundNumber;
 }
 
+std::string skribbl::Round::SerializeTimes() const noexcept
+{
+	if (m_time.empty()) {
+		return "";
+	}
+
+	std::string serializedTimes = std::to_string(m_time.front());
+	for (auto it = std::next(m_time.begin()); it != m_time.end(); ++it) {
+		serializedTimes += "," + std::to_string(*it);
+	}
+
+	return serializedTimes;
+}
+
+std::vector<int> skribbl::Round::GetTimes() const noexcept
+{
+	return m_time;
+}
+
+void skribbl::Round::UpdateTimes(int index, int value) noexcept
+{
+		m_time[index] = value;
+}
+
 int Round::GetId() const noexcept
 {
 	return m_id;
@@ -102,6 +126,15 @@ void Round::DeserializeWords(const std::string& serializedWords)
 	std::string word;
 	while (std::getline(ss, word, ',')) {
 		m_words.insert(std::move(word));
+	}
+}
+
+void skribbl::Round::DeserializeTimes(const std::string& serializedTimes)
+{
+		std::istringstream ss(serializedTimes);
+	std::string point;
+	while (std::getline(ss, point, ',')) {
+		m_time.push_back(std::stoi(point));
 	}
 }
 

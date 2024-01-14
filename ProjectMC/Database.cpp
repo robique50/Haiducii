@@ -307,7 +307,7 @@ namespace skribbl
 		}
 	}
 
-	void DataBase::setPlayerScore(const int& username, const int& score)
+	void DataBase::setPlayerScore(const std::string& username, int score)
 	{
 		try
 		{
@@ -325,6 +325,7 @@ namespace skribbl
 		catch (const std::exception& e) {
 			std::cerr << "Exception occurred while setting player score: " << e.what() << "\n";
 		}
+		
 	}
 
 	int DataBase::generateRandomNumber(const int& min, const int& max)

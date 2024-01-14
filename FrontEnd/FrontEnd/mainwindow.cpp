@@ -6,11 +6,12 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-MainWindow::MainWindow(QWidget* parent, QString username, QString roomID) : QMainWindow(parent), m_username(username),m_roomID(roomID)
+MainWindow::MainWindow(QWidget* parent,const QString& username,const QString& roomID) : QMainWindow(parent), m_username(username),m_roomID(roomID)
 {
 	uiMain.setupUi(this);
 	drawingBoard = new DrawingBoard;
 	timer = std::make_unique<QTimer>(this);
+	
 	connect(timer.get(), &QTimer::timeout, this, &MainWindow::updateTimer);
 
 	uiMain.progressBar_timer = findChild<QProgressBar*>("progressBar_timer");

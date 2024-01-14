@@ -30,14 +30,16 @@ private slots:
 	void showEvent(QShowEvent* event);
 	void hideEvent(QHideEvent* event);
 	void startButtonClicked();
+	
 
-
+private:
+	int getNumberOfPlayers();
 signals:
 	void createPrivateRoomSignal();
 private:
 	Ui::CreatePrivateRoomClass ui;
 	int userID;
-	QString username;
+	QString m_username;
 	QTimer* timer;
 	QString roomCode;
 

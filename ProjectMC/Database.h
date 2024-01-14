@@ -47,7 +47,8 @@ namespace skribbl
 				sql::make_column("drawingplayer", &Round::SetDrawingPlayer, &Round::GetDrawingPlayer),
 				sql::make_column("roundnumber", &Round::SetRoundNumber, &Round::GetRoundNumber),
 				sql::make_column("words", &Round::SerializeWords, &Round::DeserializeWords),
-				sql::make_column("timeleft", &Round::SetTimeLeft, &Round::GetTimeLeft)
+				sql::make_column("timeleft", &Round::SetTimeLeft, &Round::GetTimeLeft),
+				sql::make_column("times",&Round::SerializeTimes, &Round::DeserializeTimes)
 			),
 			sql::make_table(
 				"Games",
@@ -68,54 +69,45 @@ namespace skribbl
 	{
 	public:
 		bool Initialize();
-
-		void addUser(const User& user);
-
+		
 		void addWord(const Words& word);
-
-		void populateStorage();
-
 		int getWordsCount();
-
-		bool userExists(const User& user);
-
-		void showUsers();
-
+		void populateStorage();
 		void showWordsFromDatabase();
-
+		
 		User getUserByUsername(const std::string& username);
-
+		void addUser(const User& user);
+		bool userExists(const User& user);
+		void showUsers();
 		void removeWord(const Words& word);
-
 		void removeUser(const User& user);
-
 		User getUserById(const int& id);
 
 		bool addGame(const User& user, const std::string& gameCode);
-
 		int addRound(const Round& round);
 
-		Game getGameByCode(const std::string& gameCode);
 
 		bool addPlayerToGame(const User& user, const std::string& gameCode);
-
 		bool removePlayerFromGame(const User& user, const std::string& gameCode);
 
+		Game getGameByCode(const std::string& gameCode);
 		Round getRound(const std::string& gameCode);
-
 		Game getGame(const std::string& gameCode);
-
 		int getPlayerScore(const std::string& username);
 
 		bool setGameChat(const std::string& gameCode, const std::string& chat);
-
 		bool setGameStatus(const std::string& gameCode, const int& status);
-
-		void setPlayerScore(const int& username, const int& score);
-
+		void setPlayerScore(const std::string& username, int score);
+		
 		int generateRandomNumber(const int& min, const int& max);
 
 		std::string getRandomWord();
+
+		template<typename T>
+		void Update(const T& object) {
+			m_db.update(object);
+		}
+
 
 	private:
 		const std::string db_file{ "cuvinte.sqlite" };
@@ -124,3 +116,5 @@ namespace skribbl
 	};
 
 }
+
+

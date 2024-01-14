@@ -24,6 +24,9 @@ namespace skribbl
 		void SetCurrentWord(const std::string& currentWord);
 		void SetWords(const std::set<std::string>& words);
 		void SetRoundNumber(uint8_t roundNumber);
+		std::string SerializeTimes() const noexcept;
+		std::vector<int> GetTimes() const noexcept;
+		void UpdateTimes(int index, int value) noexcept;
 
 		int GetId() const noexcept;
 		std::string GetGameId() const noexcept;
@@ -32,6 +35,7 @@ namespace skribbl
 		uint8_t GetRoundNumber() const noexcept;
 		std::string SerializeWords() const noexcept;
 		void DeserializeWords(const std::string& serializedWords);
+		void DeserializeTimes(const std::string& serializedPoints);
 
 		void SetTimeLeft(int timeLeft);
 		int GetTimeLeft() const noexcept;
@@ -46,5 +50,6 @@ namespace skribbl
 		std::set<std::string> m_words;
 		uint8_t m_roundNumber;
 		int m_timeLeft;
+		std::vector<int> m_time;
 	};
 }

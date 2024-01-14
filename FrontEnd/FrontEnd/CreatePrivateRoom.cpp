@@ -1,9 +1,11 @@
 #include "CreatePrivateRoom.h"
+#include <cpr/cpr.h>
+#include <qmessagebox.h>
 
 CreatePrivateRoom::CreatePrivateRoom(QWidget* parent, int userID, const QString& username)
 	: QMainWindow{ parent },
 	userID{ userID },
-	username{ username }
+	m_username{ username }
 {
 	ui.setupUi(this);
 	networkManager = new QNetworkAccessManager(this);
@@ -36,14 +38,20 @@ void CreatePrivateRoom::hideEvent(QHideEvent* event) {
 void CreatePrivateRoom::startButtonClicked()
 {
 	QString roomID = ui.lineEdit_roomCode->text();
-	MainWindow* mainWindow = new MainWindow(this, username, roomID);
+	MainWindow* mainWindow = new MainWindow(this, m_username, roomID);
 	mainWindow->setAttribute(Qt::WA_DeleteOnClose);
 	//QString username = ui.lineEdit_roomCode->text();
 
-   // mainWindow->setUsername(username);
+    mainWindow->setUsername(m_username);
 	mainWindow->setRoomID(roomID);
 	mainWindow->show();
 	this->close();
+}
+
+
+int CreatePrivateRoom::getNumberOfPlayers()
+{
+	return playerModel->rowCount();
 }
 
 void CreatePrivateRoom::setRoomCode(const QString& code)
@@ -57,7 +65,7 @@ void CreatePrivateRoom::setRoomCode(const QString& code)
 
 void CreatePrivateRoom::setUsername(const QString& username)
 {
-	this->username = username;
+	this->m_username = username;
 }
 
 void CreatePrivateRoom::fetchPlayerData() {

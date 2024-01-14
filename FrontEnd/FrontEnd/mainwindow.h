@@ -20,7 +20,7 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow()=default;
-    MainWindow(QWidget* parent, QString username,QString roomID);
+    MainWindow(QWidget* parent,const QString& username, const QString& roomID);
     void setUsername(const QString& username);
     void setRoomID(const QString& roomID);
     void setUserID(const int& userID);
