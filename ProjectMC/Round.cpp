@@ -85,22 +85,24 @@ uint8_t Round::GetRoundNumber() const noexcept
 
 std::string Round::SerializeWords() const noexcept
 {
-	std::string serializedWords;
-	for (const auto& word : m_words)
-		serializedWords += word + ",";
-
-	if (!serializedWords.empty())
-		serializedWords.pop_back();
-
-	return serializedWords;
+	std::ostringstream oss;
+	for (const auto& word : m_words) {
+		oss << word << ",";
+	}
+	std::string result = oss.str();
+	if (!result.empty()) {
+		result.pop_back();
+	}
+	return result;
 }
 
 void Round::DeserializeWords(const std::string& serializedWords)
 {
-	std::stringstream ss{ serializedWords };
+	std::istringstream ss(serializedWords);
 	std::string word;
-	while (std::getline(ss, word, ','))
-		m_words.insert(word);
+	while (std::getline(ss, word, ',')) {
+		m_words.insert(std::move(word));
+	}
 }
 
 void Round::SetTimeLeft(int timeLeft)

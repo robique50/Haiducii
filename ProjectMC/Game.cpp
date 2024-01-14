@@ -105,7 +105,7 @@ void Game::DeserializePlayers(const std::string& serializedPlayers) {
 	std::istringstream iss(serializedPlayers);
 	std::string playerName;
 	while (std::getline(iss, playerName, ','))
-		m_players.push_back(User{ 0, "",playerName, "" }); // Assuming default values for other parameters
+		m_players.push_back(User{ 0, "",playerName, "" });
 }
 
 int Game::GetCurrentPlayers() const
@@ -218,7 +218,7 @@ std::vector<std::string> skribbl::Game::GetPlayerNames() const
 {
 	std::vector<std::string> playerNames;
 	for (const auto& player : m_players) {
-		playerNames.push_back(player.getUsername()); // Replace getUsername with your method to get the player's name
+		playerNames.push_back(player.getUsername());
 	}
 	return playerNames;
 }

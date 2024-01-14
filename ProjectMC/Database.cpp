@@ -73,21 +73,18 @@ namespace skribbl
 	void DataBase::showUsers()
 	{
 		auto users = m_db.get_all<User>();
-
-		for (const auto& user : users) {
+		std::ranges::for_each(users, [](const User& user) {
 			std::cout << "ID: " << user.getID() << ", Username: "
 				<< user.getUsername() << ", Password: " << user.getPassword() << std::endl;
-		}
+			});
 	}
 
 	void DataBase::showWordsFromDatabase()
 	{
 		auto allWords = m_db.get_all<Words>();
-
-		std::cout << "Words in the database:\n";
-		for (const auto& word : allWords) {
+		std::ranges::for_each(allWords, [](const Words& word) {
 			std::cout << "ID: " << word.getId() << ", Word: " << word.getWord() << "\n";
-		}
+			});
 	}
 
 	User DataBase::getUserByUsername(const std::string& username)
@@ -108,12 +105,14 @@ namespace skribbl
 
 	void DataBase::removeWord(const Words& word)
 	{
-		try {
-			m_db.remove<Words>(word.getId());
+		auto words = m_db.get_all<Words>();
+		auto it = std::ranges::find_if(words, [&word](const auto& w) { return w.getId() == word.getId(); });
+		if (it != words.end()) {
+			m_db.remove<Words>(it->getId());
 			std::cout << "Word removed successfully" << std::endl;
 		}
-		catch (const std::exception& e) {
-			std::cerr << "Error at removing word: " << e.what() << std::endl;
+		else {
+			std::cout << "Word not found" << std::endl;
 		}
 	}
 
@@ -127,8 +126,6 @@ namespace skribbl
 			std::cerr << "Error at removing user: " << e.what() << std::endl;
 		}
 	}
-
-
 
 	User DataBase::getUserById(const int& id)
 	{
@@ -179,16 +176,11 @@ namespace skribbl
 
 	Game DataBase::getGameByCode(const std::string& gameCode)
 	{
-		try {
-			auto games = m_db.get_all<Game>(sqlite_orm::where(sqlite_orm::c(&Game::GetGameCode) == gameCode));
-			if (!games.empty()) {
-				return games.front();
-			}
-		}
-		catch (const std::exception& e) {
-			std::cerr << "Exception occurred while retrieving game by code: " << e.what() << "\n";
-		}
-		return Game();
+		auto games = m_db.get_all<Game>();
+		auto it = std::ranges::find_if(games, [&gameCode](const Game& game) {
+			return game.GetGameCode() == gameCode;
+			});
+		return (it != games.end()) ? *it : Game();
 	}
 
 	bool DataBase::addPlayerToGame(const User& user, const std::string& gameCode) {
@@ -197,18 +189,20 @@ namespace skribbl
 			if (!games.empty()) {
 				Game& game = games.front();
 				auto existingPlayers = game.GetPlayers();
-				if (std::find_if(existingPlayers.begin(), existingPlayers.end(),
-					[&user](const User& u) { return u.getID() == user.getID(); }) != existingPlayers.end()) {
-					return true;
-				}
-				game.AddPlayer(user);
+				bool playerExists = std::ranges::find_if(existingPlayers, [&user](const User& u) {
+					return u.getID() == user.getID();
+					}) != existingPlayers.end();
 
-				std::string serializedPlayers = game.SerializePlayers();
+					if (!playerExists) {
+						game.AddPlayer(user);
 
-				m_db.update_all(sqlite_orm::set(sqlite_orm::c(&Game::SerializePlayers) = serializedPlayers),
-					sqlite_orm::where(sqlite_orm::c(&Game::GetId) == game.GetId()));
+						std::string serializedPlayers = game.SerializePlayers();
 
-				return true;
+						m_db.update_all(sqlite_orm::set(sqlite_orm::c(&Game::SerializePlayers) = serializedPlayers),
+							sqlite_orm::where(sqlite_orm::c(&Game::GetId) == game.GetId()));
+
+						return true;
+					}
 			}
 		}
 		catch (const std::exception& e) {
@@ -232,8 +226,6 @@ namespace skribbl
 		);
 		return existingGames[0];
 	}
-
-	
 
 	bool DataBase::setGameChat(const std::string& gameCode, const std::string& chat)
 	{
