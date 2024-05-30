@@ -19,7 +19,7 @@ CreatePrivateRoom::CreatePrivateRoom(QWidget* parent, int userID, const QString&
 	timer->start(2000);
 
 	connect(ui.pushButton_Start, &QPushButton::clicked, this, &CreatePrivateRoom::startButtonClicked);
-	//fetchRoomCode();
+
 }
 
 CreatePrivateRoom::~CreatePrivateRoom()
@@ -75,20 +75,6 @@ void CreatePrivateRoom::fetchPlayerData() {
 
 	QNetworkRequest request(QUrl(QString("http://localhost:18080/getLobbyInfo?lobbyCode=%1").arg(roomCode)));
 	networkManager->get(request);
-}
-
-
-void CreatePrivateRoom::fetchRoomCode() {
-	QNetworkRequest request(QUrl("http://localhost:18080/createLobby"));
-	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-	QJsonObject jsonObj;
-	jsonObj["userID"] = userID;
-
-	QJsonDocument doc(jsonObj);
-	QByteArray postData = doc.toJson();
-
-	networkManager->post(request, postData);
 }
 
 
